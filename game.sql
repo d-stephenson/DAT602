@@ -22,64 +22,96 @@ DROP TABLE IF EXISTS tblItemLocation;
 DROP TABLE IF EXISTS tblBoardTile;
 DROP TABLE IF EXISTS tblPlay;
 
-CREATE TABLE tblAdministrator (
-AdminID int AUTO_INCREMENT,
+CREATE TABLE tblPlayer (
+PlayerID int AUTO_INCREMENT,
 Email varchar(50) NOT NULL,
-Surname varchar(30) NOT NULL,
-FirstName varchar(30) NOT NULL,
-SecurityPassword varchar(30) NOT NULL,
-PRIMARY KEY (AdminID)
+Username varchar(10) NOT NULL,
+AccountAdmin bit NOT NULL,
+AccountLocked bit NOT NULL,
+ActiveStatus bit NOT NULL,
+FailedLogins tinyint NOT NULL,
+Highscore tinyint NOT NULL, 
+CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%'),
+PRIMARY KEY (PlayerID)
 );
 
-ALTER TABLE tblAdministrator AUTO_INCREMENT=001;
+ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
 
-CREATE TABLE tblEmail (
-PrimaryEmail varchar(50) NOT NULL,
-SecondaryEmail varchar(50),
-CONSTRAINT CHK_PrimaryEmail CHECK (PrimaryEmail Like '_%@_%._%'),
-CONSTRAINT CHK_SecondaryEmail CHECK (SecondaryEmail Like '_%@_%._%'),
-PRIMARY KEY (PrimaryEmail)
+CREATE TABLE tblGem (
+GemType varchar(10) NOT NULL,
+Points tinyint NOT NULL,
+PRIMARY KEY (GemType)
 );
 
-CREATE TABLE tblContactNumber (
-PrimaryTelNo varchar(20) NOT NULL,
-SecondaryTelNo varchar(20),
-PRIMARY KEY (PrimaryTelNo)
+CREATE TABLE tblTile (
+TileID int AUTO_INCREMENT,
+TileRow varchar(2) NOT NULL,
+TileColumn tinyint NOT NULL,
+HomeTile bit,
+PRIMARY KEY (TileID)
 );
 
-CREATE TABLE tblCountry (
-Country varchar(100) NOT NULL,
-PRIMARY KEY (Country)
+ALTER TABLE tblTile AUTO_INCREMENT=001;
+
+CREATE TABLE tblItems (
+ItemID int AUTO_INCREMENT,
+GemType varchar(10) NOT NULL,
+PRIMARY KEY (ItemID)
 );
 
-CREATE TABLE tblJobRole (
-EmploymentPosition varchar(30) NOT NULL,
-PRIMARY KEY (EmploymentPosition)
+ALTER TABLE tblItems AUTO_INCREMENT=001;
+
+CREATE TABLE tblBoard (
+BoardType varchar(20) NOT NULL,
+PRIMARY KEY (BoardType)
 );
 
-CREATE TABLE tblDepartment (
-BusinessUnit varchar(30) NOT NULL,
-PRIMARY KEY (BusinessUnit)
+CREATE TABLE tblGame (
+GameID int AUTO_INCREMENT,
+BoardType varchar(20) NOT NULL,
+PlayerCount tinyint NOT NULL,
+PlayerTurn varchar(10),
+PRIMARY KEY (GameID),
+CONSTRAINT FK_BoardType_Game FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType),
 );
 
-CREATE TABLE tblAccessLevel (
-AccessType varchar(30) NOT NULL,
-PRIMARY KEY (AccessType)
+ALTER TABLE tblGame AUTO_INCREMENT=000001;
+
+CREATE TABLE tblInventory (
+GameID int NOT NULL,
+PlayerID int NOT NULL,
+ItemID int NOT NULL,
+CONSTRAINT PK_Inventory PRIMARY KEY (GameID, PlayerID, ItemID),
+CONSTRAINT FK_GameID_Inv FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_PlayerID_Inv FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
+CONSTRAINT FK_ItemID_Inv FOREIGN KEY (ItemID) REFERENCES tblItem(ItemID)
 );
 
-CREATE TABLE tblPartType (
-PartDescription varchar(30) NOT NULL,
-PRIMARY KEY (PartDescription)
+CREATE TABLE tblItemLocation (
+ItemID int NOT NULL,
+TileID int NOT NULL,
+CONSTRAINT PK_ItemLocation PRIMARY KEY (ItemID, TileID),
+CONSTRAINT FK_ItemID_IL FOREIGN KEY (ItemID) REFERENCES tblItem(ItemID),
+CONSTRAINT FK_TileID_IL FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
 
-CREATE TABLE tblGender (
-GenderDescription varchar(10) NOT NULL,
-PRIMARY KEY (GenderDescription)
+CREATE TABLE tblBoardTile (
+BoardType varchar(20) NOT NULL,
+TileID int NOT NULL,
+CONSTRAINT PK_ItemLocation PRIMARY KEY (BoardType, TileID),
+CONSTRAINT FK_BoardType_BT FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType),
+CONSTRAINT FK_TileID_BT FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
 
-CREATE TABLE tblMonitorType (
-MonitorDescription varchar(20) NOT NULL,
-PRIMARY KEY (MonitorDescription)
+CREATE TABLE tblPlay (
+GameID int NOT NULL,
+PlayerID int NOT NULL,
+TileID int NOT NULL,
+GamePoints int NOT NULL,
+CONSTRAINT PK_Play PRIMARY KEY (GameID, PlayerID, TileID),
+CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
+CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
 
 END
