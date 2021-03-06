@@ -11,16 +11,16 @@ DROP PROCEDURE IF EXISTS CreateTables;
 CREATE PROCEDURE CreateTables()
 BEGIN
 
-DROP TABLE IF EXISTS tblPlayer;
-DROP TABLE IF EXISTS tblGem;
-DROP TABLE IF EXISTS tblTile;
-DROP TABLE IF EXISTS tblItem;
-DROP TABLE IF EXISTS tblBoard;
-DROP TABLE IF EXISTS tblGame;
-DROP TABLE IF EXISTS tblInventory;
-DROP TABLE IF EXISTS tblItemLocation;
-DROP TABLE IF EXISTS tblBoardTile;
 DROP TABLE IF EXISTS tblPlay;
+DROP TABLE IF EXISTS tblBoardTile;
+DROP TABLE IF EXISTS tblItemLocation;
+DROP TABLE IF EXISTS tblInventory;
+DROP TABLE IF EXISTS tblGame;
+DROP TABLE IF EXISTS tblBoard;
+DROP TABLE IF EXISTS tblItem;
+DROP TABLE IF EXISTS tblTile;
+DROP TABLE IF EXISTS tblGem;
+DROP TABLE IF EXISTS tblPlayer;
 
 CREATE TABLE tblPlayer (
 PlayerID int AUTO_INCREMENT,
@@ -56,7 +56,8 @@ ALTER TABLE tblTile AUTO_INCREMENT=001;
 CREATE TABLE tblItems (
 ItemID int AUTO_INCREMENT,
 GemType varchar(10) NOT NULL,
-PRIMARY KEY (ItemID)
+PRIMARY KEY (ItemID),
+CONSTRAINT FK_GemType_Items FOREIGN KEY (GemType) REFERENCES tblGem(GemType)
 );
 
 ALTER TABLE tblItems AUTO_INCREMENT=001;
@@ -125,72 +126,51 @@ DROP PROCEDURE IF EXISTS InsertTables;
 CREATE PROCEDURE InsertTables() 
 BEGIN
 
-INSERT INTO tblAdministrator
+INSERT INTO tblPlayer
 VALUES 
 (001, 'mstirtle0@alibaba.com', 'Madelin', 'Stirtle', '9hmQDN'),
 (002, 'cgrooby1@walmart.com', 'Caprice', 'Grooby', 'JmOfDQ'),
 (003, 'abartosinski2@irs.gov', 'Alisander', 'Bartosinski', 'dVvdDC');
 
-INSERT INTO tblEmail
+INSERT INTO tblGem
 VALUES 
 ('shalls0@newyorker.com', 'bportriss0@tuttocitta.it'),
 ('bewles1@merriam-webster.com', 'estanbro1@weibo.com'),
 ('lelwill2@google.co.uk', 'edillingham2@japanpost.jp'),
 ('cadamkiewicz3@dmoz.org', 'ldickey3@usgs.gov'),
-('hbigadike4@state.gov', 'swilsee4@cdc.gov'),
-('jdubs5@independent.co.uk', 'lwyant5@gmpg.org'),
-('naslen6@wikipedia.org', 'pfairbanks6@biblegateway.com'),
-('jmigheli7@psu.edu', 'bbenning7@google.ru'),
 ('cpeppett8@census.gov', 'aporcas8@sphinn.com');
 
-INSERT INTO tblContactNumber
+INSERT INTO tblTile
 VALUES 
 ('920-562-1627', '639-367-6215'),
 ('918-770-7015', '448-494-8588'),
-('916-247-9773', '516-799-3170'),
-('545-228-3001', '222-603-5376'),
-('649-817-6589', '213-739-5433'),
-('521-284-7221', '731-624-0134'),
-('791-198-6636', '592-131-2222'),
 ('644-639-1227', '512-418-3391'),
 ('716-762-7299', '575-323-5837');
 
-INSERT INTO tblCountry
+INSERT INTO tblItems
 VALUES 
 ('Malaysia'),
 ('Estonia'),
-('Bosnia and Herzegovina'),
-('Japan'),
-('Russia'),
-('China'),
-('Czech Republic'),
-('Brazil'),
-('Indonesia'),
-('United States'),
-('Mongolia'),
-('Vietnam'),
-('Argentina'),
-('France'),
 ('Sweden'),
 ('Ukraine'),
 ('United Kingdom');
 
-INSERT INTO tblJobRole
+INSERT INTO tblBoard
 VALUES 
 ('Automation Specialist II'),
 ('Quality Engineer');
 
-INSERT INTO tblDepartment
+INSERT INTO tblGame
 VALUES 
 ('Legal'),
 ('Services');
 
-INSERT INTO tblAccessLevel
+INSERT INTO tblInventory
 VALUES 
 ('Full Admin'),
 ('Service');
 
-INSERT INTO tblPartType
+INSERT INTO tblItemLocation
 VALUES 
 ('penatibus et magnis'),
 ('interdum in ante'),
@@ -200,13 +180,13 @@ VALUES
 ('odio cras'),
 ('praesent');
 
-INSERT INTO tblGender 
+INSERT INTO tblBoardTile
 VALUES 
 ('Other'),
 ('Female'),
 ('Male');
 
-INSERT INTO tblMonitorType
+INSERT INTO tblPlay
 VALUES 
 ('Medical'),
 ('Care Home'),
