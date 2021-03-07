@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS tblBoard;
 DROP TABLE IF EXISTS tblItem;
 DROP TABLE IF EXISTS tblTile;
 DROP TABLE IF EXISTS tblGem;
+DROP TABLE IF EXISTS tblCharacter;
 DROP TABLE IF EXISTS tblPlayer;
 
 CREATE TABLE tblPlayer (
@@ -36,6 +37,12 @@ PRIMARY KEY (PlayerID)
 );
 
 ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
+
+CREATE TABLE tblCharacter (
+CharacterName varchar(10) NOT NULL,
+TileColour varchar(10) NOT NULL,
+PRIMARY KEY (CharacterName)
+);
 
 CREATE TABLE tblGem (
 GemType varchar(10) NOT NULL,
