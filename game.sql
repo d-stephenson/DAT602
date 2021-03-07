@@ -347,6 +347,23 @@ VALUES
 (000001, '9 X 9 Sq', 3, 'Bob'),
 (000002, '9 X 9 Sq', 2, 'Jane');
 
+INSERT INTO tblGameCharacter
+VALUES 
+(000001, 'Doc'),
+(000001, 'Grumpy',
+(000001, 'Happy'),
+(000001, 'Sleepy'),
+(000001, 'Bashful'),
+(000001, 'Sneezy'),
+(000001, 'Dopey'),
+(000002, 'Doc'),
+(000002, 'Grumpy',
+(000002, 'Happy'),
+(000002, 'Sleepy'),
+(000002, 'Bashful'),
+(000002, 'Sneezy'),
+(000002, 'Dopey');
+
 INSERT INTO tblInventory
 VALUES 
 (000001, 'Doc', 067),
