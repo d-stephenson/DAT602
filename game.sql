@@ -113,11 +113,13 @@ CONSTRAINT FK_TileID_BT FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 
 CREATE TABLE tblPlay (
 GameID int NOT NULL,
-PlayerID int NOT NULL,
+CharacterName varchar(10) NOT NULL,
+PlayerID int,
 TileID int NOT NULL,
 GamePoints int NOT NULL,
-CONSTRAINT PK_Play PRIMARY KEY (GameID, PlayerID, TileID),
+CONSTRAINT PK_Play PRIMARY KEY (GameID, CharacterName),
 CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_CharacterName_Play FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
 CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
 CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
