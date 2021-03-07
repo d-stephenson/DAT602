@@ -148,7 +148,7 @@ INSERT INTO tblPlayer
 VALUES 
 (000001, 'mstirtle0@alibaba.com', 'Bob', TRUE, FALSE, FALSE, 0, 0),
 (000002, 'cgrooby1@walmart.com', 'Jane', TRUE, FALSE, FALSE, 0, 0),
-(000003, 'abartosinski2@irs.gov', 'John', FALSE, FALSE, FALSE, 0, 0)
+(000003, 'abartosinski2@irs.gov', 'John', FALSE, FALSE, FALSE, 0, 0),
 (000004, 'mggghgh0@gmail.com', 'Troy', TRUE, FALSE, FALSE, 0, 0),
 (000005, 'dringm@gmx.com', 'Chris', TRUE, FALSE, FALSE, 0, 0);
 
@@ -349,11 +349,11 @@ VALUES
 
 INSERT INTO tblInventory
 VALUES 
-(000001, 000001, 067),
-(000002, 000002, 001),
-(000002, 000003, 009),
-(000001, 000004, 025),
-(000001, 000005, 057);
+(000001, 'Doc', 067),
+(000002, 'Doc', 001),
+(000002, 'Grumpy', 009),
+(000001, 'Grumpy', 025),
+(000001, 'Sleepy', 057);
 
 INSERT INTO tblItemLocation
 VALUES 
