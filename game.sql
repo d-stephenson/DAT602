@@ -152,6 +152,22 @@ VALUES
 (000004, 'mggghgh0@gmail.com', 'Troy', TRUE, FALSE, FALSE, 0, 0),
 (000005, 'dringm@gmx.com', 'Chris', TRUE, FALSE, FALSE, 0, 0);
 
+CREATE TABLE tblCharacter (
+CharacterName varchar(10) NOT NULL,
+TileColour varchar(10) NOT NULL,
+PRIMARY KEY (CharacterName)
+);
+
+INSERT INTO tblCharacter
+VALUES 
+('Doc', 'Red'),
+('Grumpy', 'Yellow'),
+('Happy', 'Green'),
+('Sleepy', 'Navy'),
+('Bashful', 'Orange'),
+('Sneezy', 'Purple'),
+('Dopey', 'Blue');
+
 INSERT INTO tblGem
 VALUES 
 ('Garnet', 49),
