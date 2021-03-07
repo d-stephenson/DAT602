@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS tblPlay;
 DROP TABLE IF EXISTS tblBoardTile;
 DROP TABLE IF EXISTS tblItemLocation;
 DROP TABLE IF EXISTS tblInventory;
+DROP TABLE IF EXISTS tblGameCharacter;
 DROP TABLE IF EXISTS tblGame;
 DROP TABLE IF EXISTS tblBoard;
 DROP TABLE IF EXISTS tblItem;
@@ -85,13 +86,21 @@ CONSTRAINT FK_BoardType_Game FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardTy
 
 ALTER TABLE tblGame AUTO_INCREMENT=000001;
 
+CREATE TABLE tblGameCharacter (
+GameID int NOT NULL,
+CharacterName int NOT NULL,
+CONSTRAINT PK_GameCharacter PRIMARY KEY (GameID, CharacterName),
+CONSTRAINT FK_GameID_GC FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_CharacterName_GC FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
+);
+
 CREATE TABLE tblInventory (
 GameID int NOT NULL,
-PlayerID int NOT NULL,
+CharacterName int NOT NULL,
 ItemID int NOT NULL,
-CONSTRAINT PK_Inventory PRIMARY KEY (GameID, PlayerID, ItemID),
+CONSTRAINT PK_Inventory PRIMARY KEY (GameID, CharacterName, ItemID),
 CONSTRAINT FK_GameID_Inv FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
-CONSTRAINT FK_PlayerID_Inv FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
+CONSTRAINT FK_CharacterName_Play FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
 CONSTRAINT FK_ItemID_Inv FOREIGN KEY (ItemID) REFERENCES tblItem(ItemID)
 );
 
