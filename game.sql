@@ -542,9 +542,7 @@ VALUES
 (000002, 'Sleepy', NULL, 041, 11),
 (000002, 'Bashful', NULL, 041, 11),
 (000002, 'Sneezy', NULL, 041, 11),
-(000002, 'Dopey', NULL, 041, 11),
-
-;
+(000002, 'Dopey', NULL, 041, 11);
 
 END
 //
