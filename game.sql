@@ -1,7 +1,11 @@
--- Seven Dwarfs Gem Hunt Project Physical Design SQL model v1.0 [refer to Logical Diagram v1.1]
+-- Seven Dwarfs Gem Hunt Project Physical Design [refer to Logical Diagram v1.2]
 
 -- Database Setup
 
+DROP DATABASE IF EXISTS gameDatabase;
+BEGIN
+CREATE DATABASE gameDatabase;
+BEGIN
 USE gameDatabase;
 
 -- DDL | Making tables, indexes and checks
