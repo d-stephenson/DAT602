@@ -1,4 +1,4 @@
--- Seven Dwarfs Gem Hunt Project Physical Design [refer to Logical Diagram v1.2]
+-- Seven Dwarfs Gem Hunt Project Physical Design [refer to Logical Diagram v2.1]
 
 -- Database Setup
 
@@ -15,14 +15,11 @@ DROP PROCEDURE IF EXISTS CreateTables;
 CREATE PROCEDURE CreateTables()
 BEGIN
 
-DROP TABLE IF EXISTS tblPlay;
-DROP TABLE IF EXISTS tblBoardTile;
-DROP TABLE IF EXISTS tblItemLocation;
-DROP TABLE IF EXISTS tblInventory;
-DROP TABLE IF EXISTS tblGameCharacter;
-DROP TABLE IF EXISTS tblGame;
-DROP TABLE IF EXISTS tblBoard;
 DROP TABLE IF EXISTS tblItem;
+DROP TABLE IF EXISTS tblPlay;
+DROP TABLE IF EXISTS tblGame;
+DROP TABLE IF EXISTS tblBoardTile;
+DROP TABLE IF EXISTS tblBoard;
 DROP TABLE IF EXISTS tblTile;
 DROP TABLE IF EXISTS tblGem;
 DROP TABLE IF EXISTS tblCharacter;
@@ -65,55 +62,11 @@ PRIMARY KEY (TileID)
 
 ALTER TABLE tblTile AUTO_INCREMENT=001;
 
-CREATE TABLE tblItems (
-ItemID int AUTO_INCREMENT,
-GemType varchar(10) NOT NULL,
-PRIMARY KEY (ItemID),
-CONSTRAINT FK_GemType_Items FOREIGN KEY (GemType) REFERENCES tblGem(GemType)
-);
-
-ALTER TABLE tblItems AUTO_INCREMENT=001;
-
 CREATE TABLE tblBoard (
 BoardType varchar(20) NOT NULL,
+XAxis tinyint NOT NULL,
+YAxis tinyint NOT NULL,
 PRIMARY KEY (BoardType)
-);
-
-CREATE TABLE tblGame (
-GameID int AUTO_INCREMENT,
-BoardType varchar(20) NOT NULL,
-PlayerCount tinyint NOT NULL,
-PlayerTurn varchar(10),
-PRIMARY KEY (GameID),
-CONSTRAINT FK_BoardType_Game FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType),
-);
-
-ALTER TABLE tblGame AUTO_INCREMENT=000001;
-
-CREATE TABLE tblGameCharacter (
-GameID int NOT NULL,
-CharacterName int NOT NULL,
-CONSTRAINT PK_GameCharacter PRIMARY KEY (GameID, CharacterName),
-CONSTRAINT FK_GameID_GC FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
-CONSTRAINT FK_CharacterName_GC FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
-);
-
-CREATE TABLE tblInventory (
-GameID int NOT NULL,
-CharacterName int NOT NULL,
-ItemID int NOT NULL,
-CONSTRAINT PK_Inventory PRIMARY KEY (GameID, CharacterName, ItemID),
-CONSTRAINT FK_GameID_Inv FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
-CONSTRAINT FK_CharacterName_Play FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
-CONSTRAINT FK_ItemID_Inv FOREIGN KEY (ItemID) REFERENCES tblItem(ItemID)
-);
-
-CREATE TABLE tblItemLocation (
-ItemID int NOT NULL,
-TileID int NOT NULL,
-CONSTRAINT PK_ItemLocation PRIMARY KEY (ItemID, TileID),
-CONSTRAINT FK_ItemID_IL FOREIGN KEY (ItemID) REFERENCES tblItem(ItemID),
-CONSTRAINT FK_TileID_IL FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
 
 CREATE TABLE tblBoardTile (
@@ -124,18 +77,43 @@ CONSTRAINT FK_BoardType_BT FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType
 CONSTRAINT FK_TileID_BT FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
 
+CREATE TABLE tblGame (
+GameID int AUTO_INCREMENT,
+BoardType varchar(20) NOT NULL,
+CharacterTurn varchar(10),
+PRIMARY KEY (GameID),
+CONSTRAINT FK_BoardType_Game FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType),
+);
+
+ALTER TABLE tblGame AUTO_INCREMENT=100001;
+
 CREATE TABLE tblPlay (
+PlayerID int NOT NULL,
 GameID int NOT NULL,
 CharacterName varchar(10) NOT NULL,
-PlayerID int,
 TileID int NOT NULL,
-GamePoints int NOT NULL,
-CONSTRAINT PK_Play PRIMARY KEY (GameID, CharacterName),
+ScoreCount int NOT NULL,
+CONSTRAINT PK_Play PRIMARY KEY (PlayerID, GameID),
+CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
 CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
 CONSTRAINT FK_CharacterName_Play FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
-CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
 CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
+
+CREATE TABLE tblItems (
+ItemID int AUTO_INCREMENT,
+GemType varchar(10) NOT NULL,
+PlayerID int NOT NULL,
+GameID int NOT NULL,
+TileID int NOT NULL,
+PRIMARY KEY (ItemID),
+CONSTRAINT FK_GemType_Items FOREIGN KEY (GemType) REFERENCES tblGem(GemType),
+CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
+CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
+);
+
+ALTER TABLE tblItems AUTO_INCREMENT=101;
 
 END
 //
