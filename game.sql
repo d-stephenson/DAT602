@@ -33,7 +33,7 @@ AccountAdmin bit NOT NULL,
 AccountLocked bit NOT NULL,
 ActiveStatus bit NOT NULL,
 FailedLogins tinyint NOT NULL,
-Highscore tinyint NOT NULL, 
+HighScore tinyint NOT NULL, 
 CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%'),
 PRIMARY KEY (PlayerID)
 );
@@ -88,29 +88,32 @@ CONSTRAINT FK_BoardType_Game FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardTy
 ALTER TABLE tblGame AUTO_INCREMENT=100001;
 
 CREATE TABLE tblPlay (
+PlayID int AUTO_INCREMENT,
 PlayerID int NOT NULL,
-GameID int NOT NULL,
 CharacterName varchar(10) NOT NULL,
+GameID int NOT NULL,
 TileID int NOT NULL,
-ScoreCount int NOT NULL,
-CONSTRAINT PK_Play PRIMARY KEY (PlayerID, GameID),
+PlayScore int NOT NULL,
+PRIMARY KEY (PlayID),
 CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
-CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
 CONSTRAINT FK_CharacterName_Play FOREIGN KEY (CharacterName) REFERENCES tblCharacter(CharacterName),
+CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
 CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
+
+ALTER TABLE tblPlay AUTO_INCREMENT=500001;
 
 CREATE TABLE tblItems (
 ItemID int AUTO_INCREMENT,
 GemType varchar(10) NOT NULL,
-PlayerID int,
-GameID int,
+GameID int NOT NULL,
 TileID int,
+PlayID int,
 PRIMARY KEY (ItemID),
 CONSTRAINT FK_GemType_Items FOREIGN KEY (GemType) REFERENCES tblGem(GemType),
-CONSTRAINT FK_PlayerID_Play FOREIGN KEY (PlayerID) REFERENCES tblPlayer(PlayerID),
-CONSTRAINT FK_GameID_Play FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
-CONSTRAINT FK_TileID_Play FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
+CONSTRAINT FK_GameID_Items FOREIGN KEY (GameID) REFERENCES tblGame(GameID),
+CONSTRAINT FK_TileID_Items FOREIGN KEY (TileID) REFERENCES tblTile(TileID),
+CONSTRAINT FK_PlayID_Items FOREIGN KEY (PlayID) REFERENCES tblPlayer(PlayID)
 );
 
 ALTER TABLE tblItems AUTO_INCREMENT=101;
@@ -336,11 +339,11 @@ VALUES
 
 INSERT INTO tblPlay
 VALUES 
-(000001, 000001, 'Doc', 078, 3),
-(000004, 000001, 'Grumpy', 079, 38),
-(000005, 000001, 'Sleepy', 063, 11),
-(000002, 000002, 'Doc', 033, 49),
-(000003, 000002, 'Grumpy', 042, 21);
+(500001, 000001, 'Doc', 100001, 078, 3),
+(500002, 000004, 'Grumpy', 100001, 079, 38),
+(500003, 000005, 'Sleepy', 100001, 063, 11),
+(500004, 000002, 'Doc', 100002, 033, 49),
+(500005, 000003, 'Grumpy', 100002, 042, 21);
 
 INSERT INTO tblItems
 VALUES 
