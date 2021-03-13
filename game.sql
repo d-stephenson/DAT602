@@ -30,6 +30,7 @@ CREATE TABLE tblPlayer (
 PlayerID int AUTO_INCREMENT,
 Email varchar(50) NOT NULL,
 Username varchar(10) NOT NULL,
+PlayerPassword varchar(15) NOT NULL,
 AccountAdmin bit NOT NULL,
 AccountLocked bit NOT NULL,
 ActiveStatus bit NOT NULL,
@@ -110,9 +111,9 @@ GemType varchar(10) NOT NULL,
 TileID int,
 PlayID int,
 PRIMARY KEY (ItemID),
-CONSTRAINT FK_GemType_Items FOREIGN KEY (GemType) REFERENCES tblGem(GemType),
-CONSTRAINT FK_TileID_Items FOREIGN KEY (TileID) REFERENCES tblTile(TileID),
-CONSTRAINT FK_PlayID_Items FOREIGN KEY (PlayID) REFERENCES tblPlayer(PlayID)
+CONSTRAINT FK_GemType_Item FOREIGN KEY (GemType) REFERENCES tblGem(GemType),
+CONSTRAINT FK_TileID_Item FOREIGN KEY (TileID) REFERENCES tblTile(TileID),
+CONSTRAINT FK_PlayID_Item FOREIGN KEY (PlayID) REFERENCES tblPlayer(PlayID)
 );
 
 ALTER TABLE tblItem AUTO_INCREMENT=101;
