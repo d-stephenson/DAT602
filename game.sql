@@ -34,7 +34,7 @@ PlayerPassword varchar(15) NOT NULL,
 AccountAdmin bit NOT NULL,
 AccountLocked bit NOT NULL,
 ActiveStatus bit NOT NULL,
-FailedLogins tinyint NOT NULL,
+FailedLogins tinyint DEFAULT 0 NOT NULL,
 HighScore int DEFAULT 0 NOT NULL, 
 CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%'),
 PRIMARY KEY (PlayerID)
