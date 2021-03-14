@@ -2,11 +2,11 @@
 
 -- Database Setup
 
-DROP DATABASE IF EXISTS gameDatabase;
+DROP DATABASE IF EXISTS sdghGameDatabase;
 BEGIN;
-CREATE DATABASE gameDatabase;
+CREATE DATABASE sdghGameDatabase;
 BEGIN;
-USE gameDatabase;
+USE sdghGameDatabase;
 
 -- DDL | Making tables, indexes and checks
 
@@ -74,7 +74,7 @@ PRIMARY KEY (BoardType)
 CREATE TABLE tblBoardTile (
 BoardType varchar(20) NOT NULL,
 TileID int NOT NULL,
-CONSTRAINT PK_ItemLocation PRIMARY KEY (BoardType, TileID),
+CONSTRAINT PK_BoardTile PRIMARY KEY (BoardType, TileID),
 CONSTRAINT FK_BoardType_BT FOREIGN KEY (BoardType) REFERENCES tblBoard(BoardType),
 CONSTRAINT FK_TileID_BT FOREIGN KEY (TileID) REFERENCES tblTile(TileID)
 );
@@ -126,7 +126,7 @@ CONSTRAINT FK_TileID_IG FOREIGN KEY (TileID) REFERENCES tblTile(TileID),
 CONSTRAINT FK_PlayID_IG FOREIGN KEY (PlayID) REFERENCES tblPlay(PlayID)
 );
 
-END
+END 
 //
 DELIMITER ;
 
