@@ -576,9 +576,13 @@ END
 //
 DELIMITER ;
 
--- Transaction Update 1
+CALL CreateTables;
+CALL InsertTables;
+
+-- Transaction Update tblPlayer
+
+DELIMITER //
 DROP PROCEDURE IF EXISTS UpdatePlayerUsername;
-go
 CREATE PROCEDURE UpdatePlayerUsername
 	@pUsername AS varchar(20)
     @pPlayerID AS int,
@@ -589,21 +593,9 @@ BEGIN
  SET Username = @Username
  WHERE PlayerID = @PlayerID;
 
- SELECT DataboxID, Latitude AS 'Databox Latitude', Longitude AS 'Databox Longitude', EastLatitude AS 'Zone East Latitude', WestLatitude AS 'Zone West Latitude', NorthLongitude AS 'Zone North Longitude', SouthLongitude AS 'Zone South Longitude'
- FROM	tblData da
-		JOIN tblDatabox db on da.Databox = db.DataboxID
-		JOIN tblDataboxZone dz on db.DataboxID = dz.Databox
-		JOIN tblZone zo on dz.ZoneID = zo.ZoneID
-
- WHERE	DataboxID = @pDatabox
-
 END;
-BEGIN
--- Testing Update 1
-EXEC UpdatePlayerUsername '2', '3', 34.398, 36.001, '2';
-BEGIN
 
+//
+DELIMITER ;
 
-CALL CreateTables;
-CALL InsertTables;
-
+CALL UpdatePlayerUsername 000002, 'Timmy';
