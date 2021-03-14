@@ -35,7 +35,7 @@ AccountAdmin bit NOT NULL,
 AccountLocked bit NOT NULL,
 ActiveStatus bit NOT NULL,
 FailedLogins tinyint NOT NULL,
-HighScore tinyint NOT 
+HighScore int NOT 
 CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%'),
 PRIMARY KEY (PlayerID)
 );
@@ -143,7 +143,10 @@ VALUES
 (000002, 'cgrooby1@walmart.com', 'Jane', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0),
 (000003, 'abartosinski2@irs.gov', 'John', 'P@ssword1', FALSE, FALSE, FALSE, 0, 0),
 (000004, 'mggghgh0@gmail.com', 'Troy', 'P@ssword1', FALSE, FALSE, FALSE, 0, 0),
-(000005, 'dringm@gmx.com', 'Chris', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0);
+(000005, 'dringm@gmx.com', 'Chris', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0),
+(000006, 'ythnfhhgj@frirs.gov', 'Sunny', 'P@ssword1', FALSE, FALSE, FALSE, 0, 0),
+(000007, 'looijnhg0@gmail.com', 'JCP', 'P@ssword1', FALSE, FALSE, FALSE, 0, 0),
+(000008, 'frigsngjj@gmx.com', 'Junior', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0);
 
 INSERT INTO tblCharacter
 VALUES 
