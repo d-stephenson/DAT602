@@ -580,8 +580,8 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS UpdatePlayerUsername;
 go
 CREATE PROCEDURE UpdatePlayerUsername
-	  @pPlayerID AS int,
-	  @pUsername AS varchar(20)
+	@pUsername AS varchar(20)
+    @pPlayerID AS int,
 
 AS
 BEGIN
