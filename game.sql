@@ -595,3 +595,37 @@ END
 DELIMITER ;
 
 CALL UpdatePlayerUsername('Timmy', 000007);
+
+-- Transaction Update tblCharacter
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdateCharacterColour;
+CREATE PROCEDURE UpdateCharacterColour( pTileColour varchar(10), pCharacterName varchar(10) )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblCharacter
+	SET TileColour = pTileColour 
+	WHERE CharacterName = pCharacterName;
+END
+//
+DELIMITER ;
+
+CALL UpdateCharacterColour('Pink', 'Sleepy');
+
+-- Transaction Update tblGem
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdateGemPoints;
+CREATE PROCEDURE UpdateGemPoints( pPoints tinyint, pGemType varchar(10) )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblGem
+	SET Points = pPoints
+	WHERE GemType = pGemType;
+END
+//
+DELIMITER ;
+
+CALL UpdateGemPoints(9, 'Pearl');
