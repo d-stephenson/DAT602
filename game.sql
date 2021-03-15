@@ -617,18 +617,18 @@ CALL UpdateCharacterColour('Pink', 'Sleepy');
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateGemPoints;
-CREATE PROCEDURE UpdateGemPoints( pGemType varchar(10), pNewGemType varchar(10), pPoints tinyint )
+CREATE PROCEDURE UpdateGemPoints( pGemType varchar(10), pPoints tinyint )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
 	UPDATE tblGem
-	SET GemType = pNewGemType, Points = pPoints
+	SET Points = pPoints
 	WHERE GemType = pGemType;
 END
 //
 DELIMITER ;
 
-CALL UpdateGemPoints('Pearl', 'Moonstone', 9);
+CALL UpdateGemPoints('Pearl', 9);
 
 -- Transaction Update tblTile
 
@@ -651,18 +651,18 @@ CALL UpdateTileLocation(055, 'AB', 9);
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateBoardSize;
-CREATE PROCEDURE UpdateBoardSize( pBoardType varchar(20), pNewBoardType varchar(20), pXAxis tinyint, pYAxis tinyint )
+CREATE PROCEDURE UpdateBoardSize( pBoardType varchar(20), pXAxis tinyint, pYAxis tinyint )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
 	UPDATE tblBoard
-	SET BoardType = pNewBoardType, XAxis  = pXAxis, YAxis = pYAxis
+	SET XAxis  = pXAxis, YAxis = pYAxis
 	WHERE BoardType = pBoardType;
 END
 //
 DELIMITER ;
 
-CALL UpdateBoardSize('9 X 9 Sq', '11 X 11 Sq', 11, 11);
+CALL UpdateBoardSize('9 X 9 Sq', 11, 11);
 
 -- Transaction Update tblBoardTile 
 
@@ -724,25 +724,25 @@ BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
 	UPDATE tblItem
-	SET GemType  = pGemType 
+	SET GemType = pGemType 
 	WHERE ItemID = pItemID;
 END
 //
 DELIMITER ;
 
-CALL UpdateItemGemType(143, 'Moonstone');
+CALL UpdateItemGemType(143, 'Emerald');
 
 -- Transaction Update tblItemGame
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS UpdateItemTile
+DROP PROCEDURE IF EXISTS UpdateItemTile;
 CREATE PROCEDURE UpdateItemTile( pItemID int, pGameID int, pTileID int )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
 	UPDATE tblItemGame
-	SET TileID  = pTileID
-	WHERE ItemID = pItemID, GameID = pGameID;
+	SET TileID = pTileID
+	WHERE ItemID = pItemID AND GameID = pGameID;
 END
 //
 DELIMITER ;
