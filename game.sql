@@ -583,19 +583,15 @@ CALL InsertTables;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdatePlayerUsername;
-CREATE PROCEDURE UpdatePlayerUsername
-	@pUsername AS varchar(20)
-    @pPlayerID AS int,
-
-AS
+CREATE PROCEDURE UpdatePlayerUsername( pUsername varchar(10), pPlayerID int )
 BEGIN
- UPDATE tblPlayer
- SET Username = @Username
- WHERE PlayerID = @PlayerID;
+	SET SQL_SAFE_UPDATES = 0; 
 
-END;
-
+	UPDATE tblPlayer
+	SET Username = pUsername
+	WHERE PlayerID = pPlayerID;
+END
 //
 DELIMITER ;
 
-CALL UpdatePlayerUsername 000007, 'Timmy';
+CALL UpdatePlayerUsername('Timmy', 000007);
