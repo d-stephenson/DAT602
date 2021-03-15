@@ -598,4 +598,4 @@ END;
 //
 DELIMITER ;
 
-CALL UpdatePlayerUsername 000002, 'Timmy';
+CALL UpdatePlayerUsername 000007, 'Timmy';
