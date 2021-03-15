@@ -634,11 +634,11 @@ CALL UpdateGemPoints(9, 'Pearl');
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateTileLocation;
-CREATE PROCEDURE UpdateTileLocation( pTileID int, pTileRow varchar(2), pTileColumn tinyint  )
+CREATE PROCEDURE UpdateTileLocation( pTileID int, pTileRow varchar(2), pTileColumn tinyint )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
-	UPDATE tblGem
+	UPDATE tblTile
 	SET TileRow  = pTileRow, TileColumn = pTileColumn 
 	WHERE TileID = pTileID;
 END
@@ -655,7 +655,7 @@ CREATE PROCEDURE UpdateBoardSize( pBoardType varchar(20), pNewBoardType varchar(
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
-	UPDATE tblGem
+	UPDATE tblBoard
 	SET BoardType = pNewBoardType, XAxis  = pXAxis, YAxis = pYAxis
 	WHERE BoardType = pBoardType;
 END
@@ -663,3 +663,54 @@ END
 DELIMITER ;
 
 CALL UpdateBoardSize('9 X 9 Sq', '11 X 11 Sq', 11, 11);
+
+-- Transaction Update tblBoardTile 
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdateBoardTile;
+CREATE PROCEDURE UpdateBoardTile( pBoardType varchar(20), pTileID int )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblBoardTile 
+	SET TileID = pTileID
+	WHERE BoardType = pBoardType;
+END
+//
+DELIMITER ;
+
+CALL UpdateBoardTile('11 X 11 Sq', 055);
+
+-- Transaction Update tblGame
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdateCharacterTurn;
+CREATE PROCEDURE UpdateCharacterTurn( pGameID int, pCharacterTurn varchar(10) )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblGame
+	SET CharacterTurn = pCharacterTurn
+	WHERE GameID = pGameID;
+END
+//
+DELIMITER ;
+
+CALL UpdateCharacterTurn(100001, 'Grumpy');
+
+-- Transaction Update tblPlay
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdatePlayCharacter;
+CREATE PROCEDURE UpdatePlayCharacter( pPlayID int, pCharacterName varchar(10) )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblPlay
+	SET CharacterName = pCharacterName
+	WHERE PlayID = pPlayID;
+END
+//
+DELIMITER ;
+
+CALL UpdatePlayCharacter(500005, 'Sleepy');
