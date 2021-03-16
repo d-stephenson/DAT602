@@ -951,17 +951,19 @@ CALL SelectItemLocation(134, 100001);
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteHighScore;
-CREATE PROCEDURE DeleteHighScore( pUsername varchar(10) )
+DROP PROCEDURE IF EXISTS DeletePlayer;
+CREATE PROCEDURE DeletePlayer( pUsername varchar(10) )
 BEGIN
-    DELETE HighScore
+    DELETE tblPlayer
     FROM tblPlayer
     WHERE Username = pUsername;
 END
 //
 DELIMITER ;
 
-CALL DeleteHighScore('Chris');
+CALL DeletePlayer('Junior');
+
+-- Done nothing from this point below 
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblCharacter
