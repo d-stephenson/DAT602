@@ -858,7 +858,7 @@ END
 //
 DELIMITER ;
 
-CALL SelectBoardAxis(9);
+CALL SelectBoardAxis(11);
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblBoardTile
@@ -866,7 +866,7 @@ CALL SelectBoardAxis(9);
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS SelectTileBoard;
-CREATE PROCEDURE SelectBoardAxis( pTileID int )
+CREATE PROCEDURE SelectTileBoard( pTileID int )
 BEGIN
 	SELECT BoardType AS 'Board Description', TileID AS 'Tile Ref'
  	FROM tblBoardTile
@@ -875,7 +875,7 @@ END
 //
 DELIMITER ;
 
-CALL SelectTileBoard(011);
+CALL SelectTileBoard(019);
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblGame
@@ -892,7 +892,7 @@ END
 //
 DELIMITER ;
 
-CALL SelectGameTurn('Doc');
+CALL SelectGameTurn('Sleepy');
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblPlay
@@ -926,7 +926,7 @@ END
 //
 DELIMITER ;
 
-CALL SelectTypeOfGem(034);
+CALL SelectTypeOfGem(111);
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblItemGame
@@ -943,4 +943,4 @@ END
 //
 DELIMITER ;
 
-CALL SelectItemLocation(034);
+CALL SelectItemLocation(134, 100001);
