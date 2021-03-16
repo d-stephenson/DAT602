@@ -919,7 +919,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS SelectTypeOfGem;
 CREATE PROCEDURE SelectTypeOfGem( pItemID int )
 BEGIN
-	SELECT GameID AS 'Item Ref', GemType AS 'Gem'
+	SELECT ItemID AS 'Item Ref', GemType AS 'Gem'
  	FROM tblItem
 	WHERE ItemID = pItemID;
 END
@@ -927,3 +927,20 @@ END
 DELIMITER ;
 
 CALL SelectTypeOfGem(034);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblItemGame
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectItemLocation;
+CREATE PROCEDURE SelectItemLocation( pItemID int, pGameID int )
+BEGIN
+	SELECT ItemID AS 'Item Ref', GameID AS 'Game Ref', TileID AS 'Tile Ref'
+ 	FROM tblItemGame
+	WHERE ItemID = pItemID AND GameID = pGameID;
+END
+//
+DELIMITER ;
+
+CALL SelectItemLocation(034);
