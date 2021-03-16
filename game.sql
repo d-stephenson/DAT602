@@ -40,10 +40,9 @@ AccountLocked bit NOT NULL,
 ActiveStatus bit NOT NULL,
 FailedLogins tinyint DEFAULT 0 NOT NULL,
 HighScore int DEFAULT 0 NOT NULL, 
-CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%'),
 PRIMARY KEY (PlayerID),
-UNIQUE KEY Unique_Email (Email),
-UNIQUE KEY Unique_Username (Username)
+CONSTRAINT UC_EmaUse UNIQUE (Email, Username),
+CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%')
 );
 
 ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
@@ -952,17 +951,17 @@ CALL SelectItemLocation(134, 100001);
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteAccountStatus;
-CREATE PROCEDURE DeleteAccountStatus( pUsername varchar(10) )
+DROP PROCEDURE IF EXISTS DeleteHighScore;
+CREATE PROCEDURE DeleteHighScore( pUsername varchar(10) )
 BEGIN
-    DELETE PlayerID AS 'Player Ref', Username AS 'Player Name', ActiveStatus AS 'Account Status'
+    DELETE HighScore
     FROM tblPlayer
     WHERE Username = pUsername;
 END
 //
 DELIMITER ;
 
-CALL DeleteAccountStatus('cgrooby1@walmart.com');
+CALL DeleteHighScore('Chris');
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblCharacter
