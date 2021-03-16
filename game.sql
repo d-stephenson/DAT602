@@ -783,9 +783,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS SelectAccountStatus;
 CREATE PROCEDURE SelectAccountStatus( pEmail varchar(50) )
 BEGIN
-	SET SQL_SAFE_UPDATES = 0; 
-
-	SELECT PlayerID AS "Player ID", Username AS 'Player Name', ActiveStatus AS 'Account Status'
+	SELECT PlayerID AS 'Player ID', Username AS 'Player Name', ActiveStatus AS 'Account Status'
  	FROM tblPlayer
 	WHERE Email = pEmail;
 END
@@ -793,3 +791,88 @@ END
 DELIMITER ;
 
 CALL SelectAccountStatus('cgrooby1@walmart.com');
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblCharacter
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectCharacterName;
+CREATE PROCEDURE SelectCharacterName( pTileColour varchar(10) )
+BEGIN
+	SELECT CharacterName AS 'Character Name'
+ 	FROM tblCharacter
+	WHERE TileColour = pTileColour;
+END
+//
+DELIMITER ;
+
+CALL SelectCharacterName('Red');
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblGem
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectGemPoints;
+CREATE PROCEDURE SelectGemPoints( pGemType varchar(10) )
+BEGIN
+	SELECT GemType AS 'Gem', Points AS 'Gem Points'
+ 	FROM tblGem
+	WHERE GemType = pGemType;
+END
+//
+DELIMITER ;
+
+CALL SelectGemPoints('Diamond');
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblTile
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectTileID;
+CREATE PROCEDURE SelectTileID( pTileID int )
+BEGIN
+	SELECT TileID AS 'Tile ID', TileRow AS 'Rown Location', TileColumn AS 'Tile Location'
+ 	FROM tblTile
+	WHERE TileID = pTileID;
+END
+//
+DELIMITER ;
+
+CALL SelectTileID(056);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblBoard
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectBoardAxis;
+CREATE PROCEDURE SelectBoardAxis( pXAxis tinyint )
+BEGIN
+	SELECT BoardType AS 'Board Description', XAxis AS 'X Axis', YAxis AS 'Y Axis'
+ 	FROM tblBoard
+	WHERE XAxis = pXAxis;
+END
+//
+DELIMITER ;
+
+CALL SelectBoardAxis(9);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblBoardTile
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectBoardAxis;
+CREATE PROCEDURE SelectBoardAxis( pXAxis tinyint )
+BEGIN
+	SELECT BoardType AS 'Board Description', XAxis AS 'X Axis', YAxis AS 'Y Axis'
+ 	FROM tblBoardTile
+	WHERE XAxis = pXAxis;
+END
+//
+DELIMITER ;
+
+CALL SelectBoardAxis(9);
