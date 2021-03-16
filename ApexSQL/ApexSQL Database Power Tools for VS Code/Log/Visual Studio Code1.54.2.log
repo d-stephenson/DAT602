@@ -10,3 +10,6 @@
 2021-03-15 19:06:20.975 15749 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: OS version: Darwin 17.7.0 Darwin Kernel Version 17.7.0: Fri Oct 30 13:34:27 PDT 2020; root:xnu-4570.71.82.8~1/RELEASE_X86_64
 2021-03-15 19:06:20.980 15749 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: Host application: Visual Studio Code(1.54.2)
 2021-03-15 19:06:20.983 15749 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: Initializing addin: ApexSQL Database Power Tools for VS Code 2020.7.51.0
+2021-03-16 17:41:51.467 19757 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: OS version: Darwin 17.7.0 Darwin Kernel Version 17.7.0: Fri Oct 30 13:34:27 PDT 2020; root:xnu-4570.71.82.8~1/RELEASE_X86_64
+2021-03-16 17:41:51.473 19757 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: Host application: Visual Studio Code(1.54.2)
+2021-03-16 17:41:51.476 19757 -1     INFO  [VSCPWRTOOLS: 2020.7.51.0]: Initializing addin: ApexSQL Database Power Tools for VS Code 2020.7.51.0

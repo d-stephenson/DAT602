@@ -1,6 +1,8 @@
--- Seven Dwarfs Gem Hunt Project Physical Design [refer to Logical Diagram v2.1]
+-- Seven Dwarfs Gem Hunt Project Physical Design [refer to Logical Diagram v2.2]
 
+----------------------------------------------------------------------------------
 -- Database Setup
+----------------------------------------------------------------------------------
 
 DROP DATABASE IF EXISTS sdghGameDatabase;
 BEGIN;
@@ -8,7 +10,9 @@ CREATE DATABASE sdghGameDatabase;
 BEGIN;
 USE sdghGameDatabase;
 
+----------------------------------------------------------------------------------
 -- DDL | Making tables, indexes and checks
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS CreateTables;
@@ -130,7 +134,9 @@ END
 //
 DELIMITER ;
 
+----------------------------------------------------------------------------------
 -- DML Inserting into tables
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS InsertTables;
@@ -579,7 +585,9 @@ DELIMITER ;
 CALL CreateTables;
 CALL InsertTables;
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblPlayer
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdatePlayerUsername;
@@ -596,7 +604,9 @@ DELIMITER ;
 
 CALL UpdatePlayerUsername('Timmy', 000007);
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblCharacter
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateCharacterColour;
@@ -613,7 +623,9 @@ DELIMITER ;
 
 CALL UpdateCharacterColour('Pink', 'Sleepy');
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblGem
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateGemPoints;
@@ -630,7 +642,9 @@ DELIMITER ;
 
 CALL UpdateGemPoints('Pearl', 9);
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblTile
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateTileLocation;
@@ -647,7 +661,9 @@ DELIMITER ;
 
 CALL UpdateTileLocation(055, 'AB', 9);
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblBoard
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateBoardSize;
@@ -664,7 +680,9 @@ DELIMITER ;
 
 CALL UpdateBoardSize('9 X 9 Sq', 11, 11);
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblBoardTile 
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateBoardTile;
@@ -681,7 +699,9 @@ DELIMITER ;
 
 CALL UpdateBoardTile('11 X 11 Sq', 055);
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblGame
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateCharacterTurn;
@@ -698,7 +718,9 @@ DELIMITER ;
 
 CALL UpdateCharacterTurn(100001, 'Grumpy');
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblPlay
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdatePlayCharacter;
@@ -715,7 +737,9 @@ DELIMITER ;
 
 CALL UpdatePlayCharacter(500005, 'Sleepy');
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblItem
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateItemGemType;
@@ -732,7 +756,28 @@ DELIMITER ;
 
 CALL UpdateItemGemType(143, 'Emerald');
 
+----------------------------------------------------------------------------------
 -- Transaction Update tblItemGame
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS UpdateItemTile;
+CREATE PROCEDURE UpdateItemTile( pItemID int, pGameID int, pTileID int )
+BEGIN
+	SET SQL_SAFE_UPDATES = 0; 
+
+	UPDATE tblItemGame
+	SET TileID = pTileID
+	WHERE ItemID = pItemID AND GameID = pGameID;
+END
+//
+DELIMITER ;
+
+CALL UpdateItemTile(157, 100002, 015);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblPlayer
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS UpdateItemTile;
