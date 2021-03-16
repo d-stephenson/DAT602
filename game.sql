@@ -783,7 +783,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS SelectAccountStatus;
 CREATE PROCEDURE SelectAccountStatus( pEmail varchar(50) )
 BEGIN
-	SELECT PlayerID AS 'Player ID', Username AS 'Player Name', ActiveStatus AS 'Account Status'
+	SELECT PlayerID AS 'Player Ref', Username AS 'Player Name', ActiveStatus AS 'Account Status'
  	FROM tblPlayer
 	WHERE Email = pEmail;
 END
@@ -834,7 +834,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS SelectTileID;
 CREATE PROCEDURE SelectTileID( pTileID int )
 BEGIN
-	SELECT TileID AS 'Tile ID', TileRow AS 'Rown Location', TileColumn AS 'Tile Location'
+	SELECT TileID AS 'Tile Ref', TileRow AS 'Rown Location', TileColumn AS 'Tile Location'
  	FROM tblTile
 	WHERE TileID = pTileID;
 END
@@ -865,14 +865,65 @@ CALL SelectBoardAxis(9);
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS SelectBoardAxis;
-CREATE PROCEDURE SelectBoardAxis( pXAxis tinyint )
+DROP PROCEDURE IF EXISTS SelectTileBoard;
+CREATE PROCEDURE SelectBoardAxis( pTileID int )
 BEGIN
-	SELECT BoardType AS 'Board Description', XAxis AS 'X Axis', YAxis AS 'Y Axis'
+	SELECT BoardType AS 'Board Description', TileID AS 'Tile Ref'
  	FROM tblBoardTile
-	WHERE XAxis = pXAxis;
+	WHERE TileID = pTileID;
 END
 //
 DELIMITER ;
 
-CALL SelectBoardAxis(9);
+CALL SelectTileBoard(011);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblGame
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectGameTurn;
+CREATE PROCEDURE SelectGameTurn( pCharacterTurn varchar(10) )
+BEGIN
+	SELECT GameID AS 'Game Ref', BoardType AS 'Board Description', CharacterTurn AS 'Next Turn'
+ 	FROM tblGame
+	WHERE CharacterTurn = pCharacterTurn;
+END
+//
+DELIMITER ;
+
+CALL SelectGameTurn('Doc');
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblPlay
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectTheScore;
+CREATE PROCEDURE SelectTheScore( pCharacterName varchar(10), pGameID int )
+BEGIN
+	SELECT GameID AS 'Game Ref', CharacterName AS 'Character Name', PlayerID AS 'Player Ref', PlayScore AS 'Game Score'
+ 	FROM tblPlay
+	WHERE CharacterName = pCharacterName AND GameID = pGameID;
+END
+//
+DELIMITER ;
+
+CALL SelectTheScore('Doc', 100001);
+
+----------------------------------------------------------------------------------
+-- Transaction Select tblItem
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS SelectTypeOfGem;
+CREATE PROCEDURE SelectTypeOfGem( pItemID int )
+BEGIN
+	SELECT GameID AS 'Item Ref', GemType AS 'Gem'
+ 	FROM tblItem
+	WHERE ItemID = pItemID;
+END
+//
+DELIMITER ;
+
+CALL SelectTypeOfGem(034);
