@@ -780,16 +780,16 @@ CALL UpdateItemTile(157, 100002, 015);
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS UpdateItemTile;
-CREATE PROCEDURE UpdateItemTile( pItemID int, pGameID int, pTileID int )
+DROP PROCEDURE IF EXISTS SelectAccountStatus;
+CREATE PROCEDURE SelectAccountStatus( pEmail varchar(50) )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
-	UPDATE tblItemGame
-	SET TileID = pTileID
-	WHERE ItemID = pItemID AND GameID = pGameID;
+	SELECT PlayerID AS "Player ID", Username AS 'Player Name', ActiveStatus AS 'Account Status'
+ 	FROM tblPlayer
+	WHERE Email = pEmail;
 END
 //
 DELIMITER ;
 
-CALL UpdateItemTile(157, 100002, 015);
+CALL SelectAccountStatus('cgrooby1@walmart.com');
