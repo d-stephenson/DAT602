@@ -673,7 +673,7 @@ BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
 
 	UPDATE tblBoard
-	SET XAxis  = pXAxis, YAxis = pYAxis
+	SET XAxis = pXAxis, YAxis = pYAxis
 	WHERE BoardType = pBoardType;
 END
 //
@@ -1071,12 +1071,12 @@ CALL DeleteTile();
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS DeleteGem;
-CREATE PROCEDURE DeleteGem( pGemName varchar(10) )
+CREATE PROCEDURE DeleteGem( pGemType varchar(10) )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
     
     DELETE FROM tblGem
-    WHERE GemName = pGemName;
+    WHERE GemType = pGemType;
 END
 //
 DELIMITER ;
