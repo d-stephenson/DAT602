@@ -947,142 +947,21 @@ DELIMITER ;
 CALL SelectItemLocation(134, 100001);
 
 ----------------------------------------------------------------------------------
--- Transaction Delete tblPlayer
+-- Transaction Delete tblItemGame
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS DeletePlayer;
-CREATE PROCEDURE DeletePlayer( pUsername varchar(10) )
+DROP PROCEDURE IF EXISTS DeleteItemLocation;
+CREATE PROCEDURE DeleteItemLocation( pItemID int, pGameID int )
 BEGIN
-    DELETE tblPlayer
-    FROM tblPlayer
-    WHERE Username = pUsername;
+    DELETE ItemID AS 'Item Ref', GameID AS 'Game Ref', TileID AS 'Tile Ref'
+    FROM tblItemGame
+    WHERE ItemID = pItemID AND GameID = pGameID;
 END
 //
 DELIMITER ;
 
-CALL DeletePlayer('Junior');
-
--- Done nothing from this point below 
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblCharacter
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteCharacterName;
-CREATE PROCEDURE DeleteCharacterName( pTileColour varchar(10) )
-BEGIN
-    DELETE CharacterName AS 'Character Name'
-    FROM tblCharacter
-    WHERE TileColour = pTileColour;
-END
-//
-DELIMITER ;
-
-CALL DeleteCharacterName('Red');
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblGem
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteGemPoints;
-CREATE PROCEDURE DeleteGemPoints( pGemType varchar(10) )
-BEGIN
-    DELETE GemType AS 'Gem', Points AS 'Gem Points'
-    FROM tblGem
-    WHERE GemType = pGemType;
-END
-//
-DELIMITER ;
-
-CALL DeleteGemPoints('Diamond');
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblTile
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteTileID;
-CREATE PROCEDURE DeleteTileID( pTileID int )
-BEGIN
-    DELETE TileID AS 'Tile Ref', TileRow AS 'Rown Location', TileColumn AS 'Tile Location'
-    FROM tblTile
-    WHERE TileID = pTileID;
-END
-//
-DELIMITER ;
-
-CALL DeleteTileID(056);
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblBoard
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteBoardAxis;
-CREATE PROCEDURE DeleteBoardAxis( pXAxis tinyint )
-BEGIN
-    DELETE BoardType AS 'Board Description', XAxis AS 'X Axis', YAxis AS 'Y Axis'
-    FROM tblBoard
-    WHERE XAxis = pXAxis;
-END
-//
-DELIMITER ;
-
-CALL DeleteBoardAxis(11);
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblBoardTile
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteTileBoard;
-CREATE PROCEDURE DeleteTileBoard( pTileID int )
-BEGIN
-    DELETE BoardType AS 'Board Description', TileID AS 'Tile Ref'
-    FROM tblBoardTile
-    WHERE TileID = pTileID;
-END
-//
-DELIMITER ;
-
-CALL DeleteTileBoard(019);
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblGame
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteGameTurn;
-CREATE PROCEDURE DeleteGameTurn( pCharacterTurn varchar(10) )
-BEGIN
-    DELETE GameID AS 'Game Ref', BoardType AS 'Board Description', CharacterTurn AS 'Next Turn'
-    FROM tblGame
-    WHERE CharacterTurn = pCharacterTurn;
-END
-//
-DELIMITER ;
-
-CALL DeleteGameTurn('Sleepy');
-
-----------------------------------------------------------------------------------
--- Transaction Delete tblPlay
-----------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteTheScore;
-CREATE PROCEDURE DeleteTheScore( pCharacterName varchar(10), pGameID int )
-BEGIN
-    DELETE GameID AS 'Game Ref', CharacterName AS 'Character Name', PlayerID AS 'Player Ref', PlayScore AS 'Game Score'
-    FROM tblPlay
-    WHERE CharacterName = pCharacterName AND GameID = pGameID;
-END
-//
-DELIMITER ;
-
-CALL DeleteTheScore('Doc', 100001);
+CALL DeleteItemLocation(134, 100001);
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblItem
@@ -1102,18 +981,137 @@ DELIMITER ;
 CALL DeleteTypeOfGem(111);
 
 ----------------------------------------------------------------------------------
--- Transaction Delete tblItemGame
+-- Transaction Delete tblPlay
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteItemLocation;
-CREATE PROCEDURE DeleteItemLocation( pItemID int, pGameID int )
+DROP PROCEDURE IF EXISTS DeleteTheScore;
+CREATE PROCEDURE DeleteTheScore( pCharacterName varchar(10), pGameID int )
 BEGIN
-    DELETE ItemID AS 'Item Ref', GameID AS 'Game Ref', TileID AS 'Tile Ref'
-    FROM tblItemGame
-    WHERE ItemID = pItemID AND GameID = pGameID;
+    DELETE GameID AS 'Game Ref', CharacterName AS 'Character Name', PlayerID AS 'Player Ref', PlayScore AS 'Game Score'
+    FROM tblPlay
+    WHERE CharacterName = pCharacterName AND GameID = pGameID;
 END
 //
 DELIMITER ;
 
-CALL DeleteItemLocation(134, 100001);
+CALL DeleteTheScore('Doc', 100001);
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblGame
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteGameTurn;
+CREATE PROCEDURE DeleteGameTurn( pCharacterTurn varchar(10) )
+BEGIN
+    DELETE GameID AS 'Game Ref', BoardType AS 'Board Description', CharacterTurn AS 'Next Turn'
+    FROM tblGame
+    WHERE CharacterTurn = pCharacterTurn;
+END
+//
+DELIMITER ;
+
+CALL DeleteGameTurn('Sleepy');
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblBoardTile
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteTileBoard;
+CREATE PROCEDURE DeleteTileBoard( pTileID int )
+BEGIN
+    DELETE BoardType AS 'Board Description', TileID AS 'Tile Ref'
+    FROM tblBoardTile
+    WHERE TileID = pTileID;
+END
+//
+DELIMITER ;
+
+CALL DeleteTileBoard(019);
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblBoard
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteBoardAxis;
+CREATE PROCEDURE DeleteBoardAxis( pXAxis tinyint )
+BEGIN
+    DELETE BoardType AS 'Board Description', XAxis AS 'X Axis', YAxis AS 'Y Axis'
+    FROM tblBoard
+    WHERE XAxis = pXAxis;
+END
+//
+DELIMITER ;
+
+CALL DeleteBoardAxis(11);
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblTile
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteTileID;
+CREATE PROCEDURE DeleteTileID( pTileID int )
+BEGIN
+    DELETE TileID AS 'Tile Ref', TileRow AS 'Rown Location', TileColumn AS 'Tile Location'
+    FROM tblTile
+    WHERE TileID = pTileID;
+END
+//
+DELIMITER ;
+
+CALL DeleteTileID(056);
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblGem
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteGemPoints;
+CREATE PROCEDURE DeleteGemPoints( pGemType varchar(10) )
+BEGIN
+    DELETE GemType AS 'Gem', Points AS 'Gem Points'
+    FROM tblGem
+    WHERE GemType = pGemType;
+END
+//
+DELIMITER ;
+
+CALL DeleteGemPoints('Diamond');
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblCharacter
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeleteCharacterName;
+CREATE PROCEDURE DeleteCharacterName( pTileColour varchar(10) )
+BEGIN
+    DELETE CharacterName AS 'Character Name'
+    FROM tblCharacter
+    WHERE TileColour = pTileColour;
+END
+//
+DELIMITER ;
+
+CALL DeleteCharacterName('Red');
+
+----------------------------------------------------------------------------------
+-- Transaction Delete tblPlayer
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS DeletePlayer;
+CREATE PROCEDURE DeletePlayer( pUsername varchar(10) )
+BEGIN
+    DELETE tblPlayer
+    FROM tblPlayer
+    WHERE Username = pUsername;
+END
+//
+DELIMITER ;
+
+CALL DeletePlayer('Junior');
