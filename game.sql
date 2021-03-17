@@ -954,14 +954,13 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS DeleteItemLocation;
 CREATE PROCEDURE DeleteItemLocation( pItemID int, pGameID int )
 BEGIN
-    DELETE ItemID AS 'Item Ref', GameID AS 'Game Ref', TileID AS 'Tile Ref'
-    FROM tblItemGame
-    WHERE ItemID = pItemID AND GameID = pGameID;
+    DELETE *
+    FROM tblItemGame;
 END
 //
 DELIMITER ;
 
-CALL DeleteItemLocation(134, 100001);
+CALL DeleteItemLocation();
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblItem
