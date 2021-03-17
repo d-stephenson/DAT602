@@ -951,8 +951,8 @@ CALL SelectItemLocation(134, 100001);
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS DeleteItemLocation;
-CREATE PROCEDURE DeleteItemLocation()
+DROP PROCEDURE IF EXISTS DeleteItemGame;
+CREATE PROCEDURE DeleteItemGame()
 BEGIN
     DELETE *
     FROM tblItemGame;
@@ -960,7 +960,7 @@ END
 //
 DELIMITER ;
 
-CALL DeleteItemLocation();
+CALL DeleteItemGame();
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblItem
