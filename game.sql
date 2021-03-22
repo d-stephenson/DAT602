@@ -986,16 +986,17 @@ CALL DeleteItem();
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS DeletePlay;
-CREATE PROCEDURE DeletePlay()
+CREATE PROCEDURE DeletePlay( pPlayID int )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
     
-    DELETE FROM tblPlay;
+    DELETE FROM tblPlay
+	WHERE PlayID = PlayID;
 END
 //
 DELIMITER ;
 
-CALL DeletePlay();
+CALL DeletePlay(500002);
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblGame
@@ -1003,16 +1004,17 @@ CALL DeletePlay();
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS DeleteGame;
-CREATE PROCEDURE DeleteGame()
+CREATE PROCEDURE DeleteGame( pGameID int )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
     
-    DELETE FROM tblGame;
+    DELETE FROM tblGame
+	WHERE GameID = GameID;
 END
 //
 DELIMITER ;
 
-CALL DeleteGame();
+CALL DeleteGame(100001);
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblBoardTile
@@ -1037,16 +1039,17 @@ CALL DeleteBoardTile();
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS DeleteBoard;
-CREATE PROCEDURE DeleteBoard()
+CREATE PROCEDURE DeleteBoard( pBoardType varchar(20) )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
     
-    DELETE FROM tblBoard;
+    DELETE FROM tblBoard
+	WHERE BoardType = pBoardType;
 END
 //
 DELIMITER ;
 
-CALL DeleteBoard();
+CALL DeleteBoard('9 X 9 Sq');
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblTile
@@ -1054,16 +1057,17 @@ CALL DeleteBoard();
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS DeleteTile;
-CREATE PROCEDURE DeleteTile()
+CREATE PROCEDURE DeleteTile( pTileID int )
 BEGIN
 	SET SQL_SAFE_UPDATES = 0; 
     
-    DELETE FROM tblTile;
+    DELETE FROM tblTile
+	WHERE TileID = pTileID;
 END
 //
 DELIMITER ;
 
-CALL DeleteTile();
+CALL DeleteTile(025);
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblGem
