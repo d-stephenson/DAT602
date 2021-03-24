@@ -583,6 +583,10 @@ END
 //
 DELIMITER ;
 
+----------------------------------------------------------------------------------
+-- Call Create, Insert Procedures
+----------------------------------------------------------------------------------
+
 CALL CreateTables;
 CALL InsertTables;
 
@@ -603,8 +607,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdatePlayerUsername('Timmy', 000007);
-
 ----------------------------------------------------------------------------------
 -- Transaction Update tblCharacter
 ----------------------------------------------------------------------------------
@@ -621,8 +623,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL UpdateCharacterColour('Pink', 'Sleepy');
 
 ----------------------------------------------------------------------------------
 -- Transaction Update tblGem
@@ -641,8 +641,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdateGemPoints('Pearl', 9);
-
 ----------------------------------------------------------------------------------
 -- Transaction Update tblTile
 ----------------------------------------------------------------------------------
@@ -659,8 +657,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL UpdateTileLocation(055, 'AB', 9);
 
 ----------------------------------------------------------------------------------
 -- Transaction Update tblBoard
@@ -679,8 +675,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdateBoardSize('9 X 9 Sq', 11, 11);
-
 ----------------------------------------------------------------------------------
 -- Transaction Update tblBoardTile 
 ----------------------------------------------------------------------------------
@@ -697,8 +691,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL UpdateBoardTile('11 X 11 Sq', 055);
 
 ----------------------------------------------------------------------------------
 -- Transaction Update tblGame
@@ -717,8 +709,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdateCharacterTurn(100001, 'Grumpy');
-
 ----------------------------------------------------------------------------------
 -- Transaction Update tblPlay
 ----------------------------------------------------------------------------------
@@ -735,8 +725,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL UpdatePlayCharacter(500005, 'Sleepy');
 
 ----------------------------------------------------------------------------------
 -- Transaction Update tblItem
@@ -755,8 +743,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdateItemGemType(143, 'Emerald');
-
 ----------------------------------------------------------------------------------
 -- Transaction Update tblItemGame
 ----------------------------------------------------------------------------------
@@ -774,8 +760,6 @@ END
 //
 DELIMITER ;
 
-CALL UpdateItemTile(157, 100002, 015);
-
 ----------------------------------------------------------------------------------
 -- Transaction Select tblPlayer
 ----------------------------------------------------------------------------------
@@ -790,8 +774,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL SelectAccountStatus('cgrooby1@walmart.com');
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblCharacter
@@ -808,8 +790,6 @@ END
 //
 DELIMITER ;
 
-CALL SelectCharacterName('Red');
-
 ----------------------------------------------------------------------------------
 -- Transaction Select tblGem
 ----------------------------------------------------------------------------------
@@ -824,8 +804,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL SelectGemPoints('Diamond');
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblTile
@@ -842,8 +820,6 @@ END
 //
 DELIMITER ;
 
-CALL SelectTileID(056);
-
 ----------------------------------------------------------------------------------
 -- Transaction Select tblBoard
 ----------------------------------------------------------------------------------
@@ -858,8 +834,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL SelectBoardAxis(11);
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblBoardTile
@@ -876,8 +850,6 @@ END
 //
 DELIMITER ;
 
-CALL SelectTileBoard(019);
-
 ----------------------------------------------------------------------------------
 -- Transaction Select tblGame
 ----------------------------------------------------------------------------------
@@ -892,8 +864,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL SelectGameTurn('Sleepy');
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblPlay
@@ -910,8 +880,6 @@ END
 //
 DELIMITER ;
 
-CALL SelectTheScore('Doc', 100001);
-
 ----------------------------------------------------------------------------------
 -- Transaction Select tblItem
 ----------------------------------------------------------------------------------
@@ -926,8 +894,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL SelectTypeOfGem(111);
 
 ----------------------------------------------------------------------------------
 -- Transaction Select tblItemGame
@@ -944,8 +910,6 @@ END
 //
 DELIMITER ;
 
-CALL SelectItemLocation(134, 100001);
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblItemGame
 ----------------------------------------------------------------------------------
@@ -961,8 +925,6 @@ END
 //
 DELIMITER ;
 
-CALL DeleteItemGame();
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblItem
 ----------------------------------------------------------------------------------
@@ -977,8 +939,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL DeleteItem();
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblPlay
@@ -996,8 +956,6 @@ END
 //
 DELIMITER ;
 
-CALL DeletePlay(500002);
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblGame
 ----------------------------------------------------------------------------------
@@ -1014,8 +972,6 @@ END
 //
 DELIMITER ;
 
-CALL DeleteGame(100001);
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblBoardTile
 ----------------------------------------------------------------------------------
@@ -1030,8 +986,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL DeleteBoardTile();
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblBoard
@@ -1049,8 +1003,6 @@ END
 //
 DELIMITER ;
 
-CALL DeleteBoard('9 X 9 Sq');
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblTile
 ----------------------------------------------------------------------------------
@@ -1066,8 +1018,6 @@ BEGIN
 END
 //
 DELIMITER ;
-
-CALL DeleteTile(025);
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblGem
@@ -1085,8 +1035,6 @@ END
 //
 DELIMITER ;
 
-CALL DeleteGem('Pearl');
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblCharacter
 ----------------------------------------------------------------------------------
@@ -1103,7 +1051,7 @@ END
 //
 DELIMITER ;
 
-CALL DeleteCharacter('Doc');
+
 
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblPlayer
@@ -1121,4 +1069,39 @@ END
 //
 DELIMITER ;
 
+----------------------------------------------------------------------------------
+-- Call Update, Select, Delete Procedures
+----------------------------------------------------------------------------------
+
+CALL UpdatePlayerUsername('Timmy', 000007);
+CALL UpdateCharacterColour('Pink', 'Sleepy');
+CALL UpdateGemPoints('Pearl', 9);
+CALL UpdateTileLocation(055, 'AB', 9);
+CALL UpdateBoardSize('9 X 9 Sq', 11, 11);
+CALL UpdateBoardTile('11 X 11 Sq', 055);
+CALL UpdateCharacterTurn(100001, 'Grumpy');
+CALL UpdatePlayCharacter(500005, 'Sleepy');
+CALL UpdateItemGemType(143, 'Emerald');
+CALL UpdateItemTile(157, 100002, 015);
+
+CALL SelectAccountStatus('cgrooby1@walmart.com');
+CALL SelectCharacterName('Red');
+CALL SelectGemPoints('Diamond');
+CALL SelectTileID(056);
+CALL SelectBoardAxis(11);
+CALL SelectTileBoard(019);
+CALL SelectGameTurn('Sleepy');
+CALL SelectTheScore('Doc', 100001);
+CALL SelectTypeOfGem(111);
+CALL SelectItemLocation(134, 100001);
+
+CALL DeleteItemGame();
+CALL DeleteItem();
+CALL DeletePlay(500002);
+CALL DeleteGame(100001);
+CALL DeleteBoardTile();
+CALL DeleteBoard('9 X 9 Sq');
+CALL DeleteTile(025);
+CALL DeleteGem('Pearl');
+CALL DeleteCharacter('Doc');
 CALL DeletePlayer('Junior');
