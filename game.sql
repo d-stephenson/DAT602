@@ -1051,8 +1051,6 @@ END
 //
 DELIMITER ;
 
-
-
 ----------------------------------------------------------------------------------
 -- Transaction Delete tblPlayer
 ----------------------------------------------------------------------------------
@@ -1090,7 +1088,7 @@ CALL SelectGemPoints('Diamond');
 CALL SelectTileID(056);
 CALL SelectBoardAxis(11);
 CALL SelectTileBoard(019);
-CALL SelectGameTurn('Sleepy');
+CALL SelectGameTurn('Doc');
 CALL SelectTheScore('Doc', 100001);
 CALL SelectTypeOfGem(111);
 CALL SelectItemLocation(134, 100001);
