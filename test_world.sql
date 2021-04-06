@@ -5465,9 +5465,30 @@ group by District
 having sum(Population) >= 10000000 
 order by District; 
 
+-- ---------------------------------------------------------------------------
+
 select * from countrylanguage;
 select * from country;
 
-select `Language` 
+select `language`, sum(co.Population) 
 from countrylanguage cl JOIN country co on cl.CountryCode = co.Code
-group by `language`; 
+group by `language`
+order by `language`;
+
+select `language`, sum(co.Population) 
+from countrylanguage cl 
+	JOIN country co on cl.CountryCode = co.`Code`
+group by `language`
+order by `language`;
+
+select `language`, sum(ci.Population) 
+from city ci
+	JOIN countrylanguage cl on ci.CountryCode = cl.CountryCode
+group by `language`
+order by sum(ci.Population) DESC;
+
+select `language`, sum(co.Population) 
+from countrylanguage cl 
+	JOIN country co on cl.CountryCode = co.`Code`
+group by `language`
+having `language` = 'French';
