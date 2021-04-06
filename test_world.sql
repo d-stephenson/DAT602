@@ -5464,3 +5464,10 @@ from city
 group by District
 having sum(Population) >= 10000000 
 order by District; 
+
+select * from countrylanguage;
+select * from country;
+
+select `Language` 
+from countrylanguage cl JOIN country co on cl.CountryCode = co.Code
+group by `language`; 
