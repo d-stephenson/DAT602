@@ -5492,3 +5492,8 @@ from countrylanguage cl
 	JOIN country co on cl.CountryCode = co.`Code`
 group by `language`
 having `language` = 'French';
+
+select `language`, COUNT(*)
+from countrylanguage
+GROUP BY `language`;
+
