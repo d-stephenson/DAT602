@@ -49,7 +49,7 @@ SELECT * FROM tblPlayer;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE PROCEDURE loginCheckCredentials(
+CREATE PROCEDURE newUserRegistration(
         IN pEmail varchar(50), 
         IN pUsername varchar(10),
         IN pPassword varchar(15)
