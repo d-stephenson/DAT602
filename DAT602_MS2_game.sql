@@ -55,8 +55,6 @@ CREATE PROCEDURE newUserRegistration(
         IN pPassword varchar(15)
     )
 BEGIN
-    DECLARE proposedUID int DEFAULT NULL;
-  
 	INSERT INTO tblPlayer(Email, Username, `Password`) 
 	VALUES (pEmail, pUsername, pPassword)
      
