@@ -52,7 +52,7 @@ CALL loginCheckCredentials('Sunny', 'P@ssword12');
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE PROCEDURE newUserRegistration(
-        pPlayerID int,
+        --pPlayerID int,
         pEmail varchar(50), 
         pUsername varchar(10),
         pPassword varchar(15),
@@ -63,12 +63,12 @@ CREATE PROCEDURE newUserRegistration(
         pHighScore int
     )
 BEGIN
-    DECLARE @tblTempOne TABLE (PlayerID int);
-
-    INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`, AccountAdmin, AccountLocked, ActiveStatus, FailedLogins, HighScore) 
-	OUTPUT INSERTED.PlayerID INTO @tblTempOne
-	VALUES ((SELECT PlayerID from @tblTempOne) pEmail, pUsername, pPassword, pAccountAdmin, pAccountLocked, pActiveStatus, pFailedLogins, pHighScore)
-     
+    --DECLARE @tblTempOne TABLE (PlayerID int);
+--PlayerID, 
+    INSERT INTO tblPlayer(Email, Username, `Password`, AccountAdmin, AccountLocked, ActiveStatus, FailedLogins, HighScore) 
+	--OUTPUT INSERTED.PlayerID INTO @tblTempOne
+	VALUES ( pEmail, pUsername, pPassword, pAccountAdmin, pAccountLocked, pActiveStatus, pFailedLogins, pHighScore)
+     --(SELECT PlayerID from @tblTempOne)
 END //
 DELIMITER ;
 
