@@ -52,7 +52,12 @@ DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE PROCEDURE newUserRegistration(
         pEmail varchar(50), 
         pUsername varchar(10),
-        pPassword varchar(15)
+        pPassword varchar(15),
+        pAccountAdmin bit,
+        pAccountLocked bit,
+        pActiveStatus bit,
+        pFailedLogins tinyint,
+        pHighScore int
     )
 BEGIN
     DECLARE tblTempOne TABLE (PlayerID int);
