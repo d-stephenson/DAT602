@@ -36,12 +36,14 @@ BEGIN
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE Username = pUsername; 
 	END IF;
+
+    SELECT * FROM tblPlayer WHERE Username = pUsername;
      
 END //
 DELIMITER ;
 
-CALL loginCheckCredentials('Sunny', 'P@ssword1');
-SELECT * FROM tblPlayer;
+CALL loginCheckCredentials('Sunny', 'P@ssword12');
+
 
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
