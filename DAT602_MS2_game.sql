@@ -63,7 +63,7 @@ CREATE PROCEDURE newUserRegistration(
         pHighScore int
     )
 BEGIN
-    DECLARE tblTempOne TABLE (PlayerID int);
+    DECLARE @tblTempOne TABLE (PlayerID int);
 
     INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`, AccountAdmin, AccountLocked, ActiveStatus, FailedLogins, HighScore) 
 	OUTPUT INSERTED.PlayerID INTO @tblTempOne
