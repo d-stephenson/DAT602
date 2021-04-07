@@ -37,5 +37,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL loginCheckCredentials('John', P@ssword1);
+CALL loginCheckCredentials('Sunny', 'P@ssword1');
 SELECT * FROM tblPlayer;
