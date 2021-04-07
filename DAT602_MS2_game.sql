@@ -57,9 +57,9 @@ CREATE PROCEDURE newUserRegistration(
 BEGIN
     DECLARE tblTempOne TABLE (PlayerID int);
 
-    INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`) 
+    INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`, AccountAdmin, AccountLocked, ActiveStatus, FailedLogins, HighScore) 
 	OUTPUT INSERTED.PlayerID INTO @tblTempOne
-	VALUES ((SELECT PlayerID from @tblTempOne) pEmail, pUsername, pPassword)
+	VALUES ((SELECT PlayerID from @tblTempOne) pEmail, pUsername, pPassword, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, )
      
 END //
 DELIMITER ;
