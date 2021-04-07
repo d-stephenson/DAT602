@@ -50,9 +50,9 @@ SELECT * FROM tblPlayer;
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE PROCEDURE newUserRegistration(
-        IN pEmail varchar(50), 
-        IN pUsername varchar(10),
-        IN pPassword varchar(15)
+        pEmail varchar(50), 
+        pUsername varchar(10),
+        pPassword varchar(15)
     )
 BEGIN
 	INSERT INTO tblPlayer(Email, Username, `Password`) 
