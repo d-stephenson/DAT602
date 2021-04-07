@@ -55,13 +55,10 @@ CREATE PROCEDURE newUserRegistration(
         pPassword varchar(15)
     )
 BEGIN
-    DECLARE @tblTempOne TABLE (PlayerID int);
+    DECLARE tblTempOne TABLE (PlayerID int);
 
-    INSERT INTO tblPlayer
+    INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`) 
 	OUTPUT INSERTED.PlayerID INTO @tblTempOne
-	DEFAULT VALUES;
-
-	INSERT INTO tblPlayer(Email, Username, `Password`) 
 	VALUES ((SELECT PlayerID from @tblTempOne) pEmail, pUsername, pPassword)
      
 END //
