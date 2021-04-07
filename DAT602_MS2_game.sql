@@ -52,25 +52,16 @@ CALL loginCheckCredentials('Sunny', 'P@ssword12');
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE PROCEDURE newUserRegistration(
-        pPlayerID int,
-        pEmail varchar(50), 
-        pUsername varchar(10),
-        pPassword varchar(15),
-        pAccountAdmin bit,
-        pAccountLocked bit,
-        pActiveStatus bit,
-        pFailedLogins tinyint,
-        pHighScore int
+        IN pEmail varchar(50), 
+        IN pUsername varchar(10),
+        IN pPassword varchar(15)
     )
 BEGIN
-    DECLARE @tblTempOne TABLE (PlayerID int);
-
-    INSERT INTO tblPlayer(PlayerID, Email, Username, `Password`, AccountAdmin, AccountLocked, ActiveStatus, FailedLogins, HighScore) 
-	OUTPUT INSERTED.PlayerID INTO @tblTempOne
-	VALUES ((SELECT PlayerID from @tblTempOne) pEmail, pUsername, pPassword, pAccountAdmin, pAccountLocked, pActiveStatus, pFailedLogins, pHighScore)
+    INSERT INTO tblPlayer(Email, Username, `Password`) 
+	VALUES (pEmail, pUsername, pPassword);
      
 END //
 DELIMITER ;
-
+-- need to include [IF Email or Username exisitng in database then do not create record]
 CALL newUserRegistration('jtop@amazon.com', 'John', 'P@ssword1');
 SELECT * FROM tblPlayer;
