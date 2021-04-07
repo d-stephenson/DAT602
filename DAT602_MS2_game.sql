@@ -60,8 +60,10 @@ BEGIN
     INSERT INTO tblPlayer(Email, Username, `Password`) 
 	VALUES (pEmail, pUsername, pPassword);
      
+	SELECT * FROM tblPlayer WHERE Email = pEmail;
+     
 END //
 DELIMITER ;
 -- need to include [IF Email or Username exisitng in database then do not create record]
-CALL newUserRegistration('jtop@amazon.com', 'John', 'P@ssword1');
-SELECT * FROM tblPlayer;
+CALL newUserRegistration('lucyPTYRS@yahoo.com', 'Lucy', 'P@ssword1');
+
