@@ -56,11 +56,22 @@ CREATE PROCEDURE newUserRegistration(
         IN pUsername varchar(10),
         IN pPassword varchar(15)
     )
+AS
+IF EXISTS(SELECT 'True' FROM tblPlayer WHERE Username = pUsername) 
 BEGIN
-    INSERT INTO tblPlayer(Email, Username, `Password`) 
-	VALUES (pEmail, pUsername, pPassword);
+        SELECT 'Someone already has this username!'
+END
+ELSEIF EXISTS(SELECT 'True' FROM tblPlayer WHERE Email = pEmail)
+BEGIN
+        SELECT 'Someone already has this email!'
+END
+ELSE
+BEGIN
+
+        INSERT INTO tblPlayer(Email, Username, `Password`) 
+	    VALUES (pEmail, pUsername, pPassword);
      
-	SELECT * FROM tblPlayer WHERE Email = pEmail;
+	    SELECT * FROM tblPlayer WHERE Email = pEmail;
      
 END //
 DELIMITER ;
