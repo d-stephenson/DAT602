@@ -44,7 +44,6 @@ DELIMITER ;
 
 CALL loginCheckCredentials('Sunny', 'P@ssword12');
 
-
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
@@ -56,13 +55,12 @@ CREATE PROCEDURE newUserRegistration(
         IN pUsername varchar(10),
         IN pPassword varchar(15)
     )
-AS 
 BEGIN
-    IF NOT EXISTS (SELECT * FROM tblPlayer
-                    WHERE Username = pUsername)
-    BEGIN  
         INSERT INTO tblPlayer(Email, Username, `Password`) 
-	    VALUES (pEmail, pUsername, pPassword)
-    END;
+	    VALUES (pEmail, pUsername, pPassword);
+        
+        SELECT * FROM tblPlayer WHERE Email = pEmail;
 END //
 DELIMITER ;
+
+CALL newUserRegistration('jeffo@gmail.com', 'Jack', 'P@ssword1');
