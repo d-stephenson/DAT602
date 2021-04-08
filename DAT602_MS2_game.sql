@@ -83,8 +83,9 @@ CREATE PROCEDURE newUserRegistration(
     )
 AS
 BEGIN   
-        IF NOT EXISTS (SELECT Username FROM tblPlayer
-                        WHERE Username = pUsername);
+        IF NOT EXISTS (SELECT * FROM tblPlayer
+                        WHERE Username = pUsername
+                        OR Email = pEmail);
     BEGIN
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword)
