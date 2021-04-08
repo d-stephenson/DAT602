@@ -59,8 +59,8 @@ BEGIN
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
         
-        SELECT * FROM tblPlayer WHERE Email = pEmail;
+        SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
 
-CALL newUserRegistration('jeffo@gmail.com', 'Jack', 'P@ssword1');
+CALL newUserRegistration('luppin234@gmail.com', 'LupinFlow', 'P@ssword1');

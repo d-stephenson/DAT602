@@ -41,7 +41,8 @@ ActiveStatus bit DEFAULT FALSE NOT NULL,
 FailedLogins tinyint DEFAULT 0 NOT NULL,
 HighScore int DEFAULT 0 NOT NULL, 
 PRIMARY KEY (PlayerID),
-CONSTRAINT UC_EmaUse UNIQUE (Email, Username),
+CONSTRAINT UC_Email UNIQUE (Email),
+CONSTRAINT UC_Username UNIQUE (Username),
 CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%')
 );
 
