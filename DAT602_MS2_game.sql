@@ -85,8 +85,7 @@ AS
 BEGIN   
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword)
-        WHERE NOT EXISTS (SELECT * FROM tblPlayer
-                            WHERE Username = pUsername
-                            OR Email = pEmail);
+        WHERE NOT EXISTS (SELECT Username FROM tblPlayer
+                            WHERE Username = pUsername);
 END //
 DELIMITER ;
