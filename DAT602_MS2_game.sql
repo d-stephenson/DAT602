@@ -67,7 +67,7 @@ END
 -- END
 ELSE
 BEGIN
-
+        SELECT 'Record Added'
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
      
