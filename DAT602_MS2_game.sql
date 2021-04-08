@@ -82,13 +82,14 @@ CREATE PROCEDURE newUserRegistration(
         IN pPassword varchar(15)
     )
 AS
+    DECLARE userID int DEFAULT NULL;
 BEGIN   
-        IF NOT EXISTS (SELECT * FROM tblPlayer
+        IF EXISTS (SELECT * FROM tblPlayer
                         WHERE Username = pUsername
                         OR Email = pEmail);
     BEGIN
         INSERT INTO tblPlayer(Email, Username, `Password`) 
-	    VALUES (pEmail, pUsername, pPassword)
-    END
+	    VALUES (pEmail, pUsername, pPassword);
+    END;
 END //
 DELIMITER ;
