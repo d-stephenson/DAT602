@@ -82,7 +82,6 @@ CREATE PROCEDURE newUserRegistration(
         IN pPassword varchar(15)
     )
 AS
-    DECLARE userID int DEFAULT NULL;
 BEGIN   
         IF EXISTS (SELECT * FROM tblPlayer
                         WHERE Username = pUsername
