@@ -57,7 +57,7 @@ CREATE PROCEDURE newUserRegistration(
         IN pPassword varchar(15)
     )
 AS
-IF EXISTS(SELECT 'True' FROM tblPlayer WHERE Username = pUsername OR Email = pEmail); 
+IF (EXISTS(SELECT * FROM tblPlayer WHERE Username = pUsername) OR (EXISTS(SELECT * FROM tblPlayer WHERE Email = pEmail))); 
 BEGIN
         SELECT 'Someone already has this username and/or email!'
 END
@@ -67,7 +67,7 @@ END
 -- END
 ELSE
 BEGIN
-        SELECT 'Record Added'
+
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
      
