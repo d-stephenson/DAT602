@@ -61,18 +61,15 @@ IF (EXISTS(SELECT * FROM tblPlayer WHERE Username = pUsername) OR (EXISTS(SELECT
 BEGIN
         SELECT 'Someone already has this username and/or email!'
 END
--- ELSEIF EXISTS(SELECT 'True' FROM tblPlayer WHERE Email = pEmail)
--- BEGIN
---         SELECT 'Someone already has this email!'
--- END
 ELSE
 BEGIN
 
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
-     
+END IF; 
+
 	    SELECT * FROM tblPlayer WHERE Email = pEmail;
-     
+
 END //
 DELIMITER ;
 
