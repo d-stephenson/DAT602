@@ -20,3 +20,5 @@ INSERT INTO `writer` VALUES
 	 'The Skull in the Mud',21),
 ('Douglas Livingstone',
 	'A Littoral Zone',2);
+
+	
