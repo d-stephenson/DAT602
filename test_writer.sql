@@ -68,3 +68,10 @@ MIN(copies_in_stock) AS min,
 AVG(copies_in_stock) AS avg, 
 SUM(copies_in_stock) AS sum 
 FROM writer GROUP BY poet HAVING poet > 'E';
+
+SELECT poet, 
+MAX(copies_in_stock) AS max, 
+MIN(copies_in_stock) AS min, 
+AVG(copies_in_stock) AS avg, 
+SUM(copies_in_stock) AS sum 
+FROM writer WHERE poet > 'E' GROUP BY poet;
