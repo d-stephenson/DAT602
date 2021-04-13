@@ -5,6 +5,7 @@
 ----------------------------------------------------------------------------------
 
 USE sdghGameDatabase;
+SELECT `user`, `host` FROM mysql.user;
 
 ----------------------------------------------------------------------------------
 -- Login Check Credentials Procedure
@@ -50,11 +51,12 @@ CALL loginCheckCredentials('Sunny', 'P@ssword12');
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE PROCEDURE newUserRegistration(
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
         IN pEmail varchar(50), 
         IN pUsername varchar(10),
         IN pPassword varchar(15)
     )
+    SQL SECURITY INVOKER
 BEGIN
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
@@ -63,4 +65,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL newUserRegistration('luppin234@gmail.com', 'LupinFlow', 'P@ssword1');
+CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
