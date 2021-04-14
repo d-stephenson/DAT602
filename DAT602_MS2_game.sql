@@ -79,13 +79,12 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginSuccessful(
     )
 SQL SECURITY INVOKER
 BEGIN
-        IF ActiveStatus = 1;   
-        SELECT Username, AccountAdmin, HighScore, GameGameID, GameID 
+        SELECT GameID, SUM(GameID) 
         FROM tblPlayer py 
-                JOIN tblPlay pl on py.PlayerID = plPlayerPlayerID
-                JOIN tblGame gm on plGameGameID = gm.GameID
+                JOIN tblPlay pl on py.PlayerID = pl.PlayerID
+        GROUP BY GameID
         WHERE Username = pUsername;
 END //
 DELIMITER ;
 
-CALL loginSuccessful();
+CALL loginSuccessful('John');
