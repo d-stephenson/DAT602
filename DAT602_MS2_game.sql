@@ -67,3 +67,25 @@ END //
 DELIMITER ;
 
 CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
+
+----------------------------------------------------------------------------------
+-- Login Successful Procedure
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS loginSuccessful;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginSuccessful(
+        IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+        IF ActiveStatus = 1;   
+        SELECT Username, AccountAdmin, HighScore, GameGameID, GameID 
+        FROM tblPlayer py 
+                JOIN tblPlay pl on py.PlayerID = plPlayerPlayerID
+                JOIN tblGame gm on plGameGameID = gm.GameID
+        WHERE Username = pUsername;
+END //
+DELIMITER ;
+
+CALL loginSuccessful();
