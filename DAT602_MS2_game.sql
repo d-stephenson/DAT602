@@ -79,11 +79,11 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginSuccessful(
     )
 SQL SECURITY INVOKER
 BEGIN
-        SELECT GameID, SUM(GameID) 
+        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
-        GROUP BY GameID
-        WHERE Username = pUsername;
+
+        GROUP BY pl.GameID;
 END //
 DELIMITER ;
 
