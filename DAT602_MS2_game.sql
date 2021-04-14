@@ -13,10 +13,11 @@ SELECT `user`, `host` FROM mysql.user;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
-CREATE PROCEDURE loginCheckCredentials(
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
         IN pUsername varchar(50), 
         IN pPassword varchar(15)
     )
+SQL SECURITY INVOKER
 BEGIN
     DECLARE proposedUID int DEFAULT NULL;
   
@@ -56,7 +57,7 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
         IN pUsername varchar(10),
         IN pPassword varchar(15)
     )
-    SQL SECURITY INVOKER
+SQL SECURITY INVOKER
 BEGIN
         INSERT INTO tblPlayer(Email, Username, `Password`) 
 	    VALUES (pEmail, pUsername, pPassword);
