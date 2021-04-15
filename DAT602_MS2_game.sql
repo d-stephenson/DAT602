@@ -105,3 +105,22 @@ CALL homeScreen2('John');
 ----------------------------------------------------------------------------------
 -- Create New Game Procedure
 ----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS newGame;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
+        IN pBoardType varchar(10),
+        IN pCharacterTurn varchar(20)
+    )
+SQL SECURITY INVOKER
+BEGIN
+    DECLARE tblTempOne TABLE (GameID int);
+
+    INSERT INTO tblGame(BoardType, CharacterTurn)
+    OUTPUT INSERTED.GameID INTO tblTempOne
+    VALUES (pBoardType, pCharacterTurn);
+
+END //
+DELIMITER ;
+
+CALL newGame('John');
