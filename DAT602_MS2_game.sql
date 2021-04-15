@@ -113,16 +113,12 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE @tblTempOne TABLE (GameID int;
-
     INSERT INTO tblGame(BoardType, CharacterTurn)
-    VALUES (pBoardType, pCharacterTurn);
+    VALUES '9 X 9 Sq', 'Doc';
 
     INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
     VALUES (
-        (SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 
-        (SELECT CharacterName FROM tblCharacter WHERE CharacterName = 'Doc'),
-        (SELECT GameID FROM @tblTempOne)
+        (SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', LAST_INSERT_ID(GameID)
         );
 END //
 DELIMITER ;
