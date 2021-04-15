@@ -69,24 +69,35 @@ DELIMITER ;
 CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
--- Login Successful Procedure
+-- Home Screen Procedure X 2
 ----------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS loginSuccessful;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginSuccessful(
+DROP PROCEDURE IF EXISTS homeScreen1;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen1(
         IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
-     BEGIN
-        (SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+BEGIN
+        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID) as 'Open Games',
-        (SELECT Username AS 'Players', HighScore AS 'High Score' 
-        FROM tblPlayer) AS 'Current Players';   
-    END;
+        GROUP BY pl.GameID;   
 END //
 DELIMITER ;
 
-CALL loginSuccessful('John');
+CALL homeScreen1('John');
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS homeScreen2;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen2(
+        IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+		SELECT Username AS 'Players', HighScore AS 'High Score' 
+        FROM tblPlayer;   
+END //
+DELIMITER ;
+
+CALL homeScreen2('John');
