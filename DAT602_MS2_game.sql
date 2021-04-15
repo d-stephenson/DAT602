@@ -120,6 +120,8 @@ BEGIN
     OUTPUT INSERTED.GameID INTO tblTempOne
     VALUES (pBoardType, pCharacterTurn);
 
+    INSERT INTO tblPlay(PlayerID, CharacterName, GameID, TileID, PlayScore)
+
 END //
 DELIMITER ;
 
