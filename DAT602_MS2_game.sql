@@ -109,20 +109,17 @@ CALL homeScreen2('John');
 DELIMITER //
 DROP PROCEDURE IF EXISTS newGame;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
-        IN pBoardType varchar(10),
-        IN pCharacterTurn varchar(20)
+        IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE tblTempOne TABLE (GameID int);
-
     INSERT INTO tblGame(BoardType, CharacterTurn)
-    OUTPUT INSERTED.GameID INTO tblTempOne
     VALUES (pBoardType, pCharacterTurn);
 
-    INSERT INTO tblPlay(PlayerID, CharacterName, GameID, TileID, PlayScore)
-
+    INSERT INTO tblPlay((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername) CharacterName)
 END //
 DELIMITER ;
 
-CALL newGame('John');
+CALL newGame('9 X 9 Sq', 'Doc');
+
+SELECT * FROM tblGame;
