@@ -78,17 +78,15 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginSuccessful(
         IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
-    BEGIN
-        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+     BEGIN
+        (SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;
-    END
-    BEGIN   
-        SELECT Username AS 'Players', HighScore AS 'High Score'
-        FROM tblPlayer;;     
-    END 
-//
+        GROUP BY pl.GameID) as 'Open Games',
+        (SELECT Username AS 'Players', HighScore AS 'High Score' 
+        FROM tblPlayer) AS 'Current Players';   
+    END;
+END //
 DELIMITER ;
 
 CALL loginSuccessful('John');
