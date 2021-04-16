@@ -115,14 +115,17 @@ SQL SECURITY INVOKER
 BEGIN
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES '9 X 9 Sq', 'Doc';
+    
+    SET game_id = LAST_INSERT_ID();
 
+	IF game_id > 0 THEN
     INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-    VALUES (
-        (SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', LAST_INSERT_ID(GameID)
-        );
+    VALUES (SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', game_id;
 END //
 DELIMITER ;
 
-CALL newGame();
+CALL newGame('John');
 
-SELECT * FROM tblGame WHERE ;
+SELECT * FROM tblGame;
+
+SELECT LAST_INSERT_ID();
