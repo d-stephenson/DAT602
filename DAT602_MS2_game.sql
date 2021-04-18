@@ -137,7 +137,8 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE gameId int DEFAULT NULL;
+    DECLARE newGameId int DEFAULT NULL;
+    DECLARE takeTileId int DEFAULT 101;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES ('9 X 9 Sq', 'Doc');
@@ -148,10 +149,11 @@ BEGIN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId);
     END IF;  
-    IF gameId >0 THEN
+
+    WHILE takeItemId <171 DO
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES ((SELECT ItemID FROM tblItem), gameId, (SELECT TileID FROM tblTile ORDER BY RAND() LIMIT 1);  
-    END IF;
+        VALUES (takeItemId, gameId, (SELECT TileID FROM tblTile ORDER BY RAND() LIMIT 1);  
+    END WHILE;
 END //
 DELIMITER ;
 
