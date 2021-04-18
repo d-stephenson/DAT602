@@ -79,21 +79,21 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen1(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE accessScreen1 int DEFAULT NULL;
+    DECLARE accessScreen1 bit DEFAULT NULL;
   
-	SELECT PlayerID 
+	SELECT ActiveStatus 
 	FROM 
 		tblPlayer
 	WHERE
-		Username = pUsername AND 
-		`Password` = pPassword
+		Username = pUsername 
 	INTO accessScreen1;
 
-    IF accessScreen1 IS True
+    IF accessScreen1 IS False THEN
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;   
+        GROUP BY pl.GameID;  
+	END IF;
 END //
 DELIMITER ;
 
