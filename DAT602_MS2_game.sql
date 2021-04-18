@@ -88,7 +88,7 @@ BEGIN
 		Username = pUsername 
 	INTO accessScreen1;
 
-    IF accessScreen1 IS False THEN
+    IF accessScreen1 IS True THEN
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
@@ -108,8 +108,19 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen2(
     )
 SQL SECURITY INVOKER
 BEGIN
-	SELECT Username AS 'Players', HighScore AS 'High Score' 
-    FROM tblPlayer;   
+    DECLARE accessScreen2 bit DEFAULT NULL;
+  
+	SELECT ActiveStatus 
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessScreen2;
+
+    IF accessScreen2 IS True THEN
+		SELECT Username AS 'Players', HighScore AS 'High Score' 
+		FROM tblPlayer;  
+	END IF;
 END //
 DELIMITER ;
 
