@@ -14,8 +14,8 @@ SELECT `user`, `host` FROM mysql.user;
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
-        IN pUsername varchar(50), 
-        IN pPassword varchar(15)
+    IN pUsername varchar(50), 
+    IN pPassword varchar(15)
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -53,16 +53,16 @@ CALL loginCheckCredentials('Sunny', 'P@ssword12');
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
-        IN pEmail varchar(50), 
-        IN pUsername varchar(10),
-        IN pPassword varchar(15)
+    IN pEmail varchar(50), 
+    IN pUsername varchar(10),
+    IN pPassword varchar(15)
     )
 SQL SECURITY INVOKER
 BEGIN
-        INSERT INTO tblPlayer(Email, Username, `Password`) 
-	    VALUES (pEmail, pUsername, pPassword);
+    INSERT INTO tblPlayer(Email, Username, `Password`) 
+    VALUES (pEmail, pUsername, pPassword);
         
-        SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
+    SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
 
@@ -75,10 +75,21 @@ CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen1;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen1(
-        IN pUsername varchar(10)
+    IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
+    DECLARE accessScreen1 int DEFAULT NULL;
+  
+	SELECT PlayerID 
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername AND 
+		`Password` = pPassword
+	INTO accessScreen1;
+
+    IF accessScreen1 IS True
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
                 JOIN tblPlay pl on py.PlayerID = pl.PlayerID
@@ -88,15 +99,17 @@ DELIMITER ;
 
 CALL homeScreen1('John');
 
+----------------------------------------------------------------------------------
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen2;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen2(
-        IN pUsername varchar(10)
+    IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-		SELECT Username AS 'Players', HighScore AS 'High Score' 
-        FROM tblPlayer;   
+	SELECT Username AS 'Players', HighScore AS 'High Score' 
+    FROM tblPlayer;   
 END //
 DELIMITER ;
 
