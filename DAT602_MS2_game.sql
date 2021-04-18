@@ -147,6 +147,9 @@ BEGIN
 	IF gameId >0 THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId);
+    AND    
+        INSERT INTO tblItemGame(ItemID, GameID, TileID)
+        VALUES ((SELECT ItemID FROM tblItem), gameId, (SELECT TileID FROM tblTile ORDER BY RAND() LIMIT 1);  
     END IF;
 END //
 DELIMITER ;
