@@ -143,16 +143,16 @@ BEGIN
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES ('9 X 9 Sq', 'Doc');
     
-    SET gameId = LAST_INSERT_ID();
+    SET newGameId = LAST_INSERT_ID();
 
-	IF gameId >0 THEN
+	IF newGameId >0 THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId);
+		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', newGameId);
     END IF;  
 
     WHILE takeItemId <171 DO
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, gameId, 1); 
+        VALUES (takeItemId, newGameId, 1); 
 
         SET takeItemId = takeItemId + 1;      
     END WHILE;
