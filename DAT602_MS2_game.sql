@@ -139,7 +139,6 @@ SQL SECURITY INVOKER
 BEGIN
     DECLARE newGameId int DEFAULT NULL;
     DECLARE takeItemId int DEFAULT 101;
-    DECLARE takeTileId int DEFAULT 1;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES ('9 X 9 Sq', 'Doc');
@@ -151,12 +150,11 @@ BEGIN
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId);
     END IF;  
 
-    WHILE takeItemId <171 AND takeTileId <82 DO
+    WHILE takeItemId <171 DO
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, gameId, (takeTileId ORDER BY RAND() LIMIT 1)); 
+        VALUES (takeItemId, gameId, 1); 
 
-        SET takeItemId = takeItemId + 1; 
-        SET takeTileId = takeTileId + 1;          
+        SET takeItemId = takeItemId + 1;      
     END WHILE;
 END //
 DELIMITER ;
