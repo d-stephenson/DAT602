@@ -138,21 +138,18 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
 SQL SECURITY INVOKER
 BEGIN
     DECLARE gameId int DEFAULT NULL;
-    
+
     INSERT INTO tblGame(BoardType, CharacterTurn)
-    VALUES '9 X 9 Sq', 'Doc';
+    VALUES ('9 X 9 Sq', 'Doc');
     
     SET gameId = LAST_INSERT_ID();
 
-	IF gameId > 0 THEN
+	IF gameId >0 THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES (SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId;
+		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', gameId);
     END IF;
 END //
 DELIMITER ;
 
 CALL newGame('John');
 
-SELECT * FROM tblGame;
-
-SELECT LAST_INSERT_ID();
