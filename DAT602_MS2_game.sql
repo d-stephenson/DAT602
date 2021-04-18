@@ -139,6 +139,7 @@ SQL SECURITY INVOKER
 BEGIN
     DECLARE newGameId int DEFAULT NULL;
     DECLARE takeItemId int DEFAULT 101;
+	DECLARE takeTileId int DEFAULT 001;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES ('9 X 9 Sq', 'Doc');
@@ -150,15 +151,15 @@ BEGIN
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', newGameId);
     END IF;  
 
-    WHILE takeItemId <171 DO
+    WHILE takeItemId <171 AND takeTileId <082 DO
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, newGameId, 1); 
+        VALUES (takeItemId, newGameId, takeTileID); 
 
-        SET takeItemId = takeItemId + 1;      
+        SET takeItemId = takeItemId + 1;
+        SET takeTileId = takeTileId + 1;
     END WHILE;
 END //
 DELIMITER ;
 
 CALL newGame('John');
-
--- above is working just need to have tileID set to random but sxcluse home tile
+select * from tblitemgame
