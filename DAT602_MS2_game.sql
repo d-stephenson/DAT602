@@ -152,7 +152,7 @@ BEGIN
 
     WHILE takeItemId <171 DO
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, gameId, (SELECT TileID FROM tblTile ORDER BY RAND() LIMIT 1);  
+        VALUES (takeItemId, gameId, (SELECT TileID FROM tblTile ORDER BY RAND() LIMIT 1));  
     END WHILE;
 END //
 DELIMITER ;
