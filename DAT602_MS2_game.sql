@@ -161,3 +161,4 @@ DELIMITER ;
 
 CALL newGame('John');
 
+-- above is working just need to have tileID set to random but sxcluse home tile
