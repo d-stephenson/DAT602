@@ -176,17 +176,15 @@ BEGIN
 	IF GameID = pGameID THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername),
-                (SELECT CharacterName 
-                FROM tblCharacter ch 
-                    LEFT JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-                WHERE pl.CharacterName = NULL), 
-                pGameID);
+                (SELECT ch.CharacterName, pl.CharacterName, pl.Game, ga.GameID
+                 FROM tblCharacter ch 
+                    JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+                    JOIN tblGame ga ON pl.GameID = ga.GameID
+                 WHERE NOT EXISTS
+                    (SELECT NULL FROM GameID = 100002;), 
+                 pGameID);
     END IF;  
 END //
 DELIMITER ;
 
-CALL joinGame('John');
-
-CHARACTER joim
-PLAy
-gameID
+CALL joinGame(100002, 'Sunny');
