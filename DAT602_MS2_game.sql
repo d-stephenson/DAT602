@@ -175,9 +175,18 @@ SQL SECURITY INVOKER
 BEGIN
 	IF GameID = pGameID THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', pGameID);
+		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername),
+                (SELECT CharacterName 
+                FROM tblCharacter ch 
+                    LEFT JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+                WHERE pl.CharacterName = NULL), 
+                pGameID);
     END IF;  
 END //
 DELIMITER ;
 
 CALL joinGame('John');
+
+CHARACTER joim
+PLAy
+gameID
