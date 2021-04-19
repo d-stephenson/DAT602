@@ -161,8 +161,23 @@ DELIMITER ;
 
 CALL newGame('John');
 
-select * FROM tblItemGame;
+----------------------------------------------------------------------------------
+-- Create Join Game Procedure
+----------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------
--- Create New Game Procedure
-----------------------------------------------------------------------------------
+DELIMITER //
+DROP PROCEDURE IF EXISTS joinGame;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE joinGame(
+        IN pGameID int,
+        IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+	IF GameID = pGameID THEN
+		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
+		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', pGameID);
+    END IF;  
+END //
+DELIMITER ;
+
+CALL joinGame('John');
