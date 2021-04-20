@@ -211,7 +211,17 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
     )
 SQL SECURITY INVOKER
 BEGIN
+	DECLARE currentXAxis tinyint;
+	DECLARE currentXAxis tinyint;
     
+    SELECT XAxis
+    FROM
+		tblTile ti 
+            JOIN tblPlay pl ON ti.TileID = pl.TileID
+	WHERE
+		PlayerID = pPlayerID
+    
+    IF pTileID = 
     
 
 
