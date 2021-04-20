@@ -272,11 +272,29 @@ BEGIN
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = `'You can't move to this tile'`;
+		SET MESSAGE_TEXT = 'You cannot move to this tile';
 	END IF;
 END //
 DELIMITER ;
 
 CALL movePlayer(1, 4, 100001);
 
+----------------------------------------------------------------------------------
+-- Create Find Gem Procedure
+----------------------------------------------------------------------------------
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS findGem;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
+        IN pTileID int,
+        IN pPlayerID int,
+        IN pGameID int
+    )
+SQL SECURITY INVOKER
+BEGIN
+	DECLARE currentTurn varchar(10) DEFAULT NULL;
+
+END //
+DELIMITER ;
+
+CALL findGem(1, 4, 100001);
