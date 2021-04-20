@@ -288,24 +288,21 @@ DROP PROCEDURE IF EXISTS findGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
         IN pTileID int,
         IN pPlayerID int,
-        IN pGameID int,
-        IN pItemID int
+        IN pGameID int
+        -- IN pItemID int
     )
 SQL SECURITY INVOKER
 BEGIN
-
-
-    SELECT ItemID, GemType, Points 
+    SELECT ig.ItemID, ge.GemType, Points 
     FROM    
         tblPlay pl
         JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
         JOIN tblItem it ON ig.ItemID = it.ItemID
         JOIN tblGem ge ON it.GemType = ge.GemType  
     WHERE   
-        PlayerID = pPlayerID AND GameID = pGameID AND TileID = pTileID;
-
+        PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
 END //
 DELIMITER ;
 
-CALL findGem(75, 4, 100001);
+CALL findGem(80, 4, 100001);
 select * from tblPlay where gameid = 100001
