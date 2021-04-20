@@ -207,42 +207,54 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
         IN pTileID int,
-        IN pTileRow int,
-		IN pTileColumn int,
         IN pPlayerID int,
         IN pGameID int
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE currentTileRow tinyint;
-	DECLARE currentTileColumn tinyint;
+	DECLARE currentTileRow tinyint DEFAULT NULL;
+	DECLARE currentTileColumn tinyint DEFAULT NULL;
+	DECLARE newTileRow tinyint DEFAULT NULL;
+	DECLARE newTileColumn tinyint DEFAULT NULL;
     
     SELECT TileRow
     FROM
 		tblTile ti 
             JOIN tblPlay pl ON ti.TileID = pl.TileID
-	WHERE
+	WHERE 
 		PlayerID = pPlayerID AND GameID = pGameID
-	INTO 
-		currentTileRow;
+	INTO currentTileRow;
     
 	SELECT TileColumn
     FROM
 		tblTile ti 
             JOIN tblPlay pl ON ti.TileID = pl.TileID
-	WHERE
+	WHERE 
 		PlayerID = pPlayerID AND GameID = pGameID
-	INTO 
-		currentTileRow; 
+	INTO currentTileColumn;
+        
+	SELECT TileRow 
+    FROM
+		tblTile
+	WHERE 
+		TileID = pTileID
+	INTO newTileRow;
     
-    IF (pTileRow = (SUM(currentTileRow + 1) OR pTileRow = SUM(currentTileRow - 1))) AND (pTileColumn = (SUM(currentTileColumn + 1) OR pTileColumn = SUM(currentTileColumn - 1))) THEN                        
-		UPDATE tblPlay
-		SET TileID = pTileID
-        WHERE PlayerID = pPlayerID AND GameID = pGameID;
+	SELECT TileColumn
+    FROM
+		tblTile
+	WHERE 
+		TileID = pTileID
+	INTO newTileColumn;
+    
+    IF ((newTileRow = currentTileRow + 1 OR currentTileRow - 1) AND 
+		(newTileColumn = currentTileColumn + 1 OR currentTileColumn - 1)) THEN                        
+			UPDATE tblPlay
+			SET TileID = pTileID
+			WHERE PlayerID = pPlayerID AND GameID = pGameID;
 	END IF;
-
 END //
 DELIMITER ;
 
-CALL movePlayer(59, 6, 6, 2, 100002);
+CALL movePlayer(41, 2, 100002);
 select * from tblPlay where playerid = 2
