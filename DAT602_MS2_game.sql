@@ -302,7 +302,7 @@ BEGIN
         JOIN tblItem it ON ig.ItemID = it.ItemID
         JOIN tblGem ge ON it.GemType = ge.GemType  
     WHERE   
-        PlayerID = pPlayerID AND GameID = pGameID AND TileID = pTileID
+        PlayerID = pPlayerID AND GameID = pGameID AND TileID = pTileID;
 
 END //
 DELIMITER ;
