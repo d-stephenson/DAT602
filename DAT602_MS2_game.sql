@@ -212,10 +212,18 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
     )
 SQL SECURITY INVOKER
 BEGIN
+	DECLARE emptyTile int DEFAULT NULL;
 	DECLARE currentTileRow tinyint DEFAULT NULL;
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
+    
+	SELECT TileID
+	FROM 
+		tblTile
+	WHERE 
+		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID
+	INTO emptyTile;
     
     SELECT TileRow
     FROM
@@ -248,13 +256,16 @@ BEGIN
 	INTO newTileColumn;
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
-		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) THEN                        
+		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
+        emptyTile IS NOT NULL THEN                        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
+	ELSE
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = `'You can't move to this tile'`;
 	END IF;
 END //
 DELIMITER ;
 
-CALL movePlayer(15, 2, 100002);
-select * from tblPlay where playerid = 2
+CALL movePlayer(1, 8, 100002);
