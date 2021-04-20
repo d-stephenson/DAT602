@@ -187,18 +187,15 @@ BEGIN
 	FROM 
 		tblPlayer
 	WHERE 
-		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) 
+		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) AND PlayerID = pPlayerID
 	INTO selectedUser;
                             
-    IF selectedCharacter IS NOT NULL AND selectedUser  THEN                        
+    IF selectedCharacter IS NOT NULL THEN                        
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
 	END IF;
 END //
 DELIMITER ;
 
-CALL joinGame(100005, 2);
+CALL joinGame(100005, 4);
  
-select * from tblplay where gameid = 100005 
-
-(SELECT PlayerID FROM tblPlayer WHERE Username = pUsername)   
