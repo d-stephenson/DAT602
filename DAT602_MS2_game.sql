@@ -247,8 +247,8 @@ BEGIN
 		TileID = pTileID
 	INTO newTileColumn;
     
-    IF ((newTileRow = currentTileRow + 1 OR currentTileRow - 1) AND 
-		(newTileColumn = currentTileColumn + 1 OR currentTileColumn - 1)) THEN                        
+    IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
+		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) THEN                        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -256,5 +256,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL movePlayer(41, 2, 100002);
+CALL movePlayer(15, 2, 100002);
 select * from tblPlay where playerid = 2
