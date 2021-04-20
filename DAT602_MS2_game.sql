@@ -218,6 +218,7 @@ BEGIN
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
+  	DECLARE updateTurn varchar(10) DEFAULT NULL;  
     
 	SELECT CharacterTurn
 	FROM 
@@ -263,6 +264,15 @@ BEGIN
 		TileID = pTileID
 	INTO newTileColumn;
     
+	SELECT CharacterName
+	FROM 
+		tblPlay 
+	WHERE 
+		GameID = pGameID
+	ORDER BY CharacterName
+    LIMIT 1, 1
+	INTO updateTurn;
+    
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         emptyTile IS NOT NULL AND
@@ -272,13 +282,15 @@ BEGIN
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
             
             UPDATE tblGame
-            SET CharacterTurn = 
+            SET CharacterTurn = updateTurn
+            WHERE GameID = pGameID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = `'You can't move to this tile'`;
 	END IF;
 END //
 DELIMITER ;
--- Need to add to above if its is players turn and then update player turn
-CALL movePlayer(20, 2, 100002);
+
+CALL movePlayer(043, 3, 100002);
 select * from tblPlay where gameid = 100002
+select * from tblGame where gameid = 100002
