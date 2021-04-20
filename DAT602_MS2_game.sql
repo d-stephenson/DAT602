@@ -212,20 +212,20 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE nextTurn varchar(10) DEFAULT NULL;
+	DECLARE currentTurn varchar(10) DEFAULT NULL;
 	DECLARE emptyTile int DEFAULT NULL;
 	DECLARE currentTileRow tinyint DEFAULT NULL;
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
-  	DECLARE updateTurn varchar(10) DEFAULT NULL;  
+  	DECLARE nextTurn varchar(10) DEFAULT NULL;  
     
 	SELECT CharacterTurn
 	FROM 
 		tblGame
 	WHERE 
 		GameID = pGameID
-	INTO nextTurn;
+	INTO currentTurn;
 	
     SELECT TileID
 	FROM 
@@ -268,21 +268,21 @@ BEGIN
 	FROM 
 		tblPlay 
 	WHERE 
-		GameID = pGameID
-	ORDER BY CharacterName
-    LIMIT 1, 1
-	INTO updateTurn;
+		GameID = 100001
+	ORDER BY PlayID ASC
+    LIMIT 1
+	INTO nextTurn;
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         emptyTile IS NOT NULL AND
-        nextTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID) THEN                        
+        (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID)) THEN                        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
             
             UPDATE tblGame
-            SET CharacterTurn = updateTurn
+            SET CharacterTurn = nextTurn
             WHERE GameID = pGameID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
@@ -291,6 +291,6 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL movePlayer(043, 3, 100002);
-select * from tblPlay where gameid = 100002
-select * from tblGame where gameid = 100002
+CALL movePlayer(41, 3, 100001);
+select * from tblPlay where gameid = 100001
+select * from tblGame where gameid = 100001
