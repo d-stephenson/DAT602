@@ -91,7 +91,7 @@ BEGIN
     IF accessScreen1 IS True THEN
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
-                JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
 	END IF;
 END //
@@ -236,7 +236,7 @@ BEGIN
     SELECT TileRow
     FROM
 		tblTile ti 
-            JOIN tblPlay pl ON ti.TileID = pl.TileID
+        JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE 
 		PlayerID = pPlayerID AND GameID = pGameID
 	INTO currentTileRow;
@@ -244,7 +244,7 @@ BEGIN
 	SELECT TileColumn
     FROM
 		tblTile ti 
-            JOIN tblPlay pl ON ti.TileID = pl.TileID
+        JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE 
 		PlayerID = pPlayerID AND GameID = pGameID
 	INTO currentTileColumn;
@@ -288,11 +288,19 @@ DROP PROCEDURE IF EXISTS findGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
         IN pTileID int,
         IN pPlayerID int,
-        IN pGameID int
+        IN pGameID int,
+        IN pItemID int
     )
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE currentTurn varchar(10) DEFAULT NULL;
+
+    SELECT ItemID, GemType, Points 
+    FROM    
+        tblPlay pl
+        JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
+        JOIN tblItem it ON ig.ItemID = it.ItemID
+        JOIN tblGem ge ON it.GemType = ge.GemType  
 
 END //
 DELIMITER ;
