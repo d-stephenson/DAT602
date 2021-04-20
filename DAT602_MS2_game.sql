@@ -91,7 +91,7 @@ BEGIN
     IF accessScreen1 IS True THEN
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
-                JOIN tblPlay pl on py.PlayerID = pl.PlayerID
+                JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
 	END IF;
 END //
@@ -169,22 +169,36 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS joinGame;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE joinGame(
         IN pGameID int,
-        IN pUsername varchar(10)
+        IN pPlayerID int
     )
 SQL SECURITY INVOKER
 BEGIN
-	IF GameID = pGameID THEN
+    DECLARE selectedCharacter varchar(10) DEFAULT NULL;
+	DECLARE selectedUser int DEFAULT NULL;
+
+	SELECT CharacterName
+	FROM 
+		tblCharacter 
+	WHERE 
+		CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = pGameID) ORDER BY RAND() LIMIT 1
+	INTO selectedCharacter;
+    
+	SELECT PlayerID
+	FROM 
+		tblPlayer
+	WHERE 
+		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) 
+	INTO selectedUser;
+                            
+    IF selectedCharacter IS NOT NULL THEN                        
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername),
-                (SELECT CharacterName
-				 FROM tblCharacter 
-				 WHERE CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = pGamieID);  
-                 pGameID);
-    END IF;  
+		VALUES (selectedUser, selectedCharacter, pGameID);
+	END IF;
 END //
 DELIMITER ;
 
-CALL joinGame(100002, 'Sunny');
+CALL joinGame(100002, 2);
+ 
+select * from tblplay where gameid = 100002   
 
-
-      
+(SELECT PlayerID FROM tblPlayer WHERE Username = pUsername)   
