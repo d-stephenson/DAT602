@@ -212,13 +212,21 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
     )
 SQL SECURITY INVOKER
 BEGIN
+	DECLARE nextTurn varchar(10) DEFAULT NULL;
 	DECLARE emptyTile int DEFAULT NULL;
 	DECLARE currentTileRow tinyint DEFAULT NULL;
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
     
-	SELECT TileID
+	SELECT CharacterTurn
+	FROM 
+		tblGame
+	WHERE 
+		GameID = pGameID
+	INTO nextTurn;
+	
+    SELECT TileID
 	FROM 
 		tblTile
 	WHERE 
@@ -257,10 +265,14 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
-        emptyTile IS NOT NULL THEN                        
+        emptyTile IS NOT NULL AND
+        nextTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID) THEN                        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
+            
+            UPDATE tblGame
+            SET CharacterTurn = 
 	ELSE
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = `'You can't move to this tile'`;
@@ -268,4 +280,5 @@ BEGIN
 END //
 DELIMITER ;
 -- Need to add to above if its is players turn and then update player turn
-CALL movePlayer(1, 8, 100002);
+CALL movePlayer(20, 2, 100002);
+select * from tblPlay where gameid = 100002
