@@ -293,7 +293,7 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE currentTurn varchar(10) DEFAULT NULL;
+
 
     SELECT ItemID, GemType, Points 
     FROM    
