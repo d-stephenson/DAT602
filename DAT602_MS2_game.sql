@@ -207,6 +207,8 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
         IN pTileID int,
+        IN pTileRow int,
+		IN pTileColumn int,
         IN pPlayerID int,
         IN pGameID int
     )
@@ -233,7 +235,7 @@ BEGIN
 	INTO 
 		currentTileRow; 
     
-    IF pTileID IS (currentTileRow + 1, OR currentTileRow - 1) AND (currentTileColumn + 1 OR currentTileColumn - 1) THEN                        
+    IF (pTileRow = (SUM(currentTileRow + 1) OR pTileRow = SUM(currentTileRow - 1))) AND (pTileColumn = (SUM(currentTileColumn + 1) OR pTileColumn = SUM(currentTileColumn - 1))) THEN                        
 		UPDATE tblPlay
 		SET TileID = pTileID
         WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -242,5 +244,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL movePlayer(6, 2, 100002);
+CALL movePlayer(59, 6, 6, 2, 100002);
 select * from tblPlay where playerid = 2
