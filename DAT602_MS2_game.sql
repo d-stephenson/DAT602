@@ -199,3 +199,23 @@ DELIMITER ;
 
 CALL joinGame(100005, 4);
  
+----------------------------------------------------------------------------------
+-- Create Player Moves Procedure
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS movePlayer;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
+        IN pTileID int,
+        IN pPlayerID int
+    )
+SQL SECURITY INVOKER
+BEGIN
+    
+    
+
+
+END //
+DELIMITER ;
+
+CALL movePlayer(100005, 4);
