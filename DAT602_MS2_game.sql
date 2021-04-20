@@ -158,7 +158,7 @@ BEGIN
     END WHILE;
 END //
 DELIMITER ;
-
+-- Need to exclude home tile from receiving items
 CALL newGame('John');
 
 ----------------------------------------------------------------------------------
@@ -307,4 +307,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL findGem(1, 4, 100001);
+CALL findGem(75, 4, 100001);
+select * from tblPlay where gameid = 100001
