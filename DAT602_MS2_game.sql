@@ -267,5 +267,5 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
-
+-- Need to add to above if its is players turn and then update player turn
 CALL movePlayer(1, 8, 100002);
