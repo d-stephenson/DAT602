@@ -224,7 +224,7 @@ BEGIN
 	FROM 
 		tblGame
 	WHERE 
-		GameID = pGameID
+		GameID = pGameID 
 	INTO currentTurn;
 	
     SELECT TileID
@@ -268,15 +268,13 @@ BEGIN
 	FROM 
 		tblPlay 
 	WHERE 
-		GameID = 100001
-	ORDER BY PlayID ASC
-    LIMIT 1
+		GameID = 100001 LIMIT 1, 1 -- does not move to next player???
 	INTO nextTurn;
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         emptyTile IS NOT NULL AND
-        (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID)) THEN                        
+        currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID) THEN                        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -291,6 +289,6 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL movePlayer(41, 3, 100001);
-select * from tblPlay where gameid = 100001
-select * from tblGame where gameid = 100001
+CALL movePlayer(75, 1, 100001);
+select * from tblPlay where gameid = 100001;
+select * from tblGame where gameid = 100001;
