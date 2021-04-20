@@ -301,6 +301,8 @@ BEGIN
         JOIN tblGem ge ON it.GemType = ge.GemType  
     WHERE   
         PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
+        
+	-- create temp table in here 
 END //
 DELIMITER ;
 
