@@ -301,6 +301,8 @@ BEGIN
         JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
         JOIN tblItem it ON ig.ItemID = it.ItemID
         JOIN tblGem ge ON it.GemType = ge.GemType  
+    WHERE   
+        PlayerID = pPlayerID AND GameID = pGameID AND TileID = pTileID
 
 END //
 DELIMITER ;
