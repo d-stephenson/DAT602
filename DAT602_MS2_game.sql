@@ -279,23 +279,25 @@ BEGIN
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
             
-            UPDATE tblGame
-            SET CharacterTurn = nextTurn
-            WHERE GameID = pGameID;
+--             UPDATE tblGame
+--             SET CharacterTurn = nextTurn
+--             WHERE GameID = pGameID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = `'You can't move to this tile'`;
 	END IF;
     -- should it be a while?
-	WHILE takeItemId <171 DO 
-        INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
+	WHILE nextTurn = nextTurn DO 
+            UPDATE tblGame
+            SET CharacterTurn = nextTurn
+            WHERE GameID = pGameID;
+        
 
-        SET takeItemId = takeItemId + 1;
+        SET nextTurn = nextTurn + 1;
 	END WHILE;
 END //
 DELIMITER ;
 
-CALL movePlayer(75, 1, 100001);
+CALL movePlayer(79, 4, 100001);
 select * from tblPlay where gameid = 100001;
 select * from tblGame where gameid = 100001;
