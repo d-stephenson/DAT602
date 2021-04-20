@@ -276,7 +276,7 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
-
+-- Need to allow multiple users on home tile?
 CALL movePlayer(1, 4, 100001);
 
 ----------------------------------------------------------------------------------
