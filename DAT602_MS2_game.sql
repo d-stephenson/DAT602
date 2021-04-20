@@ -218,7 +218,6 @@ BEGIN
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
-  	DECLARE nextTurn varchar(10) DEFAULT NULL;  
     
 	SELECT CharacterTurn
 	FROM 
@@ -264,13 +263,6 @@ BEGIN
 		TileID = pTileID
 	INTO newTileColumn;
     
--- 	SELECT CharacterName
--- 	FROM 
--- 		tblPlay 
--- 	WHERE 
--- 		GameID = 100001 LIMIT 1, 1 -- does not move to next player???
--- 	INTO nextTurn;
-    
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         emptyTile IS NOT NULL AND
@@ -278,26 +270,13 @@ BEGIN
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
-            
---             UPDATE tblGame
---             SET CharacterTurn = nextTurn
---             WHERE GameID = pGameID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = `'You can't move to this tile'`;
 	END IF;
-    -- should it be a while?
-	WHILE nextTurn = nextTurn DO 
-            UPDATE tblGame
-            SET CharacterTurn = nextTurn
-            WHERE GameID = pGameID;
-        
-
-        SET nextTurn = nextTurn + 1;
-	END WHILE;
 END //
 DELIMITER ;
 
-CALL movePlayer(79, 4, 100001);
-select * from tblPlay where gameid = 100001;
-select * from tblGame where gameid = 100001;
+CALL movePlayer(1, 4, 100001);
+
+
