@@ -207,25 +207,49 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
         IN pTileID int,
-        IN pPlayerID int
+        IN pPlayerID int,
+        IN pGameID int
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE currentXAxis tinyint;
-	DECLARE currentXAxis tinyint;
+	DECLARE selectTileRow tinyint;
+	DECLARE selectTileColumn tinyint;
     
-    SELECT XAxis
+    SELECT DISTINCT TileRow
     FROM
 		tblTile ti 
             JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE
-		PlayerID = pPlayerID
+		ti.TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = 100002)
+	INTO 
+		selectTileRow;
+        
+    select * from tblPlay where gameid = 100002 
+    select * from tbltile where tileid = 33
+	select * from tbltile where tileid = 42
+        
+	Select ti.TileID, TileRow, TileColumn, GameID 
+    from tblTile ti 
+            JOIN tblPlay pl ON ti.TileID = pl.TileID
+            where pl.TileID IS NOT NULL
+        
+        
+    SELECT TileColumn
+    FROM
+		tblTile ti 
+            JOIN tblPlay pl ON ti.TileID = pl.TileID
+	WHERE
+		PlayerID = pPlayerID AND GameID = pGameID
+	INTO 
+		selectTileColumn;
     
-    IF pTileID = 
+    IF pTileID
+
     
 
 
 END //
 DELIMITER ;
 
-CALL movePlayer(100005, 4);
+CALL movePlayer(45, 2, 100002);
+select * from tblPlay where playerid = 2
