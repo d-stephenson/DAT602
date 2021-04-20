@@ -197,7 +197,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL joinGame(100005, 4);
+CALL joinGame(100002, 8);
  
 ----------------------------------------------------------------------------------
 -- Create Player Moves Procedure
@@ -212,44 +212,35 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE selectTileRow tinyint;
-	DECLARE selectTileColumn tinyint;
+	DECLARE currentTileRow tinyint;
+	DECLARE currentTileColumn tinyint;
     
-    SELECT DISTINCT TileRow
-    FROM
-		tblTile ti 
-            JOIN tblPlay pl ON ti.TileID = pl.TileID
-	WHERE
-		ti.TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = 100002)
-	INTO 
-		selectTileRow;
-        
-    select * from tblPlay where gameid = 100002 
-    select * from tbltile where tileid = 33
-	select * from tbltile where tileid = 42
-        
-	Select ti.TileID, TileRow, TileColumn, GameID 
-    from tblTile ti 
-            JOIN tblPlay pl ON ti.TileID = pl.TileID
-            where pl.TileID IS NOT NULL
-        
-        
-    SELECT TileColumn
+    SELECT TileRow
     FROM
 		tblTile ti 
             JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE
 		PlayerID = pPlayerID AND GameID = pGameID
 	INTO 
-		selectTileColumn;
+		currentTileRow;
     
-    IF pTileID
-
+	SELECT TileColumn
+    FROM
+		tblTile ti 
+            JOIN tblPlay pl ON ti.TileID = pl.TileID
+	WHERE
+		PlayerID = pPlayerID AND GameID = pGameID
+	INTO 
+		currentTileRow; 
     
-
+    IF pTileID IS (currentTileRow + 1, OR currentTileRow - 1) AND (currentTileColumn + 1 OR currentTileColumn - 1) THEN                        
+		UPDATE tblPlay
+		SET TileID = pTileID
+        WHERE PlayerID = pPlayerID AND GameID = pGameID;
+	END IF;
 
 END //
 DELIMITER ;
 
-CALL movePlayer(45, 2, 100002);
+CALL movePlayer(6, 2, 100002);
 select * from tblPlay where playerid = 2
