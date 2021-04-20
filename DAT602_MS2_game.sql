@@ -264,12 +264,12 @@ BEGIN
 		TileID = pTileID
 	INTO newTileColumn;
     
-	SELECT CharacterName
-	FROM 
-		tblPlay 
-	WHERE 
-		GameID = 100001 LIMIT 1, 1 -- does not move to next player???
-	INTO nextTurn;
+-- 	SELECT CharacterName
+-- 	FROM 
+-- 		tblPlay 
+-- 	WHERE 
+-- 		GameID = 100001 LIMIT 1, 1 -- does not move to next player???
+-- 	INTO nextTurn;
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
@@ -286,6 +286,13 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = `'You can't move to this tile'`;
 	END IF;
+    -- should it be a while?
+	WHILE takeItemId <171 DO 
+        INSERT INTO tblItemGame(ItemID, GameID, TileID)
+        VALUES (takeItemId, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
+
+        SET takeItemId = takeItemId + 1;
+	END WHILE;
 END //
 DELIMITER ;
 
