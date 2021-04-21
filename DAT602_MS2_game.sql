@@ -305,7 +305,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL findGem(75, 1, 100001);
+CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
 ----------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ BEGIN
     FROM 
 		tblPlay 
 	WHERE 
-		PlayID = (select min(PlayID) from tblPlay where PlayID > 500006 AND GameID = 100001) INTO nextTurn;
+		PlayID = (select min(PlayID) from tblPlay where PlayID > pPlayID AND GameID = pGameID) INTO nextTurn;
     
 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
@@ -372,24 +372,24 @@ BEGIN
 	IF nextTurn IS NOT NULL THEN
 		UPDATE tblGame
 		SET CharacterTurn = nextTurn
-		WHERE GameID = pGameID
+		WHERE GameID = pGameID;
 	ELSEIF nextTurn IS NULL THEN
 		UPDATE tblGame
 		SET CharacterTurn = 'Doc'
-		WHERE GameID = pGameID	
+		WHERE GameID = pGameID;
 	END IF;
     
 END //
 DELIMITER ;
 
-CALL selectGem(129, 500001, 100001, 1);
+CALL selectGem(166, 500002, 100001, 4);
 
-select * FROM tblItemGame where itemID = 129; 
+update tblitemgame set tileid = 80, playid = null where itemid = 166;
+
+select * FROM tblItemGame where itemID = 166; 
 select * from tblPlay where gameid = 100001;
-select * from tblPlayer where playerid = 1;
-
-SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID > 500003 AND GameID = 100001) 
+select * from tblPlayer where playerid = 4;
+select * from tblGame where gameid = 100001;
 
 DECLARE startTurn varchar(10) DEFAULT NULL;
-
 SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
