@@ -321,8 +321,8 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE gemPoints tinyint DEFAULT NULL;
+ 	DECLARE playerPS int DEFAULT NULL;
     DECLARE playerHS int DEFAULT NULL;
-	DECLARE playerPS int DEFAULT NULL;
     DECLARE nextTurn varchar(10) DEFAULT NULL;
 		
 	SELECT Points 
@@ -332,20 +332,20 @@ BEGIN
 		ItemID = pItemID
 	INTO gemPoints;
   		
-	SELECT HighScore
-    FROM
-		tblPlayer py
-			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-	WHERE 
-		py.PlayerID = pPlayerID
-	INTO playerHS;
-    
 	SELECT PlayScore
     FROM
 		tblPlay
 	WHERE 
 		PlayID = pPlayID
 	INTO playerPS;
+	
+    SELECT HighScore
+    FROM
+		tblPlayer py
+			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+	WHERE 
+		py.PlayerID = pPlayerID
+	INTO playerHS;
     
     SELECT CharacterName 
     FROM 
@@ -363,7 +363,7 @@ BEGIN
 		WHERE PlayID = pPlayID;
 	END IF;
 
-	IF playerHS < playerPS THEN 
+	IF playerPS > playerHS THEN 
 		UPDATE tblPlayer
 		SET Highscore = playerPS
 		WHERE PlayerID = pPlayerID; 
@@ -393,3 +393,45 @@ select * from tblGame where gameid = 100001;
 
 DECLARE startTurn varchar(10) DEFAULT NULL;
 SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
+
+
+
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS updateHS;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS(
+        IN pItemID int,
+        IN pPlayID int,
+        IN pGameID int,
+        IN pPlayerID int
+    )
+SQL SECURITY INVOKER
+BEGIN
+ 	DECLARE playerPS int DEFAULT NULL;
+    DECLARE playerHS int DEFAULT NULL;
+  		
+	SELECT PlayScore
+    FROM
+		tblPlay
+	WHERE 
+		PlayID = pPlayID
+	INTO playerPS;
+	
+    SELECT HighScore
+    FROM
+		tblPlayer py
+			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+	WHERE 
+		py.PlayerID = pPlayerID
+	INTO playerHS;
+
+	IF playerPS > playerHS THEN 
+		UPDATE tblPlayer
+		SET Highscore = playerPS
+		WHERE PlayerID = pPlayerID; 
+	END IF;
+    
+END //
+DELIMITER ;
+
+CALL updateHS(166, 500002, 100001, 4);
