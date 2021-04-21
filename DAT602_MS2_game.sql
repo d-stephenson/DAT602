@@ -346,6 +346,15 @@ BEGIN
 		PlayID = pPlayID
 	INTO playerPS;
     
+    SELECT CharacterTurn
+    FROM tblGame
+    WHERE 
+		GameID = 100001 AND PlayerID = 1 
+    ORDER BY CharacterName 
+    
+    SELECT * FROM mytable WHERE id > current_id LIMIT 10
+
+    
 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
 		SET TileID = NULL, PlayID = pPlayID
@@ -361,6 +370,11 @@ BEGIN
 		SET Highscore = playerPS
 		WHERE PlayerID = pPlayerID; 
 	END IF;
+    
+    
+    
+    -- UPDATE tblGame
+    
 END //
 DELIMITER ;
 
