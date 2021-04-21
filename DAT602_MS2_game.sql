@@ -321,8 +321,6 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE gemPoints tinyint DEFAULT NULL;
- 	DECLARE playerPS int DEFAULT NULL;
-    DECLARE playerHS int DEFAULT NULL;
     DECLARE nextTurn varchar(10) DEFAULT NULL;
 		
 	SELECT Points 
@@ -331,21 +329,6 @@ BEGIN
 	WHERE 
 		ItemID = pItemID
 	INTO gemPoints;
-  		
-	SELECT PlayScore
-    FROM
-		tblPlay
-	WHERE 
-		PlayID = pPlayID
-	INTO playerPS;
-	
-    SELECT HighScore
-    FROM
-		tblPlayer py
-			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-	WHERE 
-		py.PlayerID = pPlayerID
-	INTO playerHS;
     
     SELECT CharacterName 
     FROM 
@@ -363,12 +346,6 @@ BEGIN
 		WHERE PlayID = pPlayID;
 	END IF;
 
-	IF playerPS > playerHS THEN 
-		UPDATE tblPlayer
-		SET Highscore = playerPS
-		WHERE PlayerID = pPlayerID; 
-	END IF;
-
 	IF nextTurn IS NOT NULL THEN
 		UPDATE tblGame
 		SET CharacterTurn = nextTurn
@@ -384,6 +361,10 @@ DELIMITER ;
 
 CALL selectGem(166, 500002, 100001, 4);
 
+----------------------------------------------------------------------------------
+
+-- Test procedure 
+
 update tblitemgame set tileid = 80, playid = null where itemid = 166;
 
 select * FROM tblItemGame where itemID = 166; 
@@ -391,11 +372,10 @@ select * from tblPlay where gameid = 100001;
 select * from tblPlayer where playerid = 4;
 select * from tblGame where gameid = 100001;
 
-DECLARE startTurn varchar(10) DEFAULT NULL;
-SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
+-- DECLARE startTurn varchar(10) DEFAULT NULL;
+-- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
-
-
+----------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
