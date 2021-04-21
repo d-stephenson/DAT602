@@ -289,22 +289,73 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
         IN pTileID int,
         IN pPlayerID int,
         IN pGameID int
-        -- IN pItemID int
     )
 SQL SECURITY INVOKER
 BEGIN
-    SELECT ig.ItemID, ge.GemType, Points 
-    FROM    
-        tblPlay pl
-        JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
-        JOIN tblItem it ON ig.ItemID = it.ItemID
-        JOIN tblGem ge ON it.GemType = ge.GemType  
-    WHERE   
-        PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
-        
-	-- create temp table in here 
+    DROP TEMPORARY TABLE IF EXISTS selectOneGem;
+    CREATE TEMPORARY TABLE selectOneGem AS
+        SELECT ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID
+        FROM    
+            tblPlay pl
+            JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
+            JOIN tblItem it ON ig.ItemID = it.ItemID
+            JOIN tblGem ge ON it.GemType = ge.GemType  
+        WHERE   
+            PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
 END //
 DELIMITER ;
 
 CALL findGem(80, 4, 100001);
+SELECT * FROM selectOneGem;
+
+----------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS selectGem;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
+        IN pItemID int,
+        IN pPlayID int,
+        IN pGameID int
+    )
+SQL SECURITY INVOKER
+BEGIN
+	DECLARE gemPoints tinyint DEFAULT NULL;
+    DECLARE playerHS int DEFAULT NULL;
+		
+	SELECT Points 
+    FROM
+		selectOneGem
+	WHERE 
+		ItemID = pItemID
+	INTO gemPoints;
+  		
+	SELECT HighScore
+    FROM
+		tblPlayer py
+			JOIN tblPlay pl ON pyPlayerID = pl.PlayerID
+	WHERE 
+		PlayID = pPlayerID
+	INTO playerHS;
+    
+	IF pItemID IS NOT NULL THEN     
+		UPDATE tblItemGame
+		SET TileID = NULL, PlayID = pPlayID
+		WHERE ItemID = pItemID AND GameID = pGameID;
+
+		UPDATE tblPlay
+		SET PlayScore = PlayScore + gemPoints
+		WHERE PlayID = pPlayID;
+	END IF;
+
+	IF PlayScore >= playerHS THEN -- Got to here
+		UPDATE tblPlayer
+		SET Highscore = PlayScore
+		WHERE PlayerID = pPlayerID 
+	END IF;
+END //
+DELIMITER ;
+
+CALL selectGem(166, 500002, 100001);
+
+select * FROM tblItemGame where itemID = 135 AND gameid = 100001 AND playID IS NOT NULL
 select * from tblPlay where gameid = 100001
