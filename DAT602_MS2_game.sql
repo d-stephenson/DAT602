@@ -305,7 +305,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL findGem(80, 4, 100001);
+CALL findGem(75, 1, 100001);
 SELECT * FROM selectOneGem;
 
 ----------------------------------------------------------------------------------
@@ -315,12 +315,14 @@ DROP PROCEDURE IF EXISTS selectGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
         IN pItemID int,
         IN pPlayID int,
-        IN pGameID int
+        IN pGameID int,
+        IN pPlayerID int
     )
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE gemPoints tinyint DEFAULT NULL;
     DECLARE playerHS int DEFAULT NULL;
+	DECLARE playerPS int DEFAULT NULL;
 		
 	SELECT Points 
     FROM
@@ -332,10 +334,17 @@ BEGIN
 	SELECT HighScore
     FROM
 		tblPlayer py
-			JOIN tblPlay pl ON pyPlayerID = pl.PlayerID
+			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
 	WHERE 
-		PlayID = pPlayerID
+		py.PlayerID = pPlayerID
 	INTO playerHS;
+    
+	SELECT PlayScore
+    FROM
+		tblPlay
+	WHERE 
+		PlayID = pPlayID
+	INTO playerPS;
     
 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
@@ -347,15 +356,16 @@ BEGIN
 		WHERE PlayID = pPlayID;
 	END IF;
 
-	IF PlayScore >= playerHS THEN -- Got to here
+	IF playerHS < playerPS THEN 
 		UPDATE tblPlayer
-		SET Highscore = PlayScore
-		WHERE PlayerID = pPlayerID 
+		SET Highscore = playerPS
+		WHERE PlayerID = pPlayerID; 
 	END IF;
 END //
 DELIMITER ;
 
-CALL selectGem(166, 500002, 100001);
+CALL selectGem(129, 500001, 100001, 1);
 
-select * FROM tblItemGame where itemID = 135 AND gameid = 100001 AND playID IS NOT NULL
-select * from tblPlay where gameid = 100001
+select * FROM tblItemGame where itemID = 129; 
+select * from tblPlay where gameid = 100001;
+select * from tblPlayer where playerid = 1;
