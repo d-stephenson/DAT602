@@ -323,6 +323,7 @@ BEGIN
 	DECLARE gemPoints tinyint DEFAULT NULL;
     DECLARE playerHS int DEFAULT NULL;
 	DECLARE playerPS int DEFAULT NULL;
+    DECLARE nextTurn varchar(10) DEFAULT NULL;
 		
 	SELECT Points 
     FROM
@@ -346,14 +347,11 @@ BEGIN
 		PlayID = pPlayID
 	INTO playerPS;
     
-    SELECT CharacterTurn
-    FROM tblGame
-    WHERE 
-		GameID = 100001 AND PlayerID = 1 
-    ORDER BY CharacterName 
-    
-    SELECT * FROM mytable WHERE id > current_id LIMIT 10
-
+    SELECT CharacterName 
+    FROM 
+		tblPlay 
+	WHERE 
+		PlayID = (select min(PlayID) from tblPlay where PlayID > 500006 AND GameID = 100001) INTO nextTurn;
     
 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
@@ -370,10 +368,16 @@ BEGIN
 		SET Highscore = playerPS
 		WHERE PlayerID = pPlayerID; 
 	END IF;
-    
-    
-    
-    -- UPDATE tblGame
+
+	IF nextTurn IS NOT NULL THEN
+		UPDATE tblGame
+		SET CharacterTurn = nextTurn
+		WHERE GameID = pGameID
+	ELSEIF nextTurn IS NULL THEN
+		UPDATE tblGame
+		SET CharacterTurn = 'Doc'
+		WHERE GameID = pGameID	
+	END IF;
     
 END //
 DELIMITER ;
@@ -383,3 +387,9 @@ CALL selectGem(129, 500001, 100001, 1);
 select * FROM tblItemGame where itemID = 129; 
 select * from tblPlay where gameid = 100001;
 select * from tblPlayer where playerid = 1;
+
+SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID > 500003 AND GameID = 100001) 
+
+DECLARE startTurn varchar(10) DEFAULT NULL;
+
+SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
