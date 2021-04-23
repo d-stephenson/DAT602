@@ -43,7 +43,7 @@ BEGIN
      
 END //
 DELIMITER ;
-
+-- needs a fail message if username, email or password is not found
 CALL loginCheckCredentials('Sunny', 'P@ssword12');
 
 ----------------------------------------------------------------------------------
@@ -65,12 +65,14 @@ BEGIN
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
-
+-- needs a fail message if username or email is not unique
 CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
 ----------------------------------------------------------------------------------
+
+-- When login is successul the home screen checks the player is active and then displays the following information
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen1;
@@ -203,6 +205,9 @@ CALL joinGame(100002, 8);
 -- Create Player Moves Procedure
 ----------------------------------------------------------------------------------
 
+-- Moves player to a new tile if the tile is plus or minus one, from the players current tile position 
+-- in a game instance, the play table records the current players position
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
@@ -277,13 +282,16 @@ BEGIN
 END //
 DELIMITER ;
 -- Need to allow multiple users on home tile?
+-- need to update the colour of the tile to match the player 
 CALL movePlayer(1, 4, 100001);
 
 ----------------------------------------------------------------------------------
 -- Create Find Gem Procedure
 ----------------------------------------------------------------------------------
 
-DELIMITER //
+-- Finds all the gems located on a tile in a game instance that the player has selected
+
+DELIMITER // 
 DROP PROCEDURE IF EXISTS findGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
         IN pTileID int,
@@ -304,13 +312,17 @@ BEGIN
             PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
 END //
 DELIMITER ;
-
+-- need to add if else No gems are found message
 CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
 ----------------------------------------------------------------------------------
 
-DELIMITER //
+-- Player selects one of the items from the temporary table relating to the game instance and assigns the 
+-- item to the players play instance and removes the item from the tile, the next turn is updated in the 
+-- Game instance and the points are added to the players play instance total
+
+DELIMITER // 
 DROP PROCEDURE IF EXISTS selectGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
         IN pItemID int,
@@ -376,6 +388,9 @@ select * from tblGame where gameid = 100001;
 -- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
 ----------------------------------------------------------------------------------
+
+-- Checks if the added points to the play instance is now higher then the players highscore, if it is
+-- the players highscore is updated
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
