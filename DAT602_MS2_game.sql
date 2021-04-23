@@ -50,6 +50,8 @@ CALL loginCheckCredentials('Sunny', 'P@ssword12');
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
 
+-- ALTER TABLE tblPlayer ADD COLUMN Salt varchar(36); Used once to update following procedure
+SELECT UUID(); select * from tblPlayer
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
@@ -59,16 +61,18 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DECLARE salt UNIQUEIDENTIFIER = NEWID();
-
-    INSERT INTO tblPlayer(Email, Username, `Password`) 
-    VALUES (pEmail, pUsername, AES_ENCRYPT(pPassword+CAST(salt AS varcher(36)), 'Game_Key_To_Encrypt'));
+	DECLARE newSalt varchar(36);
+	
+    SELECT UUID() INTO newSalt;
+    
+    INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
+    VALUES (pEmail, pUsername, HASH(AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt')), newSalt);
         
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
-CALL newUserRegistration('luppin999@gmail.com', 'LupFl999', 'P@ssword1');
+CALL newUserRegistration('luppin919@gmail.com', 'LupFl919', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
