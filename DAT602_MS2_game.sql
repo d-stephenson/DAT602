@@ -139,8 +139,17 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE newGameId int DEFAULT NULL;
-    DECLARE takeItemId int DEFAULT 101;
+    DECLARE firstItem int DEFAULT NULL;
+	DECLARE lastItem int DEFAULT NULL;
+	DECLARE chosenBoardType varchar(20) DEFAULT NULL; -- More boards may be added in the future so player would want to select board type
+	DECLARE firstCharacter varchar(10) DEFAULT NULL;
+	DECLARE newGameId int DEFAULT NULL;
+    --DECLARE takeItemId int DEFAULT firstItem;
+
+	SELECT TileID FROM tblItem LIMIT 1 INTO firstItem;
+	SELECT TileID FROM tblItem LIMIT 1 INTO firstItem;
+	SELECT BoardType FROM tblBoard LIMIT 1 INTO chosenBoardType; -- This statement would be updated is player could choose from multiple board types
+	SELECT CharacterName FROM tblCharacetr LIMIT 1 INTO firstCharacter;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES ('9 X 9 Sq', 'Doc');
@@ -152,7 +161,7 @@ BEGIN
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', newGameId);
     END IF;  
 
-    WHILE takeItemId <171 DO 
+    WHILE firstItem <lastItem DO 
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
         VALUES (takeItemId, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
 
