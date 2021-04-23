@@ -144,33 +144,33 @@ BEGIN
 	DECLARE chosenBoardType varchar(20) DEFAULT NULL; -- More boards may be added in the future so player would want to select board type
 	DECLARE firstCharacter varchar(10) DEFAULT NULL;
 	DECLARE newGameId int DEFAULT NULL;
-    --DECLARE takeItemId int DEFAULT firstItem;
 
-	SELECT ItemID FROM tblItem LIMIT 1 INTO firstItem;
+	SELECT ItemID FROM tblItem ORDER BY ItemID LIMIT 1 INTO firstItem;
 	SELECT MAX(ItemID) from tblItem INTO lastItem;
 	SELECT BoardType FROM tblBoard LIMIT 1 INTO chosenBoardType; -- This statement would be updated is player could choose from multiple board types
-	SELECT CharacterName FROM tblCharacetr LIMIT 1 INTO firstCharacter;
+	SELECT CharacterName FROM tblCharacter WHERE CharacterName = 'Doc' INTO firstCharacter;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
-    VALUES ('9 X 9 Sq', 'Doc');
+    VALUES (chosenBoardType, firstCharacter);
     
     SET newGameId = LAST_INSERT_ID();
 
-	IF newGameId >0 THEN
+	IF newGameId > 0 THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), 'Doc', newGameId);
+		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), firstCharacter, newGameId);
     END IF;  
 
-    WHILE firstItem <lastItem DO 
+    WHILE firstItem < lastItem DO 
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (takeItemId, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
+        VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
 
-        SET takeItemId = takeItemId + 1;
+        SET firstItem = firstItem + 1;
     END WHILE;
 END //
 DELIMITER ;
 -- Need to exclude home tile from receiving items
 CALL newGame('John');
+select * from tblGame
 
 ----------------------------------------------------------------------------------
 -- Create Join Game Procedure
