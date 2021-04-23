@@ -59,10 +59,10 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
     )
 SQL SECURITY INVOKER
 BEGIN
-	-- DECLARE salt UNIQUEIDENTIFIER = NEWID();
+	DECLARE salt UNIQUEIDENTIFIER = NEWID();
 
     INSERT INTO tblPlayer(Email, Username, `Password`) 
-    VALUES (pEmail, pUsername, AES_ENCRYPT(pPassword, 'Game_Key_To_Encrypt'));
+    VALUES (pEmail, pUsername, AES_ENCRYPT(pPassword+CAST(salt AS varcher(36)), 'Game_Key_To_Encrypt'));
         
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //

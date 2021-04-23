@@ -47,6 +47,7 @@ CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%')
 );
 
 ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
+ALTER TABLE tblPlayer ADD Salt UNIQUEIDENTIFIER;
 
 CREATE TABLE tblCharacter (
 CharacterName varchar(10) NOT NULL,
