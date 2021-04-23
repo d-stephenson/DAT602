@@ -34,7 +34,7 @@ CREATE TABLE tblPlayer (
 PlayerID int AUTO_INCREMENT,
 Email varchar(50) NOT NULL,
 Username varchar(10) NOT NULL,
-`Password` varchar(15) NOT NULL,
+`Password` BLOB NOT NULL,
 AccountAdmin bit DEFAULT FALSE NOT NULL,
 AccountLocked bit DEFAULT FALSE NOT NULL,
 ActiveStatus bit DEFAULT FALSE NOT NULL,
