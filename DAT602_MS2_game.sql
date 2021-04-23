@@ -146,8 +146,8 @@ BEGIN
 	DECLARE newGameId int DEFAULT NULL;
     --DECLARE takeItemId int DEFAULT firstItem;
 
-	SELECT TileID FROM tblItem LIMIT 1 INTO firstItem;
-	SELECT TileID FROM tblItem LIMIT 1 INTO firstItem;
+	SELECT ItemID FROM tblItem LIMIT 1 INTO firstItem;
+	SELECT MAX(ItemID) from tblItem INTO lastItem;
 	SELECT BoardType FROM tblBoard LIMIT 1 INTO chosenBoardType; -- This statement would be updated is player could choose from multiple board types
 	SELECT CharacterName FROM tblCharacetr LIMIT 1 INTO firstCharacter;
 
