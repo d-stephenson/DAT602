@@ -178,11 +178,15 @@ BEGIN
 	DECLARE chosenBoardType varchar(20) DEFAULT NULL; -- More boards may be added in the future so player would want to select board type
 	DECLARE firstCharacter varchar(10) DEFAULT NULL;
 	DECLARE newGameId int DEFAULT NULL;
+    DECLARE excludeHomeTile int DEFAULT NULL;
+    DECLARE lastTile int DEFAULT NULL;
 
 	SELECT ItemID FROM tblItem ORDER BY ItemID LIMIT 1 INTO firstItem;
 	SELECT MAX(ItemID) from tblItem INTO lastItem;
 	SELECT BoardType FROM tblBoard LIMIT 1 INTO chosenBoardType; -- This statement would be updated is player could choose from multiple board types
 	SELECT CharacterName FROM tblCharacter WHERE CharacterName = 'Doc' INTO firstCharacter;
+    SELECT TileID FROM tblTile LIMIT 1, 1 INTO excludeHomeTile;
+    SELECT MAX(TileID) from tblBoardTile WHERE BoardType = chosenBoardType INTO lastItem;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES (chosenBoardType, firstCharacter);
@@ -196,19 +200,18 @@ BEGIN
 
     WHILE firstItem < lastItem DO 
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(081-001+1)+001))); 
+        VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(lastTile-excludeHomeTile+1)+excludeHomeTile)));
 
         SET firstItem = firstItem + 1;
     END WHILE;
 END //
 DELIMITER ;
-				-- Need to exclude home tile from receiving items
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
 CALL newGame('John');
-select * from tblGame
+SELECT * from tblItemGame ORDER BY GameID DESC;
 
 -- --------------------------------------------------------------------------------
 -- Create Join Game Procedure
