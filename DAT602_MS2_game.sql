@@ -39,7 +39,9 @@ BEGIN
     IF proposedUID IS NULL THEN
 		UPDATE tblPlayer
         SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
-        WHERE Username = pUsername; 
+        WHERE Username = pUsername;
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password';
 	ELSEIF proposedUID IS NOT NULL THEN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
@@ -47,14 +49,13 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
-				-- needs a fail message if username, email or password is not found
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL loginCheckCredentials('LupFl848', 'P@ssword1');
+CALL loginCheckCredentials('Trip103', 'P@ssword1');
 
-select * from tblPlayer where username = 'LupFl848';
+SELECT * FROM tblPlayer WHERE Username = 'Trip878';
 
 -- --------------------------------------------------------------------------------
 -- New User Registration Procedure
@@ -71,31 +72,18 @@ SQL SECURITY INVOKER
 BEGIN
 	DECLARE newSalt varchar(36);
 	
-    SELECT UUID() INTO newSalt;
-    
---     IF pEmail IS UNIQUE AND pUsername IS UNIQUE THEN 
-		INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
-		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
--- 	ELSEIF pEmail IS UNIQUE AND pUsername IS NOT UNIQUE THEN
--- 		SIGNAL SQLSTATE '45000'
--- 		SET MESSAGE_TEXT = 'This Username is taken';
---   	ELSEIF pEmail IS NOT UNIQUE AND pUsername IS UNIQUE THEN
--- 		SIGNAL SQLSTATE '45000'
--- 		SET MESSAGE_TEXT = 'This Email is taken'; 
--- 	ELSE
--- 		SIGNAL SQLSTATE '45000'
--- 		SET MESSAGE_TEXT = 'This Username and Email is taken'; 
--- 	END IF;
-    
-    SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
+	SELECT UUID() INTO newSalt;
+	
+	INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
+	VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
 END //
 DELIMITER ;
-				-- needs a fail message if username or email is not unique
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL newUserRegistration('luppin848@gmail.com', 'LupFl848', 'P@ssword1');
+CALL newUserRegistration('trip105@gmail.com', 'Trip105', 'P@ssword1');
+SELECT * FROM tblPlayer;
 
 -- --------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
@@ -338,7 +326,7 @@ BEGIN
 			WHERE 
 				PlayerID = pPlayerID;
 	ELSE
-		SIGNAL SQLSTATE '45000'
+		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You cannot move to this tile';
 	END IF;
 END //
@@ -378,7 +366,6 @@ BEGIN
             PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
 END //
 DELIMITER ;
-				-- need to add if else No gems are found message
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
@@ -437,7 +424,6 @@ BEGIN
 		SET CharacterTurn = 'Doc'
 		WHERE GameID = pGameID;
 	END IF;
-    
 END //
 DELIMITER ;
 
