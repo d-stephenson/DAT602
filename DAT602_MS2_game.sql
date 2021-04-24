@@ -55,6 +55,7 @@ DELIMITER ;
 CALL loginCheckCredentials('LupFl848', 'P@ssword1');
 
 select * from tblPlayer where username = 'LupFl848';
+
 -- SELECT AES_DECRYPT('John', (CONCAT('dsaf5165fdg46fg4sg6-54sdfg5', 'P@ssword1'), 'Game_Key_To_Encrypt')) 
 
 -- Test
@@ -90,7 +91,7 @@ END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
 
--- TEST DATA 
+-- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 CALL newUserRegistration('luppin848@gmail.com', 'LupFl848', 'P@ssword1');
 
@@ -125,6 +126,9 @@ BEGIN
 END //
 DELIMITER ;
 
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
 CALL homeScreen1('John');
 
 -- --------------------------------------------------------------------------------
@@ -151,6 +155,9 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
 
 CALL homeScreen2('John');
 
@@ -195,6 +202,10 @@ BEGIN
 END //
 DELIMITER ;
 -- Need to exclude home tile from receiving items
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
 CALL newGame('John');
 select * from tblGame
 
@@ -233,6 +244,9 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
 
 CALL joinGame(100002, 8);
  
@@ -318,6 +332,10 @@ END //
 DELIMITER ;
 -- Need to allow multiple users on home tile?
 -- need to update the colour of the tile to match the player 
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
 CALL movePlayer(1, 4, 100001);
 
 -- --------------------------------------------------------------------------------
@@ -348,6 +366,10 @@ BEGIN
 END //
 DELIMITER ;
 -- need to add if else No gems are found message
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
 CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
@@ -406,6 +428,9 @@ BEGIN
 END //
 DELIMITER ;
 
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
 CALL selectGem(166, 500002, 100001, 4);
 
 -- --------------------------------------------------------------------------------
@@ -463,5 +488,8 @@ BEGIN
     
 END //
 DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
 
 CALL updateHS(166, 500002, 100001, 4);
