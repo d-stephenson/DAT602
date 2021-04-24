@@ -1,15 +1,15 @@
 -- Seven Dwarfs Gem Hunt Project Transactional SQL Milestone 2
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Database Use
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Login Check Credentials Procedure
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
@@ -49,8 +49,13 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username, email or password is not found
-CALL loginCheckCredentials('LupFl838', 'P@ssword1');
-select * from tblPlayer where username = 'LupFl838';
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+CALL loginCheckCredentials('LupFl848', 'P@ssword1');
+
+select * from tblPlayer where username = 'LupFl848';
+-- SELECT AES_DECRYPT('John', (CONCAT('dsaf5165fdg46fg4sg6-54sdfg5', 'P@ssword1'), 'Game_Key_To_Encrypt')) 
 
 -- Test
 -- SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
@@ -58,20 +63,18 @@ select * from tblPlayer where username = 'LupFl838';
 -- SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
 -- AES_DECRYPT(CONCAT('a7ef5e84-a499-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt')
 -- SELECT AES_DECRYPT((CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'), (CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'))
-
 -- `Password` = AES_DECRYPT(AES_ENCRYPT(pUsername, (CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')), (AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
-----------------------------------------------------------------------------------
--- New User Registration Procedure
-----------------------------------------------------------------------------------
 
--- ALTER TABLE tblPlayer ADD COLUMN Salt varchar(36); Used once to update following procedure
+-- --------------------------------------------------------------------------------
+-- New User Registration Procedure
+-- --------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
     IN pEmail varchar(50), 
     IN pUsername varchar(10),
-    IN pPassword varchar(36)
+    IN pPassword BLOB
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -86,11 +89,14 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
-CALL newUserRegistration('luppin838@gmail.com', 'LupFl838', 'P@ssword1');
 
-----------------------------------------------------------------------------------
+-- TEST DATA 
+-- --------------------------------------------------------------------------------
+CALL newUserRegistration('luppin848@gmail.com', 'LupFl848', 'P@ssword1');
+
+-- --------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- When login is successul the home screen checks the player is active and then displays the following information
 
@@ -121,7 +127,7 @@ DELIMITER ;
 
 CALL homeScreen1('John');
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen2;
@@ -148,9 +154,9 @@ DELIMITER ;
 
 CALL homeScreen2('John');
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Create New Game Procedure
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newGame;
@@ -192,9 +198,9 @@ DELIMITER ;
 CALL newGame('John');
 select * from tblGame
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Create Join Game Procedure
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS joinGame;
@@ -230,9 +236,9 @@ DELIMITER ;
 
 CALL joinGame(100002, 8);
  
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Create Player Moves Procedure
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- Moves player to a new tile if the tile is plus or minus one, from the players current tile position 
 -- in a game instance, the play table records the current players position
@@ -314,9 +320,9 @@ DELIMITER ;
 -- need to update the colour of the tile to match the player 
 CALL movePlayer(1, 4, 100001);
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 -- Create Find Gem Procedure
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- Finds all the gems located on a tile in a game instance that the player has selected
 
@@ -345,7 +351,7 @@ DELIMITER ;
 CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- Player selects one of the items from the temporary table relating to the game instance and assigns the 
 -- item to the players play instance and removes the item from the tile, the next turn is updated in the 
@@ -402,7 +408,7 @@ DELIMITER ;
 
 CALL selectGem(166, 500002, 100001, 4);
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- Test procedure 
 
@@ -416,7 +422,7 @@ select * from tblGame where gameid = 100001;
 -- DECLARE startTurn varchar(10) DEFAULT NULL;
 -- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
-----------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------
 
 -- Checks if the added points to the play instance is now higher then the players highscore, if it is
 -- the players highscore is updated
