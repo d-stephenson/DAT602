@@ -33,8 +33,7 @@ BEGIN
 	FROM 
 		tblPlayer
 	WHERE
-		Username = pUsername AND 
-		`Password` = AES_DECRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt')
+		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
 	INTO proposedUID;
      
     IF proposedUID IS NULL THEN
@@ -48,7 +47,7 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
--- needs a fail message if username, email or password is not found
+				-- needs a fail message if username, email or password is not found
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
@@ -58,7 +57,9 @@ select * from tblPlayer where username = 'LupFl848';
 
 -- SELECT AES_DECRYPT('John', (CONCAT('dsaf5165fdg46fg4sg6-54sdfg5', 'P@ssword1'), 'Game_Key_To_Encrypt')) 
 
--- Test
+-- Below - Test code I've been playing around with
+-- 		Username = pUsername AND 
+-- 		`Password` = AES_DECRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt')
 -- SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
 -- SELECT SHA1(UNHEX(SHA1("password")));
 -- SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
@@ -242,7 +243,7 @@ BEGIN
 		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) AND PlayerID = pPlayerID
 	INTO selectedUser;
                             
-    IF selectedCharacter IS NOT NULL THEN                        
+    IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count joining a game                       
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
 	END IF;
@@ -252,8 +253,9 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL joinGame(100002, 8);
- 
+CALL joinGame(100001, 8);
+SELECT * FROM tblPlay WHERE GameID = 100001;
+SELECT * FROM tbl 
 -- --------------------------------------------------------------------------------
 -- Create Player Moves Procedure
 -- --------------------------------------------------------------------------------
