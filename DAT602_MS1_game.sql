@@ -47,6 +47,7 @@ CONSTRAINT CHK_Email CHECK (Email Like '_%@_%._%')
 );
 
 ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
+ALTER TABLE tblPlayer ADD COLUMN Salt varchar(36); 
 
 CREATE TABLE tblCharacter (
 CharacterName varchar(10) NOT NULL,
@@ -147,14 +148,14 @@ BEGIN
 
 INSERT INTO tblPlayer
 VALUES 
-(000001, 'mstirtle0@alibaba.com', 'Bob', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0),
-(000002, 'cgrooby1@walmart.com', 'Jane', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0),
-(000003, 'abartosinski2@irs.gov', 'John', 'P@ssword1', FALSE, FALSE, FALSE, 2, 0),
-(000004, 'mggghgh0@gmail.com', 'Troy', 'P@ssword1', FALSE, TRUE, FALSE, 0, 0),
-(000005, 'dringm@gmx.com', 'Chris', 'P@ssword1', TRUE, FALSE, FALSE, 3, 0),
-(000006, 'ythnfhhgj@frirs.gov', 'Sunny', 'P@ssword1', FALSE, FALSE, FALSE, 0, 0),
-(000007, 'looijnhg0@gmail.com', 'JCP', 'P@ssword1', FALSE, TRUE, FALSE, 0, 0),
-(000008, 'frigsngjj@gmx.com', 'Junior', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0);
+(000001, 'mstirtle0@alibaba.com', 'Bob', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000002, 'cgrooby1@walmart.com', 'Jane', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000003, 'abartosinski2@irs.gov', 'John', 'P@ssword1', TRUE, FALSE, FALSE, 2, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000004, 'mggghgh0@gmail.com', 'Troy', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000005, 'dringm@gmx.com', 'Chris', 'P@ssword1', TRUE, FALSE, FALSE, 3, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000006, 'ythnfhhgj@frirs.gov', 'Sunny', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000007, 'looijnhg0@gmail.com', 'JCP', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000008, 'frigsngjj@gmx.com', 'Junior', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5');
 
 INSERT INTO tblCharacter
 VALUES 
