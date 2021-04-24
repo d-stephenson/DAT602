@@ -15,18 +15,26 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
     IN pUsername varchar(50), 
-    IN pPassword blob
+    IN pPassword BLOB
     )
 SQL SECURITY INVOKER
 BEGIN
     DECLARE proposedUID int DEFAULT NULL;
+    DECLARE retrieveSalt varchar(36) DEFAULT NULL;
+    
+    SELECT Salt
+    FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername
+	INTO retrieveSalt;
   
 	SELECT PlayerID
 	FROM 
 		tblPlayer
 	WHERE
 		Username = pUsername AND 
-		`Password` = AES_ENCRYPT(pPassword, UNHEX(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt'))
+		`Password` = AES_DECRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt')
 	INTO proposedUID;
      
     IF proposedUID IS NULL THEN
@@ -41,15 +49,17 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username, email or password is not found
-CALL loginCheckCredentials('LupFl828', 'P@ssword1');
-select * from tblPlayer where username = 'LupFl828';
+CALL loginCheckCredentials('LupFl838', 'P@ssword1');
+select * from tblPlayer where username = 'LupFl838';
 
+-- Test
+-- SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
+-- SELECT SHA1(UNHEX(SHA1("password")));
+-- SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
+-- AES_DECRYPT(CONCAT('a7ef5e84-a499-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt')
+-- SELECT AES_DECRYPT((CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'), (CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'))
 
-SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
-SELECT SHA1(UNHEX(SHA1("password")));
-SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
-
-`Password` = AES_DECRYPT(AES_ENCRYPT(pUsername, (CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')), (AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
+-- `Password` = AES_DECRYPT(AES_ENCRYPT(pUsername, (CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')), (AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
@@ -76,7 +86,7 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
-CALL newUserRegistration('luppin828@gmail.com', 'LupFl828', 'P@ssword1');
+CALL newUserRegistration('luppin838@gmail.com', 'LupFl838', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
