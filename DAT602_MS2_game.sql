@@ -51,21 +51,10 @@ DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
+
 CALL loginCheckCredentials('LupFl848', 'P@ssword1');
 
 select * from tblPlayer where username = 'LupFl848';
-
--- SELECT AES_DECRYPT('John', (CONCAT('dsaf5165fdg46fg4sg6-54sdfg5', 'P@ssword1'), 'Game_Key_To_Encrypt')) 
-
--- Below - Test code I've been playing around with
--- 		Username = pUsername AND 
--- 		`Password` = AES_DECRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt')
--- SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
--- SELECT SHA1(UNHEX(SHA1("password")));
--- SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
--- AES_DECRYPT(CONCAT('a7ef5e84-a499-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt')
--- SELECT AES_DECRYPT((CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'), (CONCAT('643b1194-a49c-11eb-9762-2b24369f7e99', 'P@ssword1'), 'Game_Key_To_Encrypt'))
--- `Password` = AES_DECRYPT(AES_ENCRYPT(pUsername, (CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')), (AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
 
 -- --------------------------------------------------------------------------------
 -- New User Registration Procedure
@@ -255,7 +244,7 @@ DELIMITER ;
 
 CALL joinGame(100001, 8);
 SELECT * FROM tblPlay WHERE GameID = 100001;
-SELECT * FROM tbl 
+
 -- --------------------------------------------------------------------------------
 -- Create Player Moves Procedure
 -- --------------------------------------------------------------------------------
@@ -290,7 +279,7 @@ BEGIN
 	FROM 
 		tblTile
 	WHERE 
-		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID
+		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE
 	INTO emptyTile;
     
     SELECT TileRow
@@ -330,19 +319,26 @@ BEGIN
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
+            
+            SELECT TileColour, TileRow, TileColumn 
+            FROM tblCharacter ch 
+				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+                JOIN tblTile ti ON pl.TileID = ti.TileID
+			WHERE 
+				PlayerID = pPlayerID;
 	ELSE
 		SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'You cannot move to this tile';
 	END IF;
 END //
 DELIMITER ;
--- Need to allow multiple users on home tile?
--- need to update the colour of the tile to match the player 
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL movePlayer(1, 4, 100001);
+CALL movePlayer(76, 1, 100001);
+SELECT * FROM tblPlay WHERE GameID = 100001;
+SELECT * FROM tblGame WHERE GameID = 100001;
 
 -- --------------------------------------------------------------------------------
 -- Create Find Gem Procedure
@@ -371,7 +367,7 @@ BEGIN
             PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
 END //
 DELIMITER ;
--- need to add if else No gems are found message
+				-- need to add if else No gems are found message
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
