@@ -89,10 +89,11 @@ BEGIN
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
--- needs a fail message if username or email is not unique
+				-- needs a fail message if username or email is not unique
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
+
 CALL newUserRegistration('luppin848@gmail.com', 'LupFl848', 'P@ssword1');
 
 -- --------------------------------------------------------------------------------
@@ -201,7 +202,7 @@ BEGIN
     END WHILE;
 END //
 DELIMITER ;
--- Need to exclude home tile from receiving items
+				-- Need to exclude home tile from receiving items
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
@@ -435,17 +436,17 @@ CALL selectGem(166, 500002, 100001, 4);
 
 -- --------------------------------------------------------------------------------
 
--- Test procedure 
+						-- Test procedure 
 
-update tblitemgame set tileid = 80, playid = null where itemid = 166;
+						update tblitemgame set tileid = 80, playid = null where itemid = 166;
 
-select * FROM tblItemGame where itemID = 166; 
-select * from tblPlay where gameid = 100001;
-select * from tblPlayer where playerid = 4;
-select * from tblGame where gameid = 100001;
+						select * FROM tblItemGame where itemID = 166; 
+						select * from tblPlay where gameid = 100001;
+						select * from tblPlayer where playerid = 4;
+						select * from tblGame where gameid = 100001;
 
--- DECLARE startTurn varchar(10) DEFAULT NULL;
--- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
+						-- DECLARE startTurn varchar(10) DEFAULT NULL;
+						-- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
 -- --------------------------------------------------------------------------------
 
