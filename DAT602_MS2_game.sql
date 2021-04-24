@@ -15,7 +15,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
     IN pUsername varchar(50), 
-    IN pPassword varchar(36)
+    IN pPassword blob
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -25,8 +25,8 @@ BEGIN
 	FROM 
 		tblPlayer
 	WHERE
-		Username = pUsername AND 
-		`Password` = AES_DECRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')
+		(Username = pUsername AND 
+		`Password` = AES_DECRYPT(AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt'), AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
 	INTO proposedUID;
      
     IF proposedUID IS NULL THEN
@@ -43,6 +43,10 @@ DELIMITER ;
 -- needs a fail message if username, email or password is not found
 CALL loginCheckCredentials('LupFl818', 'P@ssword1');
 select * from tblPlayer where username = 'LupFl818';
+
+select 'LupFl818', AES_DECRYPTCONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt') from tblPlayer
+
+SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@sswod1') 
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
