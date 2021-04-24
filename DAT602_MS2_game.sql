@@ -15,7 +15,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
     IN pUsername varchar(50), 
-    IN pPassword varchar(15)
+    IN pPassword varchar(36)
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -26,7 +26,7 @@ BEGIN
 		tblPlayer
 	WHERE
 		Username = pUsername AND 
-		`Password` = pPassword
+		`Password` = AES_DECRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')
 	INTO proposedUID;
      
     IF proposedUID IS NULL THEN
@@ -38,26 +38,23 @@ BEGIN
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE Username = pUsername; 
 	END IF;
-
-    SELECT * FROM tblPlayer WHERE Username = pUsername;
-     
 END //
 DELIMITER ;
 -- needs a fail message if username, email or password is not found
-CALL loginCheckCredentials('Sunny', 'P@ssword12');
-
+CALL loginCheckCredentials('LupFl818', 'P@ssword1');
+select * from tblPlayer where username = 'LupFl818';
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
 
 -- ALTER TABLE tblPlayer ADD COLUMN Salt varchar(36); Used once to update following procedure
-SELECT UUID(); select * from tblPlayer
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
     IN pEmail varchar(50), 
     IN pUsername varchar(10),
-    IN pPassword BLOB
+    IN pPassword varchar(36)
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -66,13 +63,13 @@ BEGIN
     SELECT UUID() INTO newSalt;
     
     INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
-    VALUES (pEmail, pUsername, HASH(AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt')), newSalt);
-        
+    VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+    
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
-CALL newUserRegistration('luppin919@gmail.com', 'LupFl919', 'P@ssword1');
+CALL newUserRegistration('luppin818@gmail.com', 'LupFl818', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
