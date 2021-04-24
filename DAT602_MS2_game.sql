@@ -73,8 +73,19 @@ BEGIN
 	
     SELECT UUID() INTO newSalt;
     
-    INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
-    VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+--     IF pEmail IS UNIQUE AND pUsername IS UNIQUE THEN 
+		INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
+		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+-- 	ELSEIF pEmail IS UNIQUE AND pUsername IS NOT UNIQUE THEN
+-- 		SIGNAL SQLSTATE '45000'
+-- 		SET MESSAGE_TEXT = 'This Username is taken';
+--   	ELSEIF pEmail IS NOT UNIQUE AND pUsername IS UNIQUE THEN
+-- 		SIGNAL SQLSTATE '45000'
+-- 		SET MESSAGE_TEXT = 'This Email is taken'; 
+-- 	ELSE
+-- 		SIGNAL SQLSTATE '45000'
+-- 		SET MESSAGE_TEXT = 'This Username and Email is taken'; 
+-- 	END IF;
     
     SELECT * FROM tblPlayer WHERE Email = pEmail AND Username = pUsername;
 END //
