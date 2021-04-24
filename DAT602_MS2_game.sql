@@ -21,12 +21,12 @@ SQL SECURITY INVOKER
 BEGIN
     DECLARE proposedUID int DEFAULT NULL;
   
-	SELECT PlayerID 
+	SELECT PlayerID
 	FROM 
 		tblPlayer
 	WHERE
-		(Username = pUsername AND 
-		`Password` = AES_DECRYPT(AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt'), AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
+		Username = pUsername AND 
+		`Password` = AES_ENCRYPT(pPassword, UNHEX(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt'))
 	INTO proposedUID;
      
     IF proposedUID IS NULL THEN
@@ -41,12 +41,15 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username, email or password is not found
-CALL loginCheckCredentials('LupFl818', 'P@ssword1');
-select * from tblPlayer where username = 'LupFl818';
+CALL loginCheckCredentials('LupFl828', 'P@ssword1');
+select * from tblPlayer where username = 'LupFl828';
 
-select 'LupFl818', AES_DECRYPTCONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt') from tblPlayer
 
-SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@sswod1') 
+SELECT ownerId, ownerPassword FROM 01_tblCompany WHERE ownerId = 'owner001' AND ownerPassword = AES_ENCRYPT('password123', UNHEX(SHA2('privateKey',512)));
+SELECT SHA1(UNHEX(SHA1("password")));
+SELECT AES_DECRYPT(AES_ENCRYPT('LupFl818','P@ssword1'), 'P@srd1') 
+
+`Password` = AES_DECRYPT(AES_ENCRYPT(pUsername, (CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')), (AES_ENCRYPT(CONCAT(Salt, pPassword), 'Game_Key_To_Encrypt')))
 ----------------------------------------------------------------------------------
 -- New User Registration Procedure
 ----------------------------------------------------------------------------------
@@ -73,7 +76,7 @@ BEGIN
 END //
 DELIMITER ;
 -- needs a fail message if username or email is not unique
-CALL newUserRegistration('luppin818@gmail.com', 'LupFl818', 'P@ssword1');
+CALL newUserRegistration('luppin828@gmail.com', 'LupFl828', 'P@ssword1');
 
 ----------------------------------------------------------------------------------
 -- Home Screen Procedure X 2
