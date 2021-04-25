@@ -449,7 +449,8 @@ CALL selectGem(166, 500002, 100001, 4);
 -- --------------------------------------------------------------------------------
 
 -- Checks if the added points to the play instance is now higher then the players highscore, if it is
--- the players highscore is updated
+-- the players highscore is updated. Also check it the last item in the game has been collected, if so
+-- the game ends
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
