@@ -36,16 +36,19 @@ BEGIN
 		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
 	INTO proposedUID;
      
-    IF proposedUID IS NULL THEN
+    IF proposedUID IS NULL AND ActiveStatus = 0 THEN
 		UPDATE tblPlayer
         SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
         WHERE Username = pUsername;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password';
-	ELSEIF proposedUID IS NOT NULL THEN
+	ELSEIF proposedUID IS NOT NULL AND ActiveStatus = 0 THEN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE Username = pUsername; 
+	ELSE 
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are already logged in';
 	END IF;
 END //
 DELIMITER ;
@@ -519,3 +522,17 @@ CALL updateHS(500002, 100001, 4);
 -- --------------------------------------------------------------------------------
 -- Create Player Logout Procedure
 -- --------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS updateHS;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS(
+        IN pPlayerID int
+    )
+SQL SECURITY INVOKER
+BEGIN
+
+
+
+
+END //
+DELIMITER ;
