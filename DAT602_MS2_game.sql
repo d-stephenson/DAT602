@@ -547,6 +547,26 @@ DELIMITER ;
 
 CALL playerLogout('Trip103');
 
+-- --------------------------------------------------------------------------------
+-- Create Enter Admin Procedure
+-- --------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS enterAdmin;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE enterAdmin(
+        IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+
+
+END //
+DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL enterAdmin('Trip103');
 
 
 
