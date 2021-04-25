@@ -640,7 +640,7 @@ BEGIN
 		tblPlayer
 	WHERE
 		Username = pUsername 
-	INTO accessAdmin23;
+	INTO checkAdmin;
 
     IF checkAdmin IS True THEN
 		DELETE FROM tblItemGame
@@ -676,19 +676,30 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DELETE FROM tblItemGame
-	WHERE GameID = pGameID;
-	
-	DELETE FROM tblPlay
-	WHERE GameID = pGameID;
-    
-    DELETE FROM tblGame
-	WHERE GameID = pGameID;
+    DECLARE checkAdmin bit DEFAULT NULL;
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessAdmin23;
 
-	SIGNAL SQLSTATE '02000'
-	SET MESSAGE_TEXT = 'This game has been killed by Admin';
+    IF checkAdmin IS True THEN
+		DELETE FROM tblItemGame
+		WHERE GameID = pGameID;
+		
+		DELETE FROM tblPlay
+		WHERE GameID = pGameID;
+		
+		DELETE FROM tblGame
+		WHERE GameID = pGameID;
+
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'This game has been killed by Admin';
+	END IF;
 END //
-DELIMITER ;   
+DELIMITER ;     
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
