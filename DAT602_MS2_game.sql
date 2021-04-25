@@ -574,6 +574,9 @@ BEGIN
         FROM tblPlayer py 
             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
+	ELSE
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are not an admin user';
 	END IF;
 END //
 DELIMITER ;
@@ -581,7 +584,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL adminScreen1('John');
+CALL adminScreen1('Trip103');
 
 -- --------------------------------------------------------------------------------
 
@@ -604,6 +607,9 @@ BEGIN
     IF accessAdmin2 IS True THEN
 		SELECT Username AS 'Players', HighScore AS 'High Score' 
 		FROM tblPlayer;  
+	ELSE
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are not an admin user';
 	END IF;
 END //
 DELIMITER ;
