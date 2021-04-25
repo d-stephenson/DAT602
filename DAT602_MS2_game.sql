@@ -507,9 +507,6 @@ BEGIN
 			tblCharacter ch 
 				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
 		WHERE (SELECT MAX(PlayScore) FROM tblPlay WHERE GameID = pGameID);
-        
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'Game Over';
 	END IF;
 END //
 DELIMITER ;
