@@ -620,7 +620,51 @@ DELIMITER ;
 CALL adminScreen2('John');
 
 -- --------------------------------------------------------------------------------
--- Kill Game Procedure
+-- Admin Kill Game Procedure
+-- --------------------------------------------------------------------------------
+
+-- Deletes a game and all the play instances and item instances associated with that game 
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS killGame;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
+    IN pGameID int,
+    IN pUsername varchar(10)	
+    )
+SQL SECURITY INVOKER
+BEGIN
+    DECLARE accessAdmin3 bit DEFAULT NULL;
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessAdmin23;
+
+    IF accessAdmin3 IS True THEN
+		DELETE FROM tblItemGame
+		WHERE GameID = pGameID;
+		
+		DELETE FROM tblPlay
+		WHERE GameID = pGameID;
+		
+		DELETE FROM tblGame
+		WHERE GameID = pGameID;
+
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'This game has been killed by Admin';
+	END IF;
+END //
+DELIMITER ;   
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL killGame(100002, 'John');
+
+-- --------------------------------------------------------------------------------
+-- Admin Add Player Procedure
 -- --------------------------------------------------------------------------------
 
 -- Deletes a game and all the play instances and item instances associated with that game 
@@ -633,21 +677,20 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
 SQL SECURITY INVOKER
 BEGIN
 	DELETE FROM tblItemGame
-	WHERE GameID = 100001;
+	WHERE GameID = pGameID;
 	
 	DELETE FROM tblPlay
-	WHERE GameID = 100001;
+	WHERE GameID = pGameID;
     
     DELETE FROM tblGame
-	WHERE GameID = 100001;
+	WHERE GameID = pGameID;
 
 	SIGNAL SQLSTATE '02000'
-	SET MESSAGE_TEXT = 'This game has been killed by Admin';	
+	SET MESSAGE_TEXT = 'This game has been killed by Admin';
 END //
 DELIMITER ;   
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL killGame(100001);
-
+CALL killGame(100002);
