@@ -632,13 +632,19 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-	DELETE FROM tblGame, tblPlay, tblItemGame
+	DELETE FROM tblGame
+	WHERE GameID = 100001;
+
+	DELETE FROM tblPlay
+	WHERE GameID = 100001;
+
+	DELETE FROM tblItemGame
 	WHERE GameID = 100001;
 	
 	SIGNAL SQLSTATE '02000'
 	SET MESSAGE_TEXT = 'This game has been killed by Admin';	
 END //
-DELIMITER ;
+DELIMITER ;   
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
