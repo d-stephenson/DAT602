@@ -628,19 +628,19 @@ CALL adminScreen2('John');
 DELIMITER //
 DROP PROCEDURE IF EXISTS killGame;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
-    IN pGameID varchar(10)
+    IN pGameID int
     )
 SQL SECURITY INVOKER
 BEGIN
-	DELETE FROM tblGame
-	WHERE GameID = 100001;
-
-	DELETE FROM tblPlay
-	WHERE GameID = 100001;
-
 	DELETE FROM tblItemGame
 	WHERE GameID = 100001;
 	
+	DELETE FROM tblPlay
+	WHERE GameID = 100001;
+    
+    DELETE FROM tblGame
+	WHERE GameID = 100001;
+
 	SIGNAL SQLSTATE '02000'
 	SET MESSAGE_TEXT = 'This game has been killed by Admin';	
 END //
@@ -649,6 +649,5 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL killGame('Trip103');
-
+CALL killGame(100001);
 
