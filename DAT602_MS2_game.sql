@@ -633,7 +633,7 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE accessAdmin3 bit DEFAULT NULL;
+    DECLARE checkAdmin bit DEFAULT NULL;
   
 	SELECT AccountAdmin
 	FROM 
@@ -642,7 +642,7 @@ BEGIN
 		Username = pUsername 
 	INTO accessAdmin23;
 
-    IF accessAdmin3 IS True THEN
+    IF checkAdmin IS True THEN
 		DELETE FROM tblItemGame
 		WHERE GameID = pGameID;
 		
