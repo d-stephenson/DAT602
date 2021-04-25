@@ -623,24 +623,26 @@ CALL adminScreen2('John');
 -- Kill Game Procedure
 -- --------------------------------------------------------------------------------
 
--- When login is successful the home screen checks the player is active and then displays the following information
+-- Deletes a game and all the play instances and item instances associated with that game 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS adminScreen1;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen1(
-    IN pUsername varchar(10)
+DROP PROCEDURE IF EXISTS killGame;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
+    IN pGameID varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-
-
-
+	DELETE FROM tblGame, tblPlay, tblItemGame
+	WHERE GameID = 100001;
+	
+	SIGNAL SQLSTATE '02000'
+	SET MESSAGE_TEXT = 'This game has been killed by Admin';	
 END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL adminScreen1('Trip103');
+CALL killGame('Trip103');
 
 
