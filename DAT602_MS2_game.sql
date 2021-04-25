@@ -21,6 +21,7 @@ SQL SECURITY INVOKER
 BEGIN
     DECLARE proposedUID int DEFAULT NULL;
     DECLARE retrieveSalt varchar(36) DEFAULT NULL;
+	DECLARE currentAS bit DEFAULT NULL;
     
     SELECT Salt
     FROM 
@@ -35,14 +36,21 @@ BEGIN
 	WHERE
 		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
 	INTO proposedUID;
+    
+	SELECT ActiveStatus
+	FROM 
+		tblPlayer
+	WHERE
+		pUsername = Username
+	INTO currentAS;
      
-    IF proposedUID IS NULL AND ActiveStatus = 0 THEN
+    IF proposedUID IS NULL THEN
 		UPDATE tblPlayer
         SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
         WHERE Username = pUsername;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password';
-	ELSEIF proposedUID IS NOT NULL AND ActiveStatus = 0 THEN
+	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE Username = pUsername; 
@@ -56,9 +64,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL loginCheckCredentials('Trip103', 'P@ssword1');
-
-SELECT * FROM tblPlayer WHERE Username = 'Trip878';
+CALL loginCheckCredentials('Triy103', 'P@ssword1');
 
 -- --------------------------------------------------------------------------------
 -- New User Registration Procedure
