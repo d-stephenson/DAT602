@@ -681,19 +681,18 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE addPlayer(
 SQL SECURITY INVOKER
 BEGIN
     DECLARE checkAdmin bit DEFAULT NULL;
+	DECLARE newSalt varchar(36);
   
 	SELECT AccountAdmin
 	FROM 
 		tblPlayer
 	WHERE
-		Username = pUsername 
+		Username = pAdminUsername 
 	INTO checkAdmin;
+    
+	SELECT UUID() INTO newSalt;
 
     IF checkAdmin IS True THEN
-		DECLARE newSalt varchar(36);
-		
-		SELECT UUID() INTO newSalt;
-		
 		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
 		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
 	END IF;
@@ -703,4 +702,4 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL newAddPlayer('treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
+CALL addPlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
