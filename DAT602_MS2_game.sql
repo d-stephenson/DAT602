@@ -670,9 +670,13 @@ CALL killGame(100002, 'John');
 -- Deletes a game and all the play instances and item instances associated with that game 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS killGame;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
-    IN pGameID int
+DROP PROCEDURE IF EXISTS addPlayer;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE addPlayer(
+    IN pAdminUsername varchar(10),
+	IN pEmail varchar(50), 
+    IN pUsername varchar(10),
+    IN pPassword BLOB,
+	IN pAccountAdmin bit	
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -683,20 +687,15 @@ BEGIN
 		tblPlayer
 	WHERE
 		Username = pUsername 
-	INTO accessAdmin23;
+	INTO checkAdmin;
 
     IF checkAdmin IS True THEN
-		DELETE FROM tblItemGame
-		WHERE GameID = pGameID;
+		DECLARE newSalt varchar(36);
 		
-		DELETE FROM tblPlay
-		WHERE GameID = pGameID;
+		SELECT UUID() INTO newSalt;
 		
-		DELETE FROM tblGame
-		WHERE GameID = pGameID;
-
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'This game has been killed by Admin';
+		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
+		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
 	END IF;
 END //
 DELIMITER ;     
@@ -704,4 +703,4 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL killGame(100002);
+CALL newAddPlayer('treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
