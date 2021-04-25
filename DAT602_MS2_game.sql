@@ -374,6 +374,8 @@ CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
 -- --------------------------------------------------------------------------------
+-- Create Select Gem & Update Turn Procedure
+-- --------------------------------------------------------------------------------
 
 -- Player selects one of the items from the temporary table relating to the game instance and assigns the 
 -- item to the players play instance and removes the item from the tile, the next turn is updated in the 
@@ -447,10 +449,12 @@ CALL selectGem(166, 500002, 100001, 4);
 						-- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
 -- --------------------------------------------------------------------------------
+-- Create Update Highscore & End Game Procedure
+-- --------------------------------------------------------------------------------
 
 -- Checks if the added points to the play instance is now higher then the players highscore, if it is
--- the players highscore is updated. Also check it the last item in the game has been collected, if so
--- the game ends
+-- the players highscore is updated. Identifies if any more items left to collect, then selects player 
+-- with the highest score as winner and updates character turn in game to NULL 
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
@@ -493,7 +497,7 @@ BEGIN
 		WHERE PlayerID = pPlayerID; 
 	END IF;
     
-    IF tileCount = 0 THEN -- Identifies if any more items left to collect, then selects player with the highest score as winner and updates character turn in game to NULL 
+    IF tileCount = 0 THEN 
 		UPDATE tblGame
         SET CharacterTurn = NULL
         WHERE GameID = pGameID;
@@ -502,11 +506,8 @@ BEGIN
         FROM 
 			tblCharacter ch 
 				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-		WHERE (SELECT MAX(PlayScore) 
-			   FROM 
-					tblPlay 
-               WHERE 
-					GameID = pGameID);
+		WHERE (SELECT MAX(PlayScore) FROM tblPlay WHERE GameID = pGameID);
+        
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'Game Over';
 	END IF;
