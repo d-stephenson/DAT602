@@ -161,7 +161,7 @@ DELIMITER ;
 CALL homeScreen2('John');
 
 -- --------------------------------------------------------------------------------
--- Create New Game Procedure
+-- New Game Procedure
 -- --------------------------------------------------------------------------------
 
 DELIMITER //
@@ -212,7 +212,7 @@ CALL newGame('John');
 SELECT * from tblItemGame ORDER BY GameID DESC;
 
 -- --------------------------------------------------------------------------------
--- Create Join Game Procedure
+-- Join Game Procedure
 -- --------------------------------------------------------------------------------
 
 DELIMITER //
@@ -254,7 +254,7 @@ CALL joinGame(100001, 8);
 SELECT * FROM tblPlay WHERE GameID = 100001;
 
 -- --------------------------------------------------------------------------------
--- Create Player Moves Procedure
+-- Player Moves Procedure
 -- --------------------------------------------------------------------------------
 
 -- Moves player to a new tile if the tile is plus or minus one, from the players current tile position 
@@ -349,7 +349,7 @@ SELECT * FROM tblPlay WHERE GameID = 100001;
 SELECT * FROM tblGame WHERE GameID = 100001;
 
 -- --------------------------------------------------------------------------------
--- Create Find Gem Procedure
+-- Find Gem Procedure
 -- --------------------------------------------------------------------------------
 
 -- Finds all the gems located on a tile in a game instance that the player has selected
@@ -383,7 +383,7 @@ CALL findGem(80, 4, 100001);
 SELECT * FROM selectOneGem;
 
 -- --------------------------------------------------------------------------------
--- Create Select Gem & Update Turn Procedure
+-- Select Gem & Update Turn Procedure
 -- --------------------------------------------------------------------------------
 
 -- Player selects one of the items from the temporary table relating to the game instance and assigns the 
@@ -458,7 +458,7 @@ CALL selectGem(166, 500002, 100001, 4);
 						-- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
 
 -- --------------------------------------------------------------------------------
--- Create Update Highscore & End Game Procedure
+-- Update Highscore & End Game Procedure
 -- --------------------------------------------------------------------------------
 
 -- Checks if the added points to the play instance is now higher then the players highscore, if it is
@@ -526,7 +526,7 @@ DELIMITER ;
 CALL updateHS(500002, 100001, 4);
 
 -- --------------------------------------------------------------------------------
--- Create Player Logout Procedure
+-- Player Logout Procedure
 -- --------------------------------------------------------------------------------
 
 DELIMITER //
@@ -548,7 +548,7 @@ DELIMITER ;
 CALL playerLogout('Trip103');
 
 -- --------------------------------------------------------------------------------
--- Home Enter Admin X 2
+-- Enter Admin Procedure X 2
 -- --------------------------------------------------------------------------------
 
 -- When login is successful the home screen checks the player is active and then displays the following information
@@ -619,6 +619,28 @@ DELIMITER ;
 
 CALL adminScreen2('John');
 
+-- --------------------------------------------------------------------------------
+-- Kill Game Procedure
+-- --------------------------------------------------------------------------------
 
+-- When login is successful the home screen checks the player is active and then displays the following information
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS adminScreen1;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen1(
+    IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+
+
+
+END //
+DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL adminScreen1('Trip103');
 
 
