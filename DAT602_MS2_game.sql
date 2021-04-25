@@ -231,7 +231,7 @@ BEGIN
 		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) AND PlayerID = pPlayerID
 	INTO selectedUser;
                             
-    IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count joining a game                       
+    IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count of 7 joining a game                       
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
 	END IF;
@@ -455,7 +455,6 @@ CALL selectGem(166, 500002, 100001, 4);
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS(
-        IN pItemID int,
         IN pPlayID int,
         IN pGameID int,
         IN pPlayerID int
@@ -464,6 +463,7 @@ SQL SECURITY INVOKER
 BEGIN
  	DECLARE playerPS int DEFAULT NULL;
     DECLARE playerHS int DEFAULT NULL;
+    DECLARE tileCount int DEFAULT NULL;
   		
 	SELECT PlayScore
     FROM
@@ -479,6 +479,13 @@ BEGIN
 	WHERE 
 		py.PlayerID = pPlayerID
 	INTO playerHS;
+    
+    SELECT COUNT(TileID) 
+    FROM
+		tblItemGame
+	WHERE 
+		GameID = pGameID
+	INTO tileCount;
 
 	IF playerPS > playerHS THEN 
 		UPDATE tblPlayer
@@ -486,13 +493,30 @@ BEGIN
 		WHERE PlayerID = pPlayerID; 
 	END IF;
     
+    IF tileCount = 0 THEN -- Identifies if any more items left to collect, then selects player with the highest score as winner and updates character turn in game to NULL 
+		UPDATE tblGame
+        SET CharacterTurn = NULL
+        WHERE GameID = pGameID;
+        
+        SELECT CharacterName 
+        FROM 
+			tblCharacter ch 
+				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+		WHERE (SELECT MAX(PlayScore) 
+			   FROM 
+					tblPlay 
+               WHERE 
+					GameID = pGameID);
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'Game Over';
+	END IF;
 END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updateHS(166, 500002, 100001, 4);
+CALL updateHS(500002, 100001, 4);
 
 -- --------------------------------------------------------------------------------
 -- Create End Game Procedure
