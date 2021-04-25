@@ -98,7 +98,7 @@ SELECT * FROM tblPlayer;
 -- Home Screen Procedure X 2
 -- --------------------------------------------------------------------------------
 
--- When login is successul the home screen checks the player is active and then displays the following information
+-- When login is successful the home screen checks the player is active and then displays the following information
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen1;
@@ -548,25 +548,70 @@ DELIMITER ;
 CALL playerLogout('Trip103');
 
 -- --------------------------------------------------------------------------------
--- Create Enter Admin Procedure
+-- Home Enter Admin X 2
 -- --------------------------------------------------------------------------------
 
+-- When login is successful the home screen checks the player is active and then displays the following information
+
 DELIMITER //
-DROP PROCEDURE IF EXISTS enterAdmin;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE enterAdmin(
-        IN pUsername varchar(10)
+DROP PROCEDURE IF EXISTS adminScreen1;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen1(
+    IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
+    DECLARE accessAdmin1 bit DEFAULT NULL;
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessAdmin1;
 
-
+    IF accessAdmin1 IS True THEN
+        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+        FROM tblPlayer py 
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+        GROUP BY pl.GameID;  
+	END IF;
 END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL enterAdmin('Trip103');
+CALL adminScreen1('John');
+
+-- --------------------------------------------------------------------------------
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS adminScreen2;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen2(
+    IN pUsername varchar(10)
+    )
+SQL SECURITY INVOKER
+BEGIN
+    DECLARE accessAdmin2 bit DEFAULT NULL;
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessAdmin2;
+
+    IF accessAdmin2 IS True THEN
+		SELECT Username AS 'Players', HighScore AS 'High Score' 
+		FROM tblPlayer;  
+	END IF;
+END //
+DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL adminScreen2('John');
 
 
 
