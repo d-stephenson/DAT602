@@ -530,15 +530,24 @@ CALL updateHS(500002, 100001, 4);
 -- --------------------------------------------------------------------------------
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS updateHS;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS(
-        IN pPlayerID int
+DROP PROCEDURE IF EXISTS playerLogout;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE playerLogout(
+        IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-
-
-
-
+	UPDATE tblPlayer 
+    SET ActiveStatus = 0
+    WHERE Username = pUsername;
 END //
 DELIMITER ;
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL playerLogout('Trip103');
+
+
+
+
+
