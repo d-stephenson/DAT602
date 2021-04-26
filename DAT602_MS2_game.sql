@@ -756,6 +756,50 @@ BEGIN
 		SET MESSAGE_TEXT = 'You are not an admin user';
 	ELSE 
 		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'There is no account with this PlayerID';
+	END IF;
+END //
+DELIMITER ;     
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL updatePlayer('John', 9, 'treetop987_2@gmail.com', 'John145', 'P@ssword1', 0, 0, 1, 3, 456);
+
+-- --------------------------------------------------------------------------------
+-- Admin Delete Player Procedure
+-- --------------------------------------------------------------------------------
+
+-- Delete all information pertaining to a player and their play instances
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS deletePlayer;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE deletePlayer(
+    IN pAdminUsername varchar(10),
+    IN pUsername varchar(10)	
+    )
+SQL SECURITY INVOKER
+BEGIN
+    DECLARE checkAdmin bit DEFAULT NULL;
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pAdminUsername 
+	INTO checkAdmin;
+
+    IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN
+		DELETE FROM tblPlayer 
+		WHERE Username = pUsername;
+
+		DELETE FROM tblPlay
+		WHERE Username = pUsername;
+	ELSEIF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS FALSE THEN
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are not an admin user';
+	ELSE 
+		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'There is no account with this Username';
 	END IF;
 END //
@@ -764,4 +808,4 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updatePlayer('John', 9, 'treetop987_2@gmail.com', 'John', 'P@ssword1', 0, 0, 1, 2, 776);
+CALL deletePlayer('John', 'John');
