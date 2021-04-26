@@ -790,10 +790,12 @@ BEGIN
 	INTO checkAdmin;
 
     IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN
-		DELETE FROM tblPlayer 
+		DELETE py
+        FROM tblPlay py
+			JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID
 		WHERE Username = pUsername;
-
-		DELETE FROM tblPlay
+        
+		DELETE FROM tblPlayer 
 		WHERE Username = pUsername;
 	ELSEIF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS FALSE THEN
 		SIGNAL SQLSTATE '02000'
@@ -808,4 +810,6 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL deletePlayer('John', 'John');
+CALL deletePlayer('John', 'Bob');
+select * from tblPlayer where username = 'Bob';
+select * from tblPlay where PlayerID = 1;
