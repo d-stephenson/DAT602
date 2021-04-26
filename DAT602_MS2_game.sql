@@ -95,7 +95,7 @@ BEGIN
         WHERE Username = pUsername; -- If credentials are correct user is logged into account by setting active status to true
 		SELECT * FROM tblPlayer WHERE Username = pUsername;
 	ELSE 
-		SELECT * FROM tblPlayer WHERE Username = pUsername;
+		SELECT PlayerID, Username, Email, HighScore, AccountAdmin FROM tblPlayer WHERE Username = pUsername;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
 	END IF;
@@ -159,7 +159,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL homeScreen('NewUser_1');
+CALL homeScreen('NewUser_2');
 
 -- --------------------------------------------------------------------------------
 -- New Game Procedure
@@ -387,15 +387,15 @@ BEGIN
             JOIN tblGem ge ON it.GemType = ge.GemType  
         WHERE   
             pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
+            
+	SELECT * FROM selectOneGem;
 END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL findGem(50, 9, 100003); -- Test procedure
-SELECT * FROM selectOneGem; -- Check that gem or gems are listed against correct game, player, play instance and tile location
-
+CALL findGem(50, 9, 100003); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
 -- IMPORTANT: RECORD THE ITEM ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
 
 -- --------------------------------------------------------------------------------
@@ -463,7 +463,7 @@ SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated
 SELECT * FROM tblItemGame WHERE GameID = 100003; -- Check that item/game table has updated tile equals NULL and play equals playID
 
 -- --------------------------------------------------------------------------------
--- Update Highscore & End Game Procedure
+-- Update High Score & End Game Procedure
 -- --------------------------------------------------------------------------------
 
 -- Checks if the added points to the play instance is now higher then the players highscore, if it is
@@ -784,7 +784,13 @@ BEGIN
 	INTO checkAdmin;
 
     IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN
-		DELETE py
+		DELETE ig
+        FROM tblItemGame ig
+			JOIN tblPlay py ON ig.PlayID = py.PlayID
+            JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID
+   		WHERE Username = pUsername;         
+        
+        DELETE py
         FROM tblPlay py
 			JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID
 		WHERE Username = pUsername;
@@ -805,5 +811,6 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
-SELECT * FROM tblPlayer WHERE username = 'NewUser_1'; -- Test records removed from player record
-SELECT * FROM tblPlay WHERE PlayerID = 'NewUser_1'; -- Test records removed from play instances
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Test records removed from player record
+SELECT * FROM tblPlay py JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from play instances
+SELECT * FROM tblItemGame ig JOIN tblPlay py ON ig.PlayID = py.PlayID JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from item/game instances
