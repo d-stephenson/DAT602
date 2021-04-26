@@ -706,14 +706,14 @@ DELIMITER ;
 CALL addPlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
 
 -- --------------------------------------------------------------------------------
--- Admin Add Player Procedure
+-- Admin Update Player Procedure
 -- --------------------------------------------------------------------------------
 
--- Deletes a game and all the play instances and item instances associated with that game 
+-- Updates all information pertaining to an exisitng player
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS addPlayer;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE addPlayer(
+DROP PROCEDURE IF EXISTS updatePlayer;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updatePlayer(
     IN pAdminUsername varchar(10),
 	IN pEmail varchar(50), 
     IN pUsername varchar(10),
@@ -744,4 +744,4 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL addPlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
+CALL updatePlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
