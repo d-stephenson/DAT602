@@ -11,6 +11,10 @@ SELECT `user`, `host` FROM mysql.user;
 -- Login Check Credentials Procedure
 -- --------------------------------------------------------------------------------
 
+-- Allows a user to log in to the game, it retrieves the users SALT record and active status, if the 
+-- user is already logged in then or an incorrect username or password is entered then an error message
+-- is returned 
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
@@ -28,14 +32,14 @@ BEGIN
 		tblPlayer
 	WHERE
 		Username = pUsername
-	INTO retrieveSalt;
+	INTO retrieveSalt; -- Retrieves the users SALT record 
   
 	SELECT PlayerID
 	FROM 
 		tblPlayer
 	WHERE
 		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
-	INTO proposedUID;
+	INTO proposedUID; -- Retrieves the users Username and Password
     
 	SELECT ActiveStatus
 	FROM 
@@ -44,19 +48,19 @@ BEGIN
 		pUsername = Username
 	INTO currentAS;
      
-    IF proposedUID IS NULL THEN
+    IF proposedUID IS NULL THEN -- add and failed logins is less then 5 so can add if failed login = 5 message this account is locked
 		UPDATE tblPlayer
         SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
         WHERE Username = pUsername;
 		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password';
+		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password'; -- Increments the failed logins, if it equals 5 then account is locked
 	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
-        WHERE Username = pUsername; 
+        WHERE Username = pUsername; -- If credentials are correct logs user into account by setting atove status to true
 	ELSE 
 		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are already logged in';
+		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
 	END IF;
 END //
 DELIMITER ;
