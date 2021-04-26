@@ -667,6 +667,48 @@ CALL killGame(100002, 'John');
 -- Admin Add Player Procedure
 -- --------------------------------------------------------------------------------
 
+-- Adds a player, many of the inputs are set to default and no need to alter for this procedure 
+-- over and above the new registration procedure, expect for admin status as it may be useful
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS addPlayer;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE addPlayer(
+    IN pAdminUsername varchar(10),
+	IN pEmail varchar(50), 
+    IN pUsername varchar(10),
+    IN pPassword BLOB,
+	IN pAccountAdmin bit	
+    )
+SQL SECURITY INVOKER
+BEGIN
+    DECLARE checkAdmin bit DEFAULT NULL;
+	DECLARE newSalt varchar(36);
+  
+	SELECT AccountAdmin
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pAdminUsername 
+	INTO checkAdmin;
+    
+	SELECT UUID() INTO newSalt;
+
+    IF checkAdmin IS True THEN
+		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
+		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
+	END IF;
+END //
+DELIMITER ;     
+
+-- TEST PROCEDURE DATA 
+-- --------------------------------------------------------------------------------
+
+CALL addPlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
+
+-- --------------------------------------------------------------------------------
+-- Admin Add Player Procedure
+-- --------------------------------------------------------------------------------
+
 -- Deletes a game and all the play instances and item instances associated with that game 
 
 DELIMITER //
