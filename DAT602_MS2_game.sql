@@ -114,6 +114,13 @@ CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fourth test to see login
 CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fifth test to see login attempt increment and account locked to true
 CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Sixth test to see login attempt increment
 CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Seventh test to check error message as user already logged in or test against first test
+-- Login remaining new players
+CALL loginCheckCredentials('NewUser_2', 'P@ssword1');
+CALL loginCheckCredentials('NewUser_3', 'P@ssword1');
+CALL loginCheckCredentials('NewUser_4', 'P@ssword1');
+CALL loginCheckCredentials('NewUser_5', 'P@ssword1');
+CALL loginCheckCredentials('NewUser_6', 'P@ssword1');
+CALL loginCheckCredentials('NewUser_7', 'P@ssword1');
 
 -- --------------------------------------------------------------------------------
 -- Home Screen Display Procedure
@@ -249,7 +256,13 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
-CALL joinGame(100003, 15); -- Test join game procedure
+CALL joinGame(100003, 10); -- Test join game procedure
+-- Add remaining players 
+CALL joinGame(100003, 11);
+CALL joinGame(100003, 12);
+CALL joinGame(100003, 13);
+CALL joinGame(100003, 14);
+CALL joinGame(100003, 15);
 SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has been added to game and has the next character
 
 -- --------------------------------------------------------------------------------
@@ -373,7 +386,7 @@ BEGIN
             JOIN tblItem it ON ig.ItemID = it.ItemID
             JOIN tblGem ge ON it.GemType = ge.GemType  
         WHERE   
-            PlayerID = pPlayerID AND pl.GameID = pGameID AND pl.TileID = pTileID;
+            pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
 END //
 DELIMITER ;
 
@@ -381,7 +394,9 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL findGem(50, 9, 100003); -- Test procedure
-SELECT * FROM selectOneGem; -- Check that gem or gems are listed against correct gaem, player, play instance and tile location
+SELECT * FROM selectOneGem; -- Check that gem or gems are listed against correct game, player, play instance and tile location
+
+-- IMPORTANT: RECORD THE ITEM ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
 
 -- --------------------------------------------------------------------------------
 -- Select Gem & Update Turn Procedure
@@ -415,7 +430,7 @@ BEGIN
     FROM 
 		tblPlay 
 	WHERE 
-		PlayID = (select min(PlayID) from tblPlay where PlayID > pPlayID AND GameID = pGameID) INTO nextTurn;
+		PlayID = (SELECT MIN(PlayID) FROM tblPlay WHERE PlayID > pPlayID AND GameID = pGameID) INTO nextTurn;
     
 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
@@ -442,9 +457,10 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL selectGem(154, 500007, 100003, 9);
+CALL selectGem(101, 500007, 100003, 9); -- IMPORTANT: Amend the first input to the correct ItemID
 SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated
 SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
+SELECT * FROM tblItemGame WHERE GameID = 100003; -- Check that item/game table has updated tile equals NULL and play equals playID
 
 -- --------------------------------------------------------------------------------
 -- Update Highscore & End Game Procedure
@@ -500,11 +516,11 @@ BEGIN
         SET CharacterTurn = NULL
         WHERE GameID = pGameID;
         
-        SELECT CharacterName 
+        SELECT pl.CharacterName, pl.Playscore 
         FROM 
-			tblCharacter ch 
-				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-		WHERE (SELECT MAX(PlayScore) FROM tblPlay WHERE GameID = pGameID);
+			tblPlay pl
+				JOIN tblCharacter ch  ON pl.CharacterName = ch.CharacterName 
+		WHERE (SELECT MAX(PlayScore) FROM tblPlay) AND GameID = pGameID;
 	END IF;
 END //
 DELIMITER ;
@@ -512,7 +528,18 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updateHS(500002, 100001, 4);
+CALL updateHS(500007, 100003, 9);
+SELECT * FROM tblPlayer WHERE PlayerID = 9; -- Check high score has updated
+
+-- Test the end game portion of the procedure
+UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
+SELECT * FROM tblItemGame WHERE GameID = 100003; -- Test select query to confirm above update
+
+UPDATE tblItemGame SET TileID = 50, PlayID = NULL WHERE ItemID = 101 AND GameID = 100003; -- IMPORTANT: Amend the ItemID to the correct ID. Update the item to be back in the game play, re-run above query to check
+CALL selectGem(101, 500007, 100003, 9); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
+CALL updateHS(500007, 100003, 9); -- Call updateHS procedure again
+SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NULL as game has finished, no more itemds to collect
+-- Re-run select all query from item/game table to confirm tile ID are NULL and play ID relate to play instance
 
 -- --------------------------------------------------------------------------------
 -- Player Logout Procedure
@@ -534,67 +561,38 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL playerLogout('Trip103');
+CALL playerLogout('NewUser_1');
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Ative status will be displayed as false
 
 -- --------------------------------------------------------------------------------
--- Enter Admin Procedure X 2
+-- Enter Admin Screen Procedure 
 -- --------------------------------------------------------------------------------
 
 -- When login is successful the home screen checks the player is active and then displays the following information
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS adminScreen1;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen1(
+DROP PROCEDURE IF EXISTS adminScreen;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen(
     IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE accessAdmin1 bit DEFAULT NULL;
+    DECLARE accessAdmin bit DEFAULT NULL;
   
 	SELECT AccountAdmin
 	FROM 
 		tblPlayer
 	WHERE
 		Username = pUsername 
-	INTO accessAdmin1;
+	INTO accessAdmin;
 
-    IF accessAdmin1 IS True THEN
+    IF accessAdmin IS TRUE THEN
         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
         FROM tblPlayer py 
             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
-	ELSE
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are not an admin user';
-	END IF;
-END //
-DELIMITER ;
-
--- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
-
-CALL adminScreen1('Trip103');
-
--- --------------------------------------------------------------------------------
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS adminScreen2;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen2(
-    IN pUsername varchar(10)
-    )
-SQL SECURITY INVOKER
-BEGIN
-    DECLARE accessAdmin2 bit DEFAULT NULL;
-  
-	SELECT AccountAdmin
-	FROM 
-		tblPlayer
-	WHERE
-		Username = pUsername 
-	INTO accessAdmin2;
-
-    IF accessAdmin2 IS True THEN
-		SELECT Username AS 'Players', HighScore AS 'High Score' 
+        
+		SELECT Username AS 'Player', HighScore AS 'High Score' 
 		FROM tblPlayer;  
 	ELSE
 		SIGNAL SQLSTATE '02000'
@@ -606,7 +604,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL adminScreen2('John');
+UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_2'; -- Upgrade new user 2 to admin priviledges 
+CALL adminScreen('NewUser_2');
 
 -- --------------------------------------------------------------------------------
 -- Admin Kill Game Procedure
@@ -650,7 +649,11 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL killGame(100002, 'John');
+CALL killGame(100003, 'NewUser_2'); -- Warning message will display saying game has been killed
+-- Confirm game has been deleted
+SELECT * FROM tblGame WHERE GameID = 100003;
+SELECT * FROM tblPlay WHERE GameID = 100003;
+SELECT * FROM tblItemGAme WHERE GameID = 100003;
 
 -- --------------------------------------------------------------------------------
 -- Admin Add Player Procedure
@@ -682,7 +685,7 @@ BEGIN
     
 	SELECT UUID() INTO newSalt;
 
-    IF checkAdmin IS True THEN
+    IF checkAdmin IS TRUE THEN
 		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
 		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
 	END IF;
@@ -692,7 +695,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL addPlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 1);
+CALL addPlayer('John', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Confirm player has been added and has admin privileges
 
 -- --------------------------------------------------------------------------------
 -- Admin Update Player Procedure
@@ -753,7 +757,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updatePlayer('John', 9, 'treetop987_2@gmail.com', 'John145', 'P@ssword1', 0, 0, 1, 3, 456);
+CALL updatePlayer('NewUser_8', 15, 'NewUser_7@gmail.com', 'NewUser_7', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_8 updates player NewUser_7
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_7'; -- Check procedure 
 
 -- --------------------------------------------------------------------------------
 -- Admin Delete Player Procedure
@@ -799,6 +804,6 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL deletePlayer('John', 'Bob');
-select * from tblPlayer where username = 'Bob';
-select * from tblPlay where PlayerID = 1;
+CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
+SELECT * FROM tblPlayer WHERE username = 'NewUser_1'; -- Test records removed from player record
+SELECT * FROM tblPlay WHERE PlayerID = 'NewUser_1'; -- Test records removed from play instances
