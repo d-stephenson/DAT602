@@ -343,9 +343,11 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL movePlayer(76, 1, 100001);
-SELECT * FROM tblPlay WHERE GameID = 100001;
-SELECT * FROM tblGame WHERE GameID = 100001;
+SELECT * FROM tblGame WHERE GameID = 100003; -- Check that next player turn is character Doc 
+SELECT * FROM tblPlay WHERE GameID = 100003; -- Check playerID and tileID location for Doc
+CALL movePlayer(2, 9, 100003); -- Test procedure player cannot move to this tile
+CALL movePlayer(50, 9, 100003); -- Displays tile colour and new tile row and column
+-- Re-run tblPlay select query to confirm player is on a new tile location
 
 -- --------------------------------------------------------------------------------
 -- Find Gem Procedure
@@ -364,7 +366,7 @@ SQL SECURITY INVOKER
 BEGIN
     DROP TEMPORARY TABLE IF EXISTS selectOneGem;
     CREATE TEMPORARY TABLE selectOneGem AS
-        SELECT ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID
+        SELECT ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
         FROM    
             tblPlay pl
             JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
@@ -378,8 +380,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL findGem(80, 4, 100001);
-SELECT * FROM selectOneGem;
+CALL findGem(50, 9, 100003); -- Test procedure
+SELECT * FROM selectOneGem; -- Check that gem or gems are listed against correct gaem, player, play instance and tile location
 
 -- --------------------------------------------------------------------------------
 -- Select Gem & Update Turn Procedure
@@ -440,21 +442,9 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL selectGem(166, 500002, 100001, 4);
-
--- --------------------------------------------------------------------------------
-
-						-- Test procedure 
-
-						update tblitemgame set tileid = 80, playid = null where itemid = 166;
-
-						select * FROM tblItemGame where itemID = 166; 
-						select * from tblPlay where gameid = 100001;
-						select * from tblPlayer where playerid = 4;
-						select * from tblGame where gameid = 100001;
-
-						-- DECLARE startTurn varchar(10) DEFAULT NULL;
-						-- SELECT CharacterName FROM tblPlay WHERE PlayID = (select min(PlayID) from tblPlay where PlayID < 500001 AND GameID = 100001) INTO nextTurn;
+CALL selectGem(154, 500007, 100003, 9);
+SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated
+SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
 
 -- --------------------------------------------------------------------------------
 -- Update Highscore & End Game Procedure
