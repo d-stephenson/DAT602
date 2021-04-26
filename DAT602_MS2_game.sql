@@ -8,69 +8,6 @@ USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
 
 -- --------------------------------------------------------------------------------
--- Login Check Credentials Procedure
--- --------------------------------------------------------------------------------
-
--- Allows a user to log in to the game, it retrieves the users SALT record and active status, if the 
--- user is already logged in then or an incorrect username or password is entered then an error message
--- is returned 
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS loginCheckCredentials;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
-    IN pUsername varchar(50), 
-    IN pPassword BLOB
-    )
-SQL SECURITY INVOKER
-BEGIN
-    DECLARE proposedUID int DEFAULT NULL;
-    DECLARE retrieveSalt varchar(36) DEFAULT NULL;
-	DECLARE currentAS bit DEFAULT NULL;
-    
-    SELECT Salt
-    FROM 
-		tblPlayer
-	WHERE
-		Username = pUsername
-	INTO retrieveSalt; -- Retrieves the users SALT record 
-  
-	SELECT PlayerID
-	FROM 
-		tblPlayer
-	WHERE
-		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
-	INTO proposedUID; -- Retrieves the users Username and Password
-    
-	SELECT ActiveStatus
-	FROM 
-		tblPlayer
-	WHERE
-		pUsername = Username
-	INTO currentAS;
-     
-    IF proposedUID IS NULL THEN -- add and failed logins is less then 5 so can add if failed login = 5 message this account is locked
-		UPDATE tblPlayer
-        SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
-        WHERE Username = pUsername;
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password'; -- Increments the failed logins, if it equals 5 then account is locked
-	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
-		UPDATE tblPlayer
-        SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
-        WHERE Username = pUsername; -- If credentials are correct logs user into account by setting atove status to true
-	ELSE 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
-	END IF;
-END //
-DELIMITER ;
-
--- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
-
-CALL loginCheckCredentials('Triy103', 'P@ssword1');
-
--- --------------------------------------------------------------------------------
 -- New User Registration Procedure
 -- --------------------------------------------------------------------------------
 
@@ -95,65 +32,118 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL newUserRegistration('trip105@gmail.com', 'Trip105', 'P@ssword1');
-SELECT * FROM tblPlayer;
+CALL newUserRegistration('NewUser_1@gmail.com', 'NewUser_1', 'P@ssword1'); -- Run test with these login credentials
+-- Add these users so there are enough players to make a game
+CALL newUserRegistration('NewUser_2@gmail.com', 'NewUser_2', 'P@ssword1');
+CALL newUserRegistration('NewUser_3@gmail.com', 'NewUser_3', 'P@ssword1');
+CALL newUserRegistration('NewUser_4@gmail.com', 'NewUser_4', 'P@ssword1');
+CALL newUserRegistration('NewUser_5@gmail.com', 'NewUser_5', 'P@ssword1');
+CALL newUserRegistration('NewUser_6@gmail.com', 'NewUser_6', 'P@ssword1');
+CALL newUserRegistration('NewUser_7@gmail.com', 'NewUser_7', 'P@ssword1');
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Run test to check user has been added to database
 
 -- --------------------------------------------------------------------------------
--- Home Screen Procedure X 2
+-- Login Check Credentials Procedure
 -- --------------------------------------------------------------------------------
 
--- When login is successful the home screen checks the player is active and then displays the following information
+-- Allows a user to log in to the game, it retrieves the users SALT record and active status, if the 
+-- user is already logged in then or an incorrect username or password is entered then an error message
+-- is returned 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS homeScreen1;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen1(
-    IN pUsername varchar(10)
+DROP PROCEDURE IF EXISTS loginCheckCredentials;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
+    IN pUsername varchar(50), 
+    IN pPassword BLOB
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE accessScreen1 bit DEFAULT NULL;
-  
-	SELECT ActiveStatus 
+	DECLARE retrieveSalt varchar(36) DEFAULT NULL;
+	DECLARE proposedUID int DEFAULT NULL;
+	DECLARE currentAS bit DEFAULT NULL;
+          
+    SELECT Salt
+    FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername
+	INTO retrieveSalt; -- Retrieves the users SALT record 
+    
+	SELECT PlayerID
 	FROM 
 		tblPlayer
 	WHERE
-		Username = pUsername 
-	INTO accessScreen1;
+		AES_ENCRYPT(CONCAT(retrieveSalt, pPassword), 'Game_Key_To_Encrypt') = `Password` AND pUsername = Username
+	INTO proposedUID; -- Retrieves the users Username and Password
 
-    IF accessScreen1 IS True THEN
-        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
+	SELECT ActiveStatus
+	FROM 
+		tblPlayer
+	WHERE
+		Username = pUsername
+	INTO currentAS;
+    
+    IF proposedUID IS NULL AND currentAS = 0 THEN 
+		UPDATE tblPlayer
+		SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
+        WHERE Username = pUsername;
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked'; -- Increments the failed logins, if it equals 5 then account is locked
+	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
+		UPDATE tblPlayer
+        SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
+        WHERE Username = pUsername; -- If credentials are correct user is logged into account by setting active status to true
+		SELECT * FROM tblPlayer WHERE Username = pUsername;
+	ELSE 
+		SELECT * FROM tblPlayer WHERE Username = pUsername;
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
 	END IF;
+
 END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL homeScreen1('John');
+-- Login test is based on credentials entered in registration
+CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- First test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Second test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Third test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fourth test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fifth test to see login attempt increment and account locked to true
+CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Sixth test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Seventh test to check error message as user already logged in or test against first test
 
 -- --------------------------------------------------------------------------------
+-- Home Screen Display Procedure
+-- --------------------------------------------------------------------------------
+
+-- When login is successful the home screen checks the player is active and then displays the following information
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS homeScreen2;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen2(
+DROP PROCEDURE IF EXISTS homeScreen;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen(
     IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE accessScreen2 bit DEFAULT NULL;
+    DECLARE accessScreen bit DEFAULT NULL;
   
 	SELECT ActiveStatus 
 	FROM 
 		tblPlayer
 	WHERE
 		Username = pUsername 
-	INTO accessScreen2;
+	INTO accessScreen;
 
-    IF accessScreen2 IS True THEN
-		SELECT Username AS 'Players', HighScore AS 'High Score' 
+    IF accessScreen IS TRUE THEN
+        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+        FROM tblPlayer py 
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+        GROUP BY pl.GameID;  
+        
+		SELECT Username AS 'Player', HighScore AS 'High Score' 
 		FROM tblPlayer;  
 	END IF;
 END //
@@ -162,7 +152,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL homeScreen2('John');
+CALL homeScreen('NewUser_1');
 
 -- --------------------------------------------------------------------------------
 -- New Game Procedure
@@ -175,32 +165,33 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DECLARE firstItem int DEFAULT NULL;
+
+	DECLARE firstItem int DEFAULT NULL;
 	DECLARE lastItem int DEFAULT NULL;
 	DECLARE chosenBoardType varchar(20) DEFAULT NULL; -- More boards may be added in the future so player would want to select board type
 	DECLARE firstCharacter varchar(10) DEFAULT NULL;
-	DECLARE newGameId int DEFAULT NULL;
     DECLARE excludeHomeTile int DEFAULT NULL;
     DECLARE lastTile int DEFAULT NULL;
-
+	DECLARE newGameId int DEFAULT NULL;
+    
 	SELECT ItemID FROM tblItem ORDER BY ItemID LIMIT 1 INTO firstItem;
 	SELECT MAX(ItemID) from tblItem INTO lastItem;
 	SELECT BoardType FROM tblBoard LIMIT 1 INTO chosenBoardType; -- This statement would be updated is player could choose from multiple board types
 	SELECT CharacterName FROM tblCharacter WHERE CharacterName = 'Doc' INTO firstCharacter;
     SELECT TileID FROM tblTile LIMIT 1, 1 INTO excludeHomeTile;
-    SELECT MAX(TileID) from tblBoardTile WHERE BoardType = chosenBoardType INTO lastItem;
+    SELECT MAX(TileID) from tblBoardTile WHERE BoardType = chosenBoardType INTO lastTile;
 
     INSERT INTO tblGame(BoardType, CharacterTurn)
     VALUES (chosenBoardType, firstCharacter);
     
-    SET newGameId = LAST_INSERT_ID();
+	SET newGameId = LAST_INSERT_ID();
 
 	IF newGameId > 0 THEN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES ((SELECT PlayerID FROM tblPlayer WHERE Username = pUsername), firstCharacter, newGameId);
     END IF;  
 
-    WHILE firstItem < lastItem DO 
+    WHILE firstItem <= lastItem DO 
         INSERT INTO tblItemGame(ItemID, GameID, TileID)
         VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(lastTile-excludeHomeTile+1)+excludeHomeTile)));
 
@@ -212,8 +203,11 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL newGame('John');
-SELECT * from tblItemGame ORDER BY GameID DESC;
+CALL newGame('NewUser_1'); -- Run test with new player starting a game
+-- Test new game has been created in the following tables and a play instance for the player
+SELECT * from tblGame ORDER BY GameID DESC; 
+SELECT * FROM tblItemGame ORDER BY GameID DESC; 
+SELECT * FROM tblPlay ORDER BY GameID DESC;
 
 -- --------------------------------------------------------------------------------
 -- Join Game Procedure
@@ -254,8 +248,9 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL joinGame(100001, 8);
-SELECT * FROM tblPlay WHERE GameID = 100001;
+SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
+CALL joinGame(100003, 15); -- Test join game procedure
+SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has been added to game and has the next character
 
 -- --------------------------------------------------------------------------------
 -- Player Moves Procedure
