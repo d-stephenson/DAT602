@@ -715,14 +715,15 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS updatePlayer;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updatePlayer(
     IN pAdminUsername varchar(10),
+    IN pPlayerID int,
 	IN pEmail varchar(50), 
     IN pUsername varchar(10),
     IN pPassword BLOB,
 	IN pAccountAdmin bit,
 	IN pAccountLocked bit,
-	IN ActiveStatus bit,
-	IN FailedLogins tinyint,
-	IN HighScore int 	
+	IN pActiveStatus bit,
+	IN pFailedLogins tinyint,
+	IN pHighScore int 	
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -738,19 +739,19 @@ BEGIN
     
 	SELECT UUID() INTO newSalt;
 
-    IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN
+    IF EXISTS (SELECT PlayerID FROM tblPlayer WHERE PlayerID = pPlayerID) AND checkAdmin IS TRUE THEN
 		UPDATE tblPlayer
 		SET Email = pEmail, 
 			Username = pUsername, 
-			`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), 
-			Salt = newSalt, 
+			`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'),  
+			Salt = newSalt,
 			AccountAdmin = pAccountAdmin, 
 			AccountLocked = pAccountLocked, 
 			ActiveStatus = pActiveStatus, 
 			FailedLogins = pFailedLogins, 
 			HighScore = pHighScore
-		WHERE Username = pUsername;
-	ELSEIF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS FALSE THEN
+		WHERE PlayerID = pPlayerID;
+	ELSEIF EXISTS (SELECT PlayerID FROM tblPlayer WHERE PlayerID = pPlayerID) AND checkAdmin IS FALSE THEN
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You are not an admin user';
 	ELSE 
@@ -763,4 +764,4 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updatePlayer('John', 'treetop@gmail.com', 'Treetop987', 'P@ssword1', 0, 0, 1, 2, 776);
+CALL updatePlayer('John', 9, 'treetop987_2@gmail.com', 'John', 'P@ssword1', 0, 0, 1, 2, 776);
