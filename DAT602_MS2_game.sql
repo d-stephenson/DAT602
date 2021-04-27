@@ -47,7 +47,7 @@ SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Run test to check user 
 -- --------------------------------------------------------------------------------
 
 -- Allows a user to log in to the game, it retrieves the users SALT record and active status, if the 
--- user is already logged in then or an incorrect username or password is entered then an error message
+-- user is already logged in then an incorrect username or password is entered and an error message
 -- is returned 
 
 DELIMITER //
@@ -93,7 +93,7 @@ BEGIN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE Username = pUsername; -- If credentials are correct user is logged into account by setting active status to true
-		SELECT * FROM tblPlayer WHERE Username = pUsername;
+		SELECT PlayerID, Username, Email, HighScore, AccountAdmin FROM tblPlayer WHERE Username = pUsername;
 	ELSE 
 		SELECT PlayerID, Username, Email, HighScore, AccountAdmin FROM tblPlayer WHERE Username = pUsername;
 		SIGNAL SQLSTATE '02000'
@@ -248,6 +248,9 @@ BEGIN
     IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count of 7 joining a game                       
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
+	ELSE
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'All seven dwarfs are playing this game';
 	END IF;
 END //
 DELIMITER ;
