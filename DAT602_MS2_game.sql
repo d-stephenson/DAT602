@@ -11,6 +11,11 @@ SELECT `user`, `host` FROM mysql.user;
 -- New User Registration Procedure
 -- --------------------------------------------------------------------------------
 
+-- The database contains a constraint that only allows unique values to be allocated to Email and Username, should 
+-- a new user attempt to register with either value found to exist the procedure will not run. Otherwise, the procedure 
+-- requires a user to enter an email, username and password, the remaining fields are created as the defaults, the 
+-- procedure gives new players the ability to register an account.
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
@@ -46,9 +51,10 @@ SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Run test to check user 
 -- Login Check Credentials Procedure
 -- --------------------------------------------------------------------------------
 
--- Allows a user to log in to the game, it retrieves the users SALT record and active status, if the 
--- user is already logged in then an incorrect username or password is entered and an error message
--- is returned 
+-- This procedure allows a user to log in to the game, it retrieves the users salt record to ensure the password is 
+-- passed correctly and the users active status to ensure they are not already logged in. If the user is logged in 
+-- their details are displayed and a message is passed stating their active status. If an incorrect username or password 
+-- is entered and an error message is returned. 
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
@@ -126,7 +132,9 @@ CALL loginCheckCredentials('NewUser_7', 'P@ssword1');
 -- Home Screen Display Procedure
 -- --------------------------------------------------------------------------------
 
--- When login is successful the home screen checks the player is active and then displays the following information
+-- Two select statements make up the procedure and have been designed with thought given to the end GUI, should a 
+-- login attempt be successful, which is further check by selecting the active status of the user, then the relevant 
+-- information as described in the storyboarding is displayed. 
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen;
@@ -164,6 +172,12 @@ CALL homeScreen('NewUser_2');
 -- --------------------------------------------------------------------------------
 -- New Game Procedure
 -- --------------------------------------------------------------------------------
+
+-- The new game procedure must create a new game in the game, which includes an autoincrement ID, a new play instance 
+-- for the player that creates the new game and a new item list associated with the game in the item/game table. The 
+-- play table and item/game table must pull in the newly created game ID, this is achieved by declaring the new game ID 
+-- with the LAST_INSERT_ID() function. Finally, the items are allocated to tiles within the game, this is done randomly 
+-- so each game is different to the last.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newGame;
@@ -220,6 +234,10 @@ SELECT * FROM tblPlay ORDER BY GameID DESC;
 -- Join Game Procedure
 -- --------------------------------------------------------------------------------
 
+-- When a player joins a new game, the next available character is selected, a play instance is created that is 
+-- assigned to the game with the character and the player ID. If all seven dwarf characters are playing in the game, 
+-- then an error message is displayed.
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS joinGame;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE joinGame(
@@ -272,8 +290,10 @@ SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has been added to ga
 -- Player Moves Procedure
 -- --------------------------------------------------------------------------------
 
--- Moves player to a new tile if the tile is plus or minus one, from the players current tile position 
--- in a game instance, the play table records the current players position
+-- The procedure moves a player to a new tile if the tile is plus or minus one from the player's current tile position 
+-- in a game instance, the play table records the current player's position. If a player is already on the tile, except 
+-- for the home tile, then the player cannot move to it and an error message is displayed. Likewise, if a player selects 
+-- a tile that is not plus or minus one adjacent from the current tile an error message is displayed. 
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
@@ -370,7 +390,8 @@ CALL movePlayer(1, 2, 100002); -- Displays tile colour and new tile row and colu
 -- Find Gem Procedure
 -- --------------------------------------------------------------------------------
 
--- Finds all the gems located on a tile in a game instance that the player has selected
+-- When a player lands on a tile this procedure will run, it displays all the items on that tile so that one can be 
+-- selected by the player.
 
 DELIMITER // 
 DROP PROCEDURE IF EXISTS findGem;
@@ -413,9 +434,10 @@ CALL findGem(63, 5, 100001); -- Test for no items on a tile
 -- Select Gem & Update Turn Procedure
 -- --------------------------------------------------------------------------------
 
--- Player selects one of the items from the temporary table relating to the game instance and assigns the 
--- item to the players play instance and removes the item from the tile, the next turn is updated in the 
--- Game instance and the points are added to the players play instance total
+-- The player can select one of the items from the temporary table relating to the game instance, this selection will 
+-- update the play ID of that game to the players play instance and removes the item from the tile by updating the 
+-- column to NULL. The next turn is updated in the game table instance and the points are added to the players play 
+-- instance total.
 
 DELIMITER // 
 DROP PROCEDURE IF EXISTS selectGem;
@@ -477,9 +499,11 @@ SELECT * FROM tblItemGame WHERE GameID = 100003; -- Check that item/game table h
 -- Update High Score & End Game Procedure
 -- --------------------------------------------------------------------------------
 
--- Checks if the added points to the play instance is now higher then the players highscore, if it is
--- the players highscore is updated. Identifies if any more items left to collect, then selects player 
--- with the highest score as winner and updates character turn in game to NULL 
+-- This procedure leads on from the preceding procedure and checks if the added points to the play instance total is 
+-- now higher than the player's high score, if it is the player's high score is updated. The procedure then looks to 
+-- determine if that item selection ends the game by identifying if there are any more items left to collect, if not 
+-- then it selects the player with the highest score as the winner and updates character turn in the game table to NULL, 
+-- effectively ending the game as no more turns can occur.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS;
@@ -556,6 +580,9 @@ SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NUL
 -- Player Logout Procedure
 -- --------------------------------------------------------------------------------
 
+-- The logout procedure updates the players active status to false, meaning that if they want to access the game again 
+-- the login procedure will check the active status and request login credentials.
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS playerLogout;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE playerLogout(
@@ -579,7 +606,9 @@ SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Ative status will be di
 -- Enter Admin Screen Procedure 
 -- --------------------------------------------------------------------------------
 
--- When login is successful the home screen checks the player is active and then displays the following information
+-- When admin access is requested the procedure checks if the player has admin privileges, if successful the home 
+-- screen displays the relevant information that an admin would require. If the player is not an admin an error message 
+-- is returned.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS adminScreen;
@@ -622,7 +651,8 @@ CALL adminScreen('NewUser_2');
 -- Admin Kill Game Procedure
 -- --------------------------------------------------------------------------------
 
--- Deletes a game and all the play instances and item instances associated with that game 
+-- The procedure carried out an additional check to ensure the user has admin privilege and then deletes a game and all 
+-- the play instances and item/game instances associated with that game. 
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS killGame;
@@ -670,8 +700,10 @@ SELECT * FROM tblItemGAme WHERE GameID = 100003;
 -- Admin Add Player Procedure
 -- --------------------------------------------------------------------------------
 
--- Adds a player, many of the inputs are set to default and no need to alter for this procedure 
--- over and above the new registration procedure, expect for admin status as it may be useful
+-- An admin can use this procedure to add a player, many of the inputs are set to default and as such, there is no need
+-- to alter these manually for this procedure as is the case with the new registration procedure. The only feature 
+-- included is for manual input of admin status as it may be useful for admin to allocate admins at this stage, further
+-- changes can be made in the update player procedure.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS addPlayer;
@@ -713,7 +745,7 @@ SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Confirm player has been
 -- Admin Update Player Procedure
 -- --------------------------------------------------------------------------------
 
--- Updates all information pertaining to an exisitng player
+-- The procedure allows an admin user to update all information pertaining to an existing player.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updatePlayer;
@@ -775,7 +807,9 @@ SELECT * FROM tblPlayer WHERE Username = 'NewUser_7'; -- Check procedure
 -- Admin Delete Player Procedure
 -- --------------------------------------------------------------------------------
 
--- Delete all information pertaining to a player and their play instances
+-- The procedure allows an admin user to delete all information pertaining to an existing player. The procedure deletes 
+-- the player record, the play instances associated with the player and any association with item records in the 
+-- item/game table.
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS deletePlayer;
