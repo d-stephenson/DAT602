@@ -390,8 +390,12 @@ BEGIN
             JOIN tblGem ge ON it.GemType = ge.GemType  
         WHERE   
             pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
-            
-	SELECT * FROM selectOneGem;
+    IF selectOneGem IF NOT NULL THEN         
+		SELECT * FROM selectOneGem;
+	ELSE 
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
+	END IF;
 END //
 DELIMITER ;
 
