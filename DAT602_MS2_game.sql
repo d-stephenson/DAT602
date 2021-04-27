@@ -337,8 +337,9 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
-        emptyTile IS NOT NULL AND
-        currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID) THEN                        
+        (emptyTile IS NOT NULL OR pTileID = 001) AND
+        (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
+        
 			UPDATE tblPlay
 			SET TileID = pTileID
 			WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -349,9 +350,9 @@ BEGIN
                 JOIN tblTile ti ON pl.TileID = ti.TileID
 			WHERE 
 				PlayerID = pPlayerID;
-	ELSE
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You cannot move to this tile';
+-- 	ELSE
+-- 		SIGNAL SQLSTATE '02000'
+-- 		SET MESSAGE_TEXT = 'You cannot move to this tile';
 	END IF;
 END //
 DELIMITER ;
@@ -362,7 +363,7 @@ DELIMITER ;
 SELECT * FROM tblGame WHERE GameID = 100003; -- Check that next player turn is character Doc 
 SELECT * FROM tblPlay WHERE GameID = 100003; -- Check playerID and tileID location for Doc
 CALL movePlayer(2, 9, 100003); -- Test procedure player cannot move to this tile
-CALL movePlayer(50, 9, 100003); -- Displays tile colour and new tile row and column
+CALL movePlayer(1, 2, 100002); -- Displays tile colour and new tile row and column
 -- Re-run tblPlay select query to confirm player is on a new tile location
 
 -- --------------------------------------------------------------------------------
@@ -380,18 +381,20 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
     )
 SQL SECURITY INVOKER
 BEGIN
-    DROP TEMPORARY TABLE IF EXISTS selectOneGem;
-    CREATE TEMPORARY TABLE selectOneGem AS
-        SELECT ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
-        FROM    
-            tblPlay pl
-            JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
-            JOIN tblItem it ON ig.ItemID = it.ItemID
-            JOIN tblGem ge ON it.GemType = ge.GemType  
-        WHERE   
-            pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
-    IF selectOneGem IF NOT NULL THEN         
-		SELECT * FROM selectOneGem;
+		DROP TEMPORARY TABLE IF EXISTS selectOneGem;
+		CREATE TEMPORARY TABLE selectOneGem AS
+			SELECT ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
+			FROM    
+				tblPlay pl
+				JOIN tblItemGame ig ON pl.TileID = ig.TileID AND pl.GameID = ig.GameID
+				JOIN tblItem it ON ig.ItemID = it.ItemID
+				JOIN tblGem ge ON it.GemType = ge.GemType  
+			WHERE   
+				pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
+			
+IF (SELECT COUNT(ItemID) FROM tblItemGame WHERE TileID = pTileID AND GameID = pGameID) > 0 THEN
+
+			SELECT * FROM selectOneGem;
 	ELSE 
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
@@ -402,7 +405,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL findGem(50, 9, 100003); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
+CALL findGem(42, 3, 100001); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
+CALL findGem(63, 5, 100001); -- Test for no items on a tile
 -- IMPORTANT: RECORD THE ITEM ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
 
 -- --------------------------------------------------------------------------------
