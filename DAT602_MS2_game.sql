@@ -828,19 +828,7 @@ BEGIN
 		Username = pAdminUsername 
 	INTO checkAdmin;
 
-    IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN
--- Below cod not requried because of utilising DELETE CASCADE
--- 		DELETE ig
---         FROM tblItemGame ig
--- 			JOIN tblPlay py ON ig.PlayID = py.PlayID
---             JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID
---    		WHERE Username = pUsername;         
---         
---         DELETE py
---         FROM tblPlay py
--- 			JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID
--- 		WHERE Username = pUsername;
---         
+    IF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS TRUE THEN 
 		DELETE FROM tblPlayer 
 		WHERE Username = pUsername;
 	ELSEIF EXISTS (SELECT Username FROM tblPlayer WHERE Username = pUsername) AND checkAdmin IS FALSE THEN
