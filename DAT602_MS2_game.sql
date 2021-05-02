@@ -52,7 +52,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL newUserRegistration('NewUser_1@gmail.com', 'NewUser_1', 'P@ssword1'); -- Run test with these login credentials
--- Add these users so there are enough players to make a game
+-- Add these users so there are enough players to make a full game
 CALL newUserRegistration('NewUser_2@gmail.com', 'NewUser_2', 'P@ssword1');
 CALL newUserRegistration('NewUser_3@gmail.com', 'NewUser_3', 'P@ssword1');
 CALL newUserRegistration('NewUser_4@gmail.com', 'NewUser_4', 'P@ssword1');
@@ -132,7 +132,7 @@ CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Second test to see login
 CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Third test to see login attempt increment
 CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fourth test to see login attempt increment
 CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fifth test to see login attempt increment and account locked to true
-CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Sixth test to see login attempt increment
+CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Sixth test to see correct login attempt
 CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Seventh test to check error message as user already logged in or test against first test
 -- Login remaining new players
 CALL loginCheckCredentials('NewUser_2', 'P@ssword1');
@@ -181,7 +181,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL homeScreen('NewUser_2');
+CALL homeScreen('NewUser_1');
 
 -- --------------------------------------------------------------------------------
 -- New Game Procedure
