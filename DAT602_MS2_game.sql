@@ -392,7 +392,7 @@ BEGIN
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         (emptyTile IS NOT NULL OR pTileID = 001) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
-
+-- Need to make sure that they can't select their own row, this this handled by the empty tile declaration - check
 		UPDATE tblPlay
 		SET TileID = pTileID
 		WHERE PlayerID = pPlayerID AND GameID = pGameID;
