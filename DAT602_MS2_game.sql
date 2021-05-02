@@ -129,7 +129,7 @@ BEGIN
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
 	END IF;
-
+-- Check here for all games player is on the see if they share a tile where home tile = False, if true then make them move to another tile 
 END //
 DELIMITER ;
 
@@ -392,7 +392,7 @@ BEGIN
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         (emptyTile IS NOT NULL OR pTileID = 001) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
-        -- Add if player active status = 0 then can move to that tile
+-- Add if player active status = 0 then can move to that tile
 		UPDATE tblPlay
 		SET TileID = pTileID
 		WHERE PlayerID = pPlayerID AND GameID = pGameID;
