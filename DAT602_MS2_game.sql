@@ -387,9 +387,9 @@ BEGIN
                 JOIN tblTile ti ON pl.TileID = ti.TileID
 			WHERE 
 				PlayerID = pPlayerID;
--- 	ELSE
--- 		SIGNAL SQLSTATE '02000'
--- 		SET MESSAGE_TEXT = 'You cannot move to this tile';
+	ELSE
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You cannot move to this tile';
 	END IF;
 END //
 DELIMITER ;
@@ -397,11 +397,15 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-SELECT * FROM tblGame WHERE GameID = 100003; -- Check that next player turn is character Doc 
-SELECT * FROM tblPlay WHERE GameID = 100003; -- Check playerID and tileID location for Doc
+-- Do the following checks first 
+SELECT * FROM tblGame WHERE GameID = 100003; -- Confirm that next character turn is character Doc 
+SELECT * FROM tblPlay WHERE GameID = 100003; -- Confirm playerID and tileID location for Doc, should be playerID 9 and tileID 1
+
 CALL movePlayer(2, 9, 100003); -- Test procedure player cannot move to this tile
-CALL movePlayer(1, 2, 100002); -- Displays tile colour and new tile row and column
+CALL movePlayer(34, 9, 100003); -- Displays tile colour and new tile row and column
+
 -- Re-run tblPlay select query to confirm player is on a new tile location
+SELECT * FROM tblPlay WHERE GameID = 100003; 
 
 -- --------------------------------------------------------------------------------
 -- Find Gem Procedure
@@ -443,9 +447,10 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL findGem(42, 3, 100001); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
-CALL findGem(63, 5, 100001); -- Test for no items on a tile
--- IMPORTANT: RECORD THE ITEM ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
+CALL findGem(34, 9, 100003); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
+-- IMPORTANT: RECORD THE ITEM ID & PLAY ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
+-- If the error message is displayed stating there are no items on the tile, next next move procedure below will hopefully have items on the tile, 
+-- if not you may have to move more players or re-run the create table and insert into procedures and start again
 
 -- --------------------------------------------------------------------------------
 -- Select Gem & Update Turn Procedure
@@ -461,8 +466,8 @@ DROP PROCEDURE IF EXISTS selectGem;
 CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
         IN pItemID int,
         IN pPlayID int,
-        IN pGameID int,
-        IN pPlayerID int
+        IN pPlayerID int,
+        IN pGameID int
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -482,7 +487,7 @@ BEGIN
 	WHERE 
 		PlayID = (SELECT MIN(PlayID) FROM tblPlay WHERE PlayID > pPlayID AND GameID = pGameID) INTO nextTurn;
     
-	IF pItemID IS NOT NULL THEN     
+-- 	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
 		SET TileID = NULL, PlayID = pPlayID
 		WHERE ItemID = pItemID AND GameID = pGameID;
@@ -490,7 +495,7 @@ BEGIN
 		UPDATE tblPlay
 		SET PlayScore = PlayScore + gemPoints
 		WHERE PlayID = pPlayID;
-	END IF;
+-- 	END IF;
 
 	IF nextTurn IS NOT NULL THEN
 		UPDATE tblGame
@@ -507,10 +512,12 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL selectGem(101, 500007, 100003, 9); -- IMPORTANT: Amend the first input to the correct ItemID
+CALL selectGem(160, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID and secong input to the correct playID
+
+-- Do the following checks to confirm procedure success
 SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated
 SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
-SELECT * FROM tblItemGame WHERE GameID = 100003; -- Check that item/game table has updated tile equals NULL and play equals playID
+SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500007; -- Check that item/game table has updated tile equals NULL and play equals playID
 
 -- --------------------------------------------------------------------------------
 -- Update High Score & End Game Procedure
@@ -523,11 +530,11 @@ SELECT * FROM tblItemGame WHERE GameID = 100003; -- Check that item/game table h
 -- effectively ending the game as no more turns can occur.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS updateHS;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS(
+DROP PROCEDURE IF EXISTS updateHS_EG;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS_EG(
         IN pPlayID int,
-        IN pGameID int,
-        IN pPlayerID int
+        IN pPlayerID int,
+        IN pGameID int
     )
 SQL SECURITY INVOKER
 BEGIN
@@ -568,7 +575,7 @@ BEGIN
         SET CharacterTurn = NULL
         WHERE GameID = pGameID;
         
-        SELECT pl.CharacterName, pl.Playscore 
+        SELECT pl.CharacterName, pl.PlayScore 
         FROM 
 			tblPlay pl
 				JOIN tblCharacter ch  ON pl.CharacterName = ch.CharacterName 
@@ -580,18 +587,21 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updateHS(500007, 100003, 9);
+CALL updateHS_EG(500007, 9, 100003);
 SELECT * FROM tblPlayer WHERE PlayerID = 9; -- Check high score has updated
 
 -- Test the end game portion of the procedure
 UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
 SELECT * FROM tblItemGame WHERE GameID = 100003; -- Test select query to confirm above update
 
-UPDATE tblItemGame SET TileID = 50, PlayID = NULL WHERE ItemID = 101 AND GameID = 100003; -- IMPORTANT: Amend the ItemID to the correct ID. Update the item to be back in the game play, re-run above query to check
-CALL selectGem(101, 500007, 100003, 9); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
-CALL updateHS(500007, 100003, 9); -- Call updateHS procedure again
-SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NULL as game has finished, no more itemds to collect
+-- IMPORTANT: Amend the ItemID to the correct ID. Update the item to be back in the game play, re-run above query to check
+UPDATE tblItemGame SET TileID = 34, PlayID = NULL WHERE ItemID = 160 AND GameID = 100003; 
+CALL selectGem(160, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
+CALL updateHS(500007, 9, 100003); -- Call updateHS procedure again
+SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NULL as game has finished, no more items to collect
+
 -- Re-run select all query from item/game table to confirm tile ID are NULL and play ID relate to play instance
+SELECT * FROM tblItemGame WHERE GameID = 100003; 
 
 -- --------------------------------------------------------------------------------
 -- Player Logout Procedure
