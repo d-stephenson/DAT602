@@ -134,6 +134,7 @@ CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fourth test to see login
 CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- Fifth test to see login attempt increment and account locked to true
 CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Sixth test to see correct login attempt
 CALL loginCheckCredentials('NewUser_1', 'P@ssword1'); -- Seventh test to check error message as user already logged in or test against first test
+
 -- Login remaining new players
 CALL loginCheckCredentials('NewUser_2', 'P@ssword1');
 CALL loginCheckCredentials('NewUser_3', 'P@ssword1');
@@ -292,12 +293,14 @@ DELIMITER ;
 
 SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
 CALL joinGame(100003, 10); -- Test join game procedure
+
 -- Add remaining players 
 CALL joinGame(100003, 11);
 CALL joinGame(100003, 12);
 CALL joinGame(100003, 13);
 CALL joinGame(100003, 14);
 CALL joinGame(100003, 15);
+
 SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has been added to game and has the next character
 
 -- --------------------------------------------------------------------------------
