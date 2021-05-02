@@ -59,6 +59,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL newUserRegistration('NewUser_1@gmail.com', 'NewUser_1', 'P@ssword1'); -- Run test with these login credentials
+
 -- Add these users so there are enough players to make a full game
 CALL newUserRegistration('NewUser_2@gmail.com', 'NewUser_2', 'P@ssword1');
 CALL newUserRegistration('NewUser_3@gmail.com', 'NewUser_3', 'P@ssword1');
@@ -66,7 +67,9 @@ CALL newUserRegistration('NewUser_4@gmail.com', 'NewUser_4', 'P@ssword1');
 CALL newUserRegistration('NewUser_5@gmail.com', 'NewUser_5', 'P@ssword1');
 CALL newUserRegistration('NewUser_6@gmail.com', 'NewUser_6', 'P@ssword1');
 CALL newUserRegistration('NewUser_7@gmail.com', 'NewUser_7', 'P@ssword1');
-SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Run test to check user has been added to database
+
+-- Run test to check user has been added to database
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
 
 -- --------------------------------------------------------------------------------
 -- Login Check Credentials Procedure
@@ -288,7 +291,7 @@ BEGIN
     IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count of 7 joining a game                       
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
-	ELSE
+	ELSEIF selectedCharacter IS NULL THEN
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'All seven dwarfs are playing this game';
 	END IF;
@@ -308,7 +311,12 @@ CALL joinGame(100003, 13);
 CALL joinGame(100003, 14);
 CALL joinGame(100003, 15);
 
-SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has been added to game and has the next character
+-- Test player has been added to game and has the next character
+SELECT * FROM tblPlay WHERE GameID = 100003; 
+
+-- Test no more players can joing a game
+CALL joinGame(100003, 2);
+SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has not been added to game
 
 -- --------------------------------------------------------------------------------
 -- Player Moves Procedure
