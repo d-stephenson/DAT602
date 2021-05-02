@@ -616,7 +616,9 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL updateHS_EG(500008, 10, 100003);
-SELECT * FROM tblPlayer WHERE PlayerID = 10; -- Check high score has updated
+
+-- Check high score has updated
+SELECT * FROM tblPlayer WHERE PlayerID = 10; 
 
 -- Test the end game portion of the procedure
 UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
@@ -655,7 +657,9 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL playerLogout('NewUser_1');
-SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Ative status will be displayed as false
+
+-- Test active status will be displayed as false
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
 
 -- --------------------------------------------------------------------------------
 -- Enter Admin Screen Procedure 
@@ -746,6 +750,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL killGame(100003, 'NewUser_1'); -- Warning message will display saying game has been killed
+
 -- Confirm game has been deleted
 SELECT * FROM tblGame WHERE GameID = 100003;
 SELECT * FROM tblPlay WHERE GameID = 100003;
@@ -794,7 +799,9 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL addPlayer('NewUser_1', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
-SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Confirm player has been added and has admin privileges
+
+-- Confirm player has been added and has admin privileges
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; 
 
 -- --------------------------------------------------------------------------------
 -- Admin Update Player Procedure
@@ -855,7 +862,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updatePlayer('NewUser_1', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_8 updates player NewUser_7
+CALL updatePlayer('NewUser_1', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_ updates player NewUser_8
 SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
 -- --------------------------------------------------------------------------------
@@ -901,6 +908,7 @@ DELIMITER ;
 
 CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
 
-SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Test records removed from player record
-SELECT * FROM tblPlay py JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from play instances
-SELECT * FROM tblItemGame ig JOIN tblPlay py ON ig.PlayID = py.PlayID JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from item/game instances
+-- Test records removed from relevant tables
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
+SELECT * FROM tblPlay py JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; 
+SELECT * FROM tblItemGame ig JOIN tblPlay py ON ig.PlayID = py.PlayID JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; 
