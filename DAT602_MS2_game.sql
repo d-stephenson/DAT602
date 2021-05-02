@@ -9,14 +9,16 @@ SELECT `user`, `host` FROM mysql.user;
 
 CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY '007';
 CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'MP';
+
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
+SHOW GRANTS FOR 'databaseAccess'@'localhost';
 
 GRANT SELECT, UPDATE, DELETE, INSERT
-ON sdghGameDatabase
+ON sdghGameDatabase.tblPlayer
 TO 'databaseAdmin'@'localhost';
 
 GRANT SELECT
-ON sdghGameDatabase
+ON sdghGameDatabase.tblPlayer
 TO 'databaseAccess'@'localhost';
 
 -- --------------------------------------------------------------------------------
