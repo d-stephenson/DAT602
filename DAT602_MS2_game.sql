@@ -357,7 +357,7 @@ BEGIN
 	WHERE 
 		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE
 	INTO emptyTile;
-    
+-- Add if player active status = 0 then can move to that tile or TIle ID IS IN but player in set to Not Active 
     SELECT TileRow
     FROM
 		tblTile ti 
@@ -392,7 +392,7 @@ BEGIN
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
         (emptyTile IS NOT NULL OR pTileID = 001) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
--- Add if player active status = 0 then can move to that tile
+
 		UPDATE tblPlay
 		SET TileID = pTileID
 		WHERE PlayerID = pPlayerID AND GameID = pGameID;
