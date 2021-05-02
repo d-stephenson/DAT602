@@ -594,7 +594,7 @@ SELECT * FROM tblPlayer WHERE PlayerID = 9; -- Check high score has updated
 UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
 SELECT * FROM tblItemGame WHERE GameID = 100003; -- Test select query to confirm above update
 
--- IMPORTANT: Amend the ItemID to the correct ID. Update the item to be back in the game play, re-run above query to check
+-- IMPORTANT: Amend the ItemID to the correct ID and insert correct tile item was found. Update the item to be back in the game play, re-run above query to check
 UPDATE tblItemGame SET TileID = 34, PlayID = NULL WHERE ItemID = 160 AND GameID = 100003; 
 CALL selectGem(160, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
 CALL updateHS(500007, 9, 100003); -- Call updateHS procedure again
