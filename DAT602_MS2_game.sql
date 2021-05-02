@@ -250,6 +250,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL newGame('NewUser_1'); -- Run test with new player starting a game
+
 -- Test new game has been created in the following tables and a play instance for the player
 SELECT * from tblGame ORDER BY GameID DESC; 
 SELECT * FROM tblItemGame ORDER BY GameID DESC; 
@@ -278,7 +279,7 @@ BEGIN
 	FROM 
 		tblCharacter 
 	WHERE 
-		CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = pGameID) ORDER BY RAND() LIMIT 1
+		CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = 100003) LIMIT 1
 	INTO selectedCharacter;
     
 	SELECT PlayerID
@@ -392,16 +393,16 @@ BEGIN
         (emptyTile IS NOT NULL OR pTileID = 001) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
         
-			UPDATE tblPlay
-			SET TileID = pTileID
-			WHERE PlayerID = pPlayerID AND GameID = pGameID;
+		UPDATE tblPlay
+		SET TileID = pTileID
+		WHERE PlayerID = pPlayerID AND GameID = pGameID;
             
-            SELECT TileColour, TileRow, TileColumn 
-            FROM tblCharacter ch 
-				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-                JOIN tblTile ti ON pl.TileID = ti.TileID
-			WHERE 
-				PlayerID = pPlayerID;
+		SELECT TileColour, TileRow, TileColumn 
+		FROM tblCharacter ch 
+			JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+			JOIN tblTile ti ON pl.TileID = ti.TileID
+		WHERE 
+			PlayerID = pPlayerID;
 	ELSE
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You cannot move to this tile';
@@ -500,9 +501,9 @@ BEGIN
     FROM 
 		tblPlay 
 	WHERE 
-		PlayID = (SELECT MIN(PlayID) FROM tblPlay WHERE PlayID > pPlayID AND GameID = pGameID) INTO nextTurn;
+		PlayID = (SELECT MIN(PlayID) FROM tblPlay WHERE PlayID > pPlayID AND GameID = pGameID) INTO nextTurn; 
     
--- 	IF pItemID IS NOT NULL THEN     
+	IF pItemID IS NOT NULL THEN     
 		UPDATE tblItemGame
 		SET TileID = NULL, PlayID = pPlayID
 		WHERE ItemID = pItemID AND GameID = pGameID;
@@ -510,7 +511,7 @@ BEGIN
 		UPDATE tblPlay
 		SET PlayScore = PlayScore + gemPoints
 		WHERE PlayID = pPlayID;
--- 	END IF;
+	END IF;
 
 	IF nextTurn IS NOT NULL THEN
 		UPDATE tblGame
@@ -527,12 +528,24 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL selectGem(160, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID and secong input to the correct playID
+CALL selectGem(NULL, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID and secong input to the correct playID
 
 -- Do the following checks to confirm procedure success
 SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated
 SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
 SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500007; -- Check that item/game table has updated tile equals NULL and play equals playID
+
+-- If there were no items on the tile move the next character turn from the above select game ID statement
+-- Find out which player is the character turn 
+SELECT * FROM tblPlay WHERE CharacterName = 'Bashful';
+CALL movePlayer(50, 10, 100003); 
+CALL findGem(50, 10, 100003);
+CALL selectGem(155, 500008, 10, 100003);
+
+-- Now we can do the check, if by chance the above second move yiilded no items find the nect character turn and do it again
+SELECT * FROM tblPlay WHERE PlayerID = 10; -- Check play score has updated
+SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
+SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500008;
 
 -- --------------------------------------------------------------------------------
 -- Update High Score & End Game Procedure
@@ -602,17 +615,17 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updateHS_EG(500007, 9, 100003);
-SELECT * FROM tblPlayer WHERE PlayerID = 9; -- Check high score has updated
+CALL updateHS_EG(500008, 10, 100003);
+SELECT * FROM tblPlayer WHERE PlayerID = 10; -- Check high score has updated
 
 -- Test the end game portion of the procedure
 UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
 SELECT * FROM tblItemGame WHERE GameID = 100003; -- Test select query to confirm above update
 
 -- IMPORTANT: Amend the ItemID to the correct ID and insert correct tile item was found. Update the item to be back in the game play, re-run above query to check
-UPDATE tblItemGame SET TileID = 34, PlayID = NULL WHERE ItemID = 160 AND GameID = 100003; 
-CALL selectGem(160, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
-CALL updateHS(500007, 9, 100003); -- Call updateHS procedure again
+UPDATE tblItemGame SET TileID = 50, PlayID = NULL WHERE ItemID = 155 AND GameID = 100003; 
+CALL selectGem(155, 500008, 10, 100003); -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
+CALL updateHS(500008, 10, 100003); -- Call updateHS procedure again
 SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NULL as game has finished, no more items to collect
 
 -- Re-run select all query from item/game table to confirm tile ID are NULL and play ID relate to play instance
@@ -686,8 +699,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_2'; -- Upgrade new user 2 to admin priviledges 
-CALL adminScreen('NewUser_2');
+UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_1'; -- Upgrade new user 1 to admin priviledges 
+CALL adminScreen('NewUser_1');
 
 -- --------------------------------------------------------------------------------
 -- Admin Kill Game Procedure
@@ -732,7 +745,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL killGame(100003, 'NewUser_2'); -- Warning message will display saying game has been killed
+CALL killGame(100003, 'NewUser_1'); -- Warning message will display saying game has been killed
 -- Confirm game has been deleted
 SELECT * FROM tblGame WHERE GameID = 100003;
 SELECT * FROM tblPlay WHERE GameID = 100003;
@@ -780,7 +793,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL addPlayer('John', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+CALL addPlayer('NewUser_1', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
 SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Confirm player has been added and has admin privileges
 
 -- --------------------------------------------------------------------------------
@@ -842,8 +855,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updatePlayer('NewUser_8', 15, 'NewUser_7@gmail.com', 'NewUser_7', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_8 updates player NewUser_7
-SELECT * FROM tblPlayer WHERE Username = 'NewUser_7'; -- Check procedure 
+CALL updatePlayer('NewUser_1', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_8 updates player NewUser_7
+SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
 -- --------------------------------------------------------------------------------
 -- Admin Delete Player Procedure
@@ -887,6 +900,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
+
 SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; -- Test records removed from player record
 SELECT * FROM tblPlay py JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from play instances
 SELECT * FROM tblItemGame ig JOIN tblPlay py ON ig.PlayID = py.PlayID JOIN tblPlayer pl ON py.PlayerID = pl.PlayerID WHERE Username = 'NewUser_1'; -- Test records removed from item/game instances
