@@ -338,7 +338,7 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE currentTurn varchar(10) DEFAULT NULL;
-	DECLARE emptyTile int DEFAULT NULL;
+	DECLARE availableTile int DEFAULT NULL;
 	DECLARE currentTileRow tinyint DEFAULT NULL;
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
@@ -355,9 +355,26 @@ BEGIN
 	FROM 
 		tblTile
 	WHERE 
-		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE
-	INTO emptyTile;
--- Add if player active status = 0 then can move to that tile or TIle ID IS IN but player in set to Not Active 
+		TileID 
+		NOT IN (SELECT pl.TileID 
+				FROM tblPlay pl 
+				JOIN tblTile ti ON pl.TileID = ti.TileID
+				WHERE GameID = 100002 AND pl.TileID = 42 AND HomeTile = FALSE)
+		OR -- Need to test from here to make dure it works 
+        TileID
+        IN (SELECT pl.TileID 
+				FROM tblPlay pl 
+				JOIN tblTile ti ON pl.TileID = ti.TileID
+				WHERE GameID = 100002 
+                AND pl.TileID = 42 	
+                AND HomeTile = FALSE 
+                AND (SELECT py.PlayerID 
+					 FROM tblPlay pl 
+					 JOIN tblPlayer py ON pl.PlayerID = py.PlayerID 
+					 WHERE TileID = 42 AND GameID = 100002 AND ActiveStatus = 0)
+                ) 
+	INTO availableTile; -- Add if player active status = 0 then can move to that tile or TIle ID IS IN but player in set to Not Active 
+
     SELECT TileRow
     FROM
 		tblTile ti 
@@ -390,7 +407,7 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
-        (emptyTile IS NOT NULL OR pTileID = 001) AND
+        (availableTile IS NOT NULL OR pTileID = 001) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
 -- Need to make sure that they can't select their own row, this this handled by the empty tile declaration - check AND NOT newTileRow = currentTileRow AND newTileColumn = currentTileColumn
 		UPDATE tblPlay
