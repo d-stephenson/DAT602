@@ -344,6 +344,7 @@ SQL SECURITY INVOKER
 BEGIN
 	DECLARE currentTurn varchar(10) DEFAULT NULL;
 	DECLARE availableTile int DEFAULT NULL;
+    DECLARE ifPlayerOnTileAreTheyActive bit DEFAULT NULL;
 	DECLARE currentTileRow tinyint DEFAULT NULL;
 	DECLARE currentTileColumn tinyint DEFAULT NULL;
 	DECLARE newTileRow tinyint DEFAULT NULL;
@@ -356,12 +357,19 @@ BEGIN
 		GameID = pGameID 
 	INTO currentTurn;
 	
+	SELECT ActiveStatus 
+    FROM
+		tblPlayer pl
+			JOIN tblPlay py ON pl.PlayerID = py.PlayerID
+	WHERE py.PlayerID = 9 AND TileID = 34 AND GameID = 100003
+    INTO ifPlayerOnTileAreTheyActive;
+    
     SELECT TileID
 	FROM 
 		tblTile
 	WHERE 
-		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE
-	INTO availableTile; -- Add if player active status = 0 then can move to that tile or TIle ID IS IN but player in set to Not Active 
+		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE 
+	INTO availableTile; 
 
     SELECT TileRow
     FROM
@@ -395,9 +403,9 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) AND 
 		(newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) AND
-        (availableTile IS NOT NULL OR pTileID = 001) AND
+        (availableTile IS NOT NULL OR pTileID = 001 OR ifPlayerOnTileAreTheyActive = 0) AND
         (currentTurn = (SELECT CharacterName FROM tblPlay WHERE PlayerID = pPlayerID AND GameID = pGameID)) THEN  
--- Need to make sure that they can't select their own row, this this handled by the empty tile declaration - check AND NOT newTileRow = currentTileRow AND newTileColumn = currentTileColumn
+
 		UPDATE tblPlay
 		SET TileID = pTileID
 		WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -455,13 +463,12 @@ BEGIN
 			WHERE   
 				pl.TileID = pTileID AND PlayerID = pPlayerID AND pl.GameID = pGameID;
 			
-IF (SELECT COUNT(ItemID) FROM tblItemGame WHERE TileID = pTileID AND GameID = pGameID) > 0 THEN
-
+		IF (SELECT COUNT(ItemID) FROM tblItemGame WHERE TileID = pTileID AND GameID = pGameID) > 0 THEN
 			SELECT * FROM selectOneGem;
-	ELSE 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
-	END IF;
+		ELSE 
+			SIGNAL SQLSTATE '02000'
+			SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
+		END IF;
 END //
 DELIMITER ;
 
