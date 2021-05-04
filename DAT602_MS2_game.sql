@@ -284,7 +284,7 @@ BEGIN
 	FROM 
 		tblCharacter 
 	WHERE 
-		CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = 100003) LIMIT 1
+		CharacterName NOT IN (SELECT CharacterName FROM tblPlay WHERE GameID = pGameID) LIMIT 1
 	INTO selectedCharacter;
     
 	SELECT PlayerID
@@ -302,7 +302,7 @@ BEGIN
 		SELECT * FROM tblPlay WHERE GameID = pGameID;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You are back in the game';
-	ELSE -- selectedCharacter IS NULL 
+	ELSE 
 		SELECT * FROM tblPlay WHERE GameID = pGameID;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'All seven dwarfs are playing this game';
@@ -314,7 +314,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
-CALL joinGame(100001, 1); -- Test join game procedure
+CALL joinGame(100003, 10); -- Test join game procedure
 
 -- Add remaining players 
 CALL joinGame(100003, 11);
