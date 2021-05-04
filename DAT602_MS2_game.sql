@@ -542,15 +542,26 @@ SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500007; -- Check th
 
 -- If there were no items on the tile move the next character turn from the above select game ID statement
 -- Find out which player is the character turn 
-SELECT * FROM tblPlay WHERE CharacterName = 'Bashful';
+SELECT * FROM tblPlay WHERE CharacterName = 'Bashful' AND GameID = 100003;
 CALL movePlayer(50, 10, 100003); 
 CALL findGem(50, 10, 100003);
-CALL selectGem(155, 500008, 10, 100003);
+CALL selectGem(NULL, 500008, 10, 100003);
 
--- Now we can do the check, if by chance the above second move yiilded no items find the nect character turn and do it again
-SELECT * FROM tblPlay WHERE PlayerID = 10; -- Check play score has updated
+SELECT * FROM tblPlay WHERE CharacterName = 'Dopey' AND GameID = 100003;
+CALL movePlayer(50, 11, 100003); -- Check this player can't move to tile 50 as previous player moved to tile 50
+CALL movePlayer(49, 11, 100003); 
+CALL findGem(49, 11, 100003);
+CALL selectGem(NULL, 500009, 11, 100003);
+
+SELECT * FROM tblPlay WHERE CharacterName = 'Grumpy' AND GameID = 100003;
+CALL movePlayer(42, 12, 100003); 
+CALL findGem(42, 12, 100003);
+CALL selectGem(112, 500010, 12, 100003);
+
+-- Now we can do the check, if by chance the above second move yeilded no items find the next character turn and do it again
+SELECT * FROM tblPlay WHERE PlayerID = 12; -- Check play score has updated
 SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
-SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500008;
+SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500010;
 
 -- --------------------------------------------------------------------------------
 -- Update High Score & End Game Procedure
@@ -620,10 +631,10 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- --------------------------------------------------------------------------------
 
-CALL updateHS_EG(500008, 10, 100003);
+CALL updateHS_EG(500010, 12, 100003);
 
 -- Check high score has updated
-SELECT * FROM tblPlayer WHERE PlayerID = 10; 
+SELECT * FROM tblPlayer WHERE PlayerID = 12; 
 
 -- Test the end game portion of the procedure
 UPDATE tblItemGame SET TileID = NULL, PlayID = 500007 WHERE GameID = 100003; -- Update all tiles to NULL and all play instances to playID
