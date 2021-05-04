@@ -293,8 +293,17 @@ BEGIN
 	WHERE 
 		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) AND PlayerID = pPlayerID
 	INTO selectedUser;
--- Need to join a game again after logging in without setting up a new character for player who are already part of the game                            
-    IF selectedCharacter IS NOT NULL THEN -- Prevent more then Character count of 7 joining a game                       
+
+-- Look to add an else if player exists in game then just select game 
+	SELECT PlayerID
+	FROM 
+		tblPlayer
+	WHERE 
+		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = 100001) AND PlayerID = 10
+	INTO selectedUser;
+
+                          
+    IF selectedCharacter IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game                       
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
 	ELSEIF selectedCharacter IS NULL THEN
