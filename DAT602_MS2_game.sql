@@ -362,7 +362,7 @@ BEGIN
 		tblPlayer pl
 			JOIN tblPlay py ON pl.PlayerID = py.PlayerID
 	WHERE py.PlayerID = 9 AND TileID = 34 AND GameID = 100003
-    INTO ifPlayerOnTileAreTheyActive;
+    INTO ifPlayerOnTileAreTheyActive; -- This allows player to move to a tile with another player located but the active status is 0
     
     SELECT TileID
 	FROM 
