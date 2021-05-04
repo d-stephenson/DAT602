@@ -12,9 +12,14 @@ CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'P@ssword1'
 
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'databaseAccess'@'localhost';
+SHOW GRANTS FOR 'root'@'localhost';
 
-GRANT SELECT, UPDATE, DELETE, INSERT
+GRANT CREATE, DROP, SELECT, UPDATE, DELETE, INSERT
 ON sdghGameDatabase.tblPlayer
+TO 'databaseAdmin'@'localhost';
+
+GRANT EXECUTE 
+ON PROCEDURE newUserRegistration
 TO 'databaseAdmin'@'localhost';
 
 GRANT SELECT
@@ -39,12 +44,12 @@ CALL InsertTables;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newUserRegistration(
+CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE newUserRegistration(
     IN pEmail varchar(50), 
     IN pUsername varchar(10),
     IN pPassword BLOB
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 BEGIN
 	DECLARE newSalt varchar(36);
 	
