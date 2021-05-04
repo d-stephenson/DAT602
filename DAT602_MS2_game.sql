@@ -7,8 +7,8 @@
 USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
 
-CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY '007';
-CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'MP';
+CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
+CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'P@ssword1';
 
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'databaseAccess'@'localhost';
@@ -22,7 +22,7 @@ ON sdghGameDatabase.tblPlayer
 TO 'databaseAccess'@'localhost';
 
 -- ----------------------------------------------------------------------------------
--- Call Create, Insert Procedures
+-- Call Create, Insert Procedures from DAT601_MS1_game.sql
 -- ----------------------------------------------------------------------------------
 
 CALL CreateTables;
@@ -355,24 +355,7 @@ BEGIN
 	FROM 
 		tblTile
 	WHERE 
-		TileID 
-		NOT IN (SELECT pl.TileID 
-				FROM tblPlay pl 
-				JOIN tblTile ti ON pl.TileID = ti.TileID
-				WHERE GameID = 100002 AND pl.TileID = 42 AND HomeTile = FALSE)
-		OR -- Need to test from here to make dure it works 
-        TileID
-        IN (SELECT pl.TileID 
-				FROM tblPlay pl 
-				JOIN tblTile ti ON pl.TileID = ti.TileID
-				WHERE GameID = 100002 
-                AND pl.TileID = 42 	
-                AND HomeTile = FALSE 
-                AND (SELECT py.PlayerID 
-					 FROM tblPlay pl 
-					 JOIN tblPlayer py ON pl.PlayerID = py.PlayerID 
-					 WHERE TileID = 42 AND GameID = 100002 AND ActiveStatus = 0)
-                ) 
+		TileID NOT IN (SELECT TileID FROM tblPlay WHERE GameID = pGameID) AND TileID = pTileID AND HomeTile = FALSE
 	INTO availableTile; -- Add if player active status = 0 then can move to that tile or TIle ID IS IN but player in set to Not Active 
 
     SELECT TileRow
