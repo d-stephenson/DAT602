@@ -293,20 +293,17 @@ BEGIN
 	WHERE 
 		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = pGameID) AND PlayerID = pPlayerID
 	INTO selectedUser;
-
--- Look to add an else if player exists in game then just select game 
-	SELECT PlayerID
-	FROM 
-		tblPlayer
-	WHERE 
-		PlayerID NOT IN (SELECT PlayerID FROM tblPlay WHERE GameID = 100001) AND PlayerID = 10
-	INTO selectedUser;
-
                           
-    IF selectedCharacter IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game                       
+    IF selectedCharacter IS NOT NULL AND selectedUser IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game and prevents update from happening if player re-joining the game                      
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
-	ELSEIF selectedCharacter IS NULL THEN
+		SELECT * FROM tblPlay WHERE GameID = pGameID;
+	ELSEIF selectedCharacter IS NOT NULL AND selectedUser IS NULL THEN
+		SELECT * FROM tblPlay WHERE GameID = pGameID;
+		SIGNAL SQLSTATE '02000'
+		SET MESSAGE_TEXT = 'You are back in the game';
+	ELSE -- selectedCharacter IS NULL 
+		SELECT * FROM tblPlay WHERE GameID = pGameID;
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'All seven dwarfs are playing this game';
 	END IF;
@@ -317,7 +314,7 @@ DELIMITER ;
 -- --------------------------------------------------------------------------------
 
 SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
-CALL joinGame(100003, 10); -- Test join game procedure
+CALL joinGame(100001, 1); -- Test join game procedure
 
 -- Add remaining players 
 CALL joinGame(100003, 11);
