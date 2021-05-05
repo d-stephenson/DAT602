@@ -124,25 +124,23 @@ BEGIN
         WHERE 
 			Username = pUsername;
 		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked'; -- Increments the failed logins, if it equals 5 then account is locked
+		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked'; 
+        -- Increments the failed logins, if it equals 5 then account is locked
 	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
 		UPDATE tblPlayer
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE 
-			Username = pUsername; -- If credentials are correct user is logged into account by setting active status to true
-		SELECT PlayerID, Username, Email, HighScore, AccountAdmin 
-        FROM tblPlayer 
+			Username = pUsername; 
+		-- If credentials are correct user is logged into account by setting active status to true
+		SELECT GameID, TileID
+        FROM tblPlay 
         WHERE 
 			Username = pUsername;
 	ELSE 
-		SELECT PlayerID, Username, Email, HighScore, AccountAdmin 
-        FROM tblPlayer 
-        WHERE 
-			Username = pUsername;
 		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are already logged in'; -- Conditions are met so user is already logged in
+		SET MESSAGE_TEXT = 'You are already logged in'; 
+        -- Conditions are met so user is already logged in
 	END IF;
--- Check here for all games player is on the see if they share a tile where home tile = False, if true then make them move to another tile 
 END //
 DELIMITER ;
 
@@ -425,16 +423,18 @@ BEGIN
 	WHERE 
 		TileID NOT IN (SELECT TileID 
 					   FROM tblPlay 
-                       WHERE GameID = pGameID) 
-                       AND TileID = pTileID 
-                       AND HomeTile = FALSE 
+                       WHERE 
+							GameID = pGameID) 
+							AND TileID = pTileID 
+							AND HomeTile = FALSE 
 	INTO availableTile; 
 
     SELECT TileRow
     FROM tblTile ti 
         JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE 
-		PlayerID = pPlayerID AND GameID = pGameID
+		PlayerID = pPlayerID 
+        AND GameID = pGameID
 	INTO currentTileRow;
     
 	SELECT TileColumn
@@ -464,10 +464,12 @@ BEGIN
 							FROM tblPlay 
 							WHERE 
 								PlayerID = pPlayerID 
-							AND GameID = pGameID)) THEN  
+								AND GameID = pGameID)) THEN  
 		UPDATE tblPlay
 		SET TileID = pTileID
-		WHERE PlayerID = pPlayerID AND GameID = pGameID;
+		WHERE 
+			PlayerID = pPlayerID 
+            AND GameID = pGameID;
             
 		SELECT TileColour, TileRow, TileColumn 
 		FROM tblCharacter ch 
@@ -580,8 +582,9 @@ BEGIN
 	WHERE 
 		PlayID = (SELECT MIN(PlayID) 
 				  FROM tblPlay 
-                  WHERE PlayID > pPlayID 
-                  AND GameID = pGameID) 
+                  WHERE 
+						PlayID > pPlayID 
+						AND GameID = pGameID) 
 	INTO nextTurn; 
     
 	IF pItemID IS NOT NULL THEN     
