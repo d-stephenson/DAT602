@@ -31,7 +31,11 @@ TO 'databaseAccess'@'localhost';
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL CreateTables;
+	ALTER TABLE tblPlayer ENCRYPTION='Y';
 	CALL InsertTables;
+
+	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS FROM INFORMATION_SCHEMA.TABLES
+	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
