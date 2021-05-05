@@ -132,10 +132,6 @@ BEGIN
         WHERE 
 			Username = pUsername; 
 		-- If credentials are correct user is logged into account by setting active status to true
-		SELECT GameID, TileID
-        FROM tblPlay 
-        WHERE 
-			Username = pUsername;
 	ELSE 
 		SIGNAL SQLSTATE '02000'
 		SET MESSAGE_TEXT = 'You are already logged in'; 
