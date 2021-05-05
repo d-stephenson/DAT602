@@ -1,8 +1,8 @@
 -- Seven Dwarfs Gem Hunt Project Transactional SQL Milestone 2
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Database Use
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
@@ -26,16 +26,16 @@ GRANT SELECT
 ON sdghGameDatabase.tblPlayer
 TO 'databaseAccess'@'localhost';
 
--- ----------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Call Create, Insert Procedures from DAT601_MS1_game.sql
--- ----------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-CALL CreateTables;
-CALL InsertTables;
+	CALL CreateTables;
+	CALL InsertTables;
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The database contains a constraint that only allows unique values to be allocated to Email and Username, should 
 -- a new user attempt to register with either value found to exist the procedure will not run. Otherwise, the procedure 
@@ -62,7 +62,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL newUserRegistration('NewUser_1@gmail.com', 'NewUser_1', 'P@ssword1'); -- Run test with these login credentials
 
@@ -77,9 +77,9 @@ DELIMITER ;
 	-- Run test to check user has been added to database
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Login Check Credentials Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- This procedure allows a user to log in to the game, it retrieves the users salt record to ensure the password is 
 -- passed correctly and the users active status to ensure they are not already logged in. If the user is logged in 
@@ -147,7 +147,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	-- Login test is based on credentials entered in registration
 	CALL loginCheckCredentials('NewUser_1', '@ssword1'); -- First test to see login attempt increment
@@ -166,9 +166,9 @@ DELIMITER ;
 	CALL loginCheckCredentials('NewUser_6', 'P@ssword1');
 	CALL loginCheckCredentials('NewUser_7', 'P@ssword1');
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Home Screen Display Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- Two select statements make up the procedure and have been designed with thought given to the end GUI, should a 
 -- login attempt be successful, which is further check by selecting the active status of the user, then the relevant 
@@ -203,13 +203,13 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL homeScreen('NewUser_1');
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The new game procedure must create a new game in the game, which includes an autoincrement ID, a new play instance 
 -- for the player that creates the new game and a new item list associated with the game in the item/game table. The 
@@ -285,7 +285,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL newGame('NewUser_1'); -- Run test with new player starting a game
 
@@ -294,9 +294,9 @@ DELIMITER ;
 	SELECT * FROM tblItemGame ORDER BY GameID DESC; 
 	SELECT * FROM tblPlay ORDER BY GameID DESC;
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Join Game Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- When a player joins a new game, the next available character is selected, a play instance is created that is 
 -- assigned to the game with the character and the player ID. If all seven dwarf characters are playing in the game, 
@@ -359,7 +359,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
 	CALL joinGame(100003, 10); -- Test join game procedure
@@ -378,9 +378,9 @@ DELIMITER ;
 	CALL joinGame(100003, 2);
 	SELECT * FROM tblPlay WHERE GameID = 100003; -- Test player has not been added to game
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Player Moves Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The procedure moves a player to a new tile if the tile is plus or minus one from the player's current tile position 
 -- in a game instance, the play table records the current player's position. If a player is already on the tile, except 
@@ -483,7 +483,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	-- Do the following checks first 
 	SELECT * FROM tblGame WHERE GameID = 100003; -- Confirm that next character turn is character Doc 
@@ -495,9 +495,9 @@ DELIMITER ;
 	-- Re-run tblPlay select query to confirm player is on a new tile location
 	SELECT * FROM tblPlay WHERE GameID = 100003; 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Find Gem Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- When a player lands on a tile this procedure will run, it displays all the items on that tile so that one can be 
 -- selected by the player.
@@ -539,16 +539,16 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL findGem(34, 9, 100003); -- Test procedure and check that gem or gems are listed against correct game, player, play instance and tile location
 	-- IMPORTANT: RECORD THE ITEM ID & PLAY ID FROM THE TEMPORARY TABLE FOR INSERTION IN Select Gem & Update Turn PROCEDURE AND Update Highscore & End Game PROCEDURE
 	-- If the error message is displayed stating there are no items on the tile, next next move procedure below will hopefully have items on the tile, 
 	-- if not you may have to move more players or re-run the create table and insert into procedures and start again
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Select Gem & Update Turn Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The player can select one of the items from the temporary table relating to the game instance, this selection will 
 -- update the play ID of that game to the players play instance and removes the item from the tile by updating the 
@@ -612,7 +612,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL selectGem(NULL, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID and secong input to the correct playID
 
@@ -644,9 +644,9 @@ DELIMITER ;
 	SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
 	SELECT * FROM tblItemGame WHERE GameID = 100003 AND PlayID = 500010;
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Update High Score & End Game Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- This procedure leads on from the preceding procedure and checks if the added points to the play instance total is 
 -- now higher than the player's high score, if it is the player's high score is updated. The procedure then looks to 
@@ -711,7 +711,7 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL updateHS_EG(500010, 12, 100003);
 
@@ -731,9 +731,9 @@ DELIMITER ;
 	-- Re-run select all query from item/game table to confirm tile ID are NULL and play ID relate to play instance
 	SELECT * FROM tblItemGame WHERE GameID = 100003; 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Player Logout Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The logout procedure updates the players active status to false, meaning that if they want to access the game again 
 -- the login procedure will check the active status and request login credentials.
@@ -753,16 +753,16 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL playerLogout('NewUser_1');
 
 	-- Test active status will be displayed as false
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Enter Admin Screen Procedure 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- When admin access is requested the procedure checks if the player has admin privileges, if successful the home 
 -- screen displays the relevant information that an admin would require. If the player is not an admin an error message 
@@ -799,14 +799,14 @@ END //
 DELIMITER ;
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_1'; -- Upgrade new user 1 to admin priviledges 
 	CALL adminScreen('NewUser_1');
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Kill Game Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The procedure carried out an additional check to ensure the user has admin privilege and then deletes a game and all 
 -- the play instances and item/game instances associated with that game. 
@@ -845,7 +845,7 @@ END //
 DELIMITER ;   
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL killGame(100003, 'NewUser_1'); -- Warning message will display saying game has been killed
 
@@ -854,9 +854,9 @@ DELIMITER ;
 	SELECT * FROM tblPlay WHERE GameID = 100003;
 	SELECT * FROM tblItemGAme WHERE GameID = 100003;
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Add Player Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- An admin can use this procedure to add a player, many of the inputs are set to default and as such, there is no need
 -- to alter these manually for this procedure as is the case with the new registration procedure. The only feature 
@@ -894,16 +894,16 @@ END //
 DELIMITER ;     
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL addPlayer('NewUser_1', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
 
 	-- Confirm player has been added and has admin privileges
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Update Player Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The procedure allows an admin user to update all information pertaining to an existing player.
 
@@ -967,14 +967,14 @@ END //
 DELIMITER ;     
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL updatePlayer('NewUser_1', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_ updates player NewUser_8
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Delete Player Procedure
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 -- The procedure allows an admin user to delete all information pertaining to an existing player. The procedure deletes 
 -- the player record, the play instances associated with the player and any association with item records in the 
@@ -1017,7 +1017,7 @@ END //
 DELIMITER ;     
 
 -- TEST PROCEDURE DATA 
--- --------------------------------------------------------------------------------
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
 
