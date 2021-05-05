@@ -271,7 +271,8 @@ BEGIN
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES ((SELECT PlayerID 
 				 FROM tblPlayer 
-                 WHERE Username = pUsername), firstCharacter, newGameId);
+                 WHERE 
+					Username = pUsername), firstCharacter, newGameId);
     END IF;  
 
     WHILE firstItem <= lastItem DO 
@@ -318,7 +319,8 @@ BEGIN
 	WHERE 
 		CharacterName NOT IN (SELECT CharacterName 
 							  FROM tblPlay 
-                              WHERE GameID = pGameID) LIMIT 1
+                              WHERE 
+								GameID = pGameID) LIMIT 1
 	INTO selectedCharacter;
     
 	SELECT PlayerID
@@ -459,10 +461,10 @@ BEGIN
 		AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
         AND (availableTile IS NOT NULL OR pTileID = 001 OR ifPlayerOnTileAreTheyActive = 0) 
         AND (currentTurn = (SELECT CharacterName 
-						FROM tblPlay 
-						WHERE PlayerID = pPlayerID 
-                        AND GameID = pGameID)) THEN  
-
+							FROM tblPlay 
+							WHERE 
+								PlayerID = pPlayerID 
+							AND GameID = pGameID)) THEN  
 		UPDATE tblPlay
 		SET TileID = pTileID
 		WHERE PlayerID = pPlayerID AND GameID = pGameID;
@@ -527,7 +529,8 @@ BEGIN
 			FROM tblItemGame 
 			WHERE TileID = pTileID 
             AND GameID = pGameID) > 0 THEN
-				SELECT * FROM selectOneGem;
+				SELECT * 
+                FROM selectOneGem;
 		ELSE 
 			SIGNAL SQLSTATE '02000'
 			SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
