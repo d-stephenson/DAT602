@@ -31,9 +31,10 @@ TO 'databaseAccess'@'localhost';
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL CreateTables;
-	ALTER TABLE tblPlayer ENCRYPTION='Y';
+	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
 	CALL InsertTables;
-
+	
+    -- Check table is encrypted
 	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS FROM INFORMATION_SCHEMA.TABLES
 	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
 
