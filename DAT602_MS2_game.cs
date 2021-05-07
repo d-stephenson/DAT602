@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace TestingConnection
+namespace ProjectWork
 {
     class Program
     {
@@ -25,18 +25,16 @@ namespace TestingConnection
             Console.ReadLine();
         }
 
-        private static DataSet AddUserName(string pUserName)
+        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
         {
-            String connectionString = "Server=localhost;Port=3306;Database=sapodb;Uid=sapo;password=53211;";
+            String connectionString = "Server=localhost;Port=3306;Database=sapodb;Uid=sdghGameDatabase;password=53211;";
             MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
             List<MySqlParameter> p = new List<MySqlParameter>();
             var aP = new MySqlParameter("@UserName", MySqlDbType.VarChar, 50);
             aP.Value = pUserName;
             p.Add(aP);
 
-
             var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "AddUserName(@UserName)", p.ToArray());
-
 
             return aDataSet;
         }
