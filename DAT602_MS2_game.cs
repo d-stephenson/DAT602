@@ -13,7 +13,13 @@ namespace ProjectWork
         static void Main(string[] args)
         {
             // New User Registration Procedure
-            
+            DataSet Registration = newUserRegistration("test1@gmail.com", "TestOne", "P@ssword1");
+            foreach (DataRow aRow in Registration.Tables[0].Rows)
+            {
+                Console.WriteLine("Registration Status = " + aRow["Message"]);
+            }
+
+            // Login Check Credentials Procedure
             DataSet Registration = newUserRegistration("test1@gmail.com", "TestOne", "P@ssword1");
             foreach (DataRow aRow in Registration.Tables[0].Rows)
             {
@@ -42,8 +48,27 @@ namespace ProjectWork
 
             return aDataSet;
         }
-    
+        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
+        {
+            // Login Check Credentials Procedure
 
+            String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=53211;";
+            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            paramEmail.Value = pEmail;
+            paramUsername.Value = pEmail;
+            paramPassword.Value = pEmail;
+            paramInput.Add(paramEmail);
+            paramInput.Add(paramUsername);
+            paramInput.Add(paramPassword);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
+
+            return aDataSet;
+        }
        
     }
 }
