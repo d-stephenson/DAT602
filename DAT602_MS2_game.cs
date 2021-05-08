@@ -194,6 +194,22 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Admin Kill Game Procedure
+        private static DataSet killGame(string pGameID, string pUsername)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramGameID.Value = pGameID;
+            paramUsername.Value = pUsername;
+            paramInput.Add(paramGameID);
+            paramInput.Add(paramUsername);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "killGame(@GameID,@Username)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -279,6 +295,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Enter.Tables[0].Rows)
             {
                 Console.WriteLine("Admin Status = " + aRow["Message"]);
+            }
+
+            // Admin Kill Game Procedure
+            DataSet Kill = killGame("100001", "TestOne");
+            foreach (DataRow aRow in Kill.Tables[0].Rows)
+            {
+                Console.WriteLine("Kill Game Status = " + aRow["Message"]);
             }
         }
     }
