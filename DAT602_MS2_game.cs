@@ -275,11 +275,25 @@ namespace ProjectWork
 
             return aDataSet;
         }
+
+                        
+        // Admin Delete Player Procedure
+        private static DataSet deletePlayer(string pAdminUsername, string pUsername)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramAdminUsername.Value = pAdminUsername;
+            paramUsername.Value = pUsername;   
+            paramInput.Add(paramAdminUsername);
+            paramInput.Add(paramUsername);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "deletePlayer(@AdminUsername,@Username)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
-
-
-
 
 namespace ProjectWork
 {
@@ -381,6 +395,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Update.Tables[0].Rows)
             {
                 Console.WriteLine("Update Player Status = " + aRow["Message"]);
+            }
+
+            // Admin Delete Player Procedure
+            DataSet Delete = deletePlayer("Bob", "TestTwo");
+            foreach (DataRow aRow in Delete.Tables[0].Rows)
+            {
+                Console.WriteLine("Delete Player Status = " + aRow["Message"]);
             }
         }
     }
