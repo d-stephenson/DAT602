@@ -168,6 +168,19 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Player Logout Procedure
+        private static DataSet playerLogout(string pUsername)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramUsername.Value = pUsername;
+            paramInput.Add(paramUsername);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "playerLogout(@Username)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -239,6 +252,13 @@ namespace ProjectWork
             foreach (DataRow aRow in End.Tables[0].Rows)
             {
                 Console.WriteLine("End Game Status = " + aRow["Message"]);
+            }
+
+            // Player Logout Procedure
+            DataSet Logout = playerLogout("TestOne");
+            foreach (DataRow aRow in Logout.Tables[0].Rows)
+            {
+                Console.WriteLine("Logout Status = " + aRow["Message"]);
             }
         }
     }
