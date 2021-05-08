@@ -108,6 +108,25 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Find Gem Procedure
+        private static DataSet findGem(string pTileID, string pPlayerID, string pGameID)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            paramTileID.Value = pTileID;
+            paramPlayerID.Value = pPlayerID;
+            paramGameID.Value = pGameID;
+            paramInput.Add(paramTileID);
+            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramGameID);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "findGem(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -158,6 +177,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Move.Tables[0].Rows)
             {
                 Console.WriteLine("Move Game Status = " + aRow["Message"]);
+            }
+
+            // Find Game Procedure
+            DataSet Find = findGem("050", "1", "100001");
+            foreach (DataRow aRow in Find.Tables[0].Rows)
+            {
+                Console.WriteLine("Find Gem Status = " + aRow["Message"]);
             }
         }
     }
