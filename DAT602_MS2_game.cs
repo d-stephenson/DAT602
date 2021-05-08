@@ -149,6 +149,25 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Update High Score & End Game Procedure
+        private static DataSet scoreEnd(string pPlayID, string pPlayerID, string pGameID)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            paramPlayID.Value = pPlayID;
+            paramPlayerID.Value = pPlayerID;
+            paramGameID.Value = pGameID;
+            paramInput.Add(paramPlayID);
+            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramGameID);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "scoreEnd(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -213,6 +232,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Turn.Tables[0].Rows)
             {
                 Console.WriteLine("Player Turn Status = " + aRow["Message"]);
+            }
+
+            // Update High Score & End Game Procedure
+            DataSet End = scoreEnd("500001", "1", "100001");
+            foreach (DataRow aRow in End.Tables[0].Rows)
+            {
+                Console.WriteLine("End Game Status = " + aRow["Message"]);
             }
         }
     }
