@@ -8,6 +8,56 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
+    public class paramProcedure
+    {
+        String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=53211;";
+        MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
+        {
+            // New User Registration Procedure
+
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            paramEmail.Value = pEmail;
+            paramUsername.Value = pEmail;
+            paramPassword.Value = pEmail;
+            paramInput.Add(paramEmail);
+            paramInput.Add(paramUsername);
+            paramInput.Add(paramPassword);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
+
+            return aDataSet;
+        }
+        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
+        {
+            // Login Check Credentials Procedure
+
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            paramEmail.Value = pEmail;
+            paramUsername.Value = pEmail;
+            paramPassword.Value = pEmail;
+            paramInput.Add(paramEmail);
+            paramInput.Add(paramUsername);
+            paramInput.Add(paramPassword);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
+
+            return aDataSet;
+        }
+    }
+}
+
+
+
+
+namespace ProjectWork
+{
     class Program
     {
         static void Main(string[] args)
@@ -26,49 +76,5 @@ namespace ProjectWork
                 Console.WriteLine("Registration Status = " + aRow["Message"]);
             }
         }
-
-        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
-        {
-            // New User Registration Procedure
-
-            String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=53211;";
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
-            paramEmail.Value = pEmail;
-            paramUsername.Value = pEmail;
-            paramPassword.Value = pEmail;
-            paramInput.Add(paramEmail);
-            paramInput.Add(paramUsername);
-            paramInput.Add(paramPassword);
-
-            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
-
-            return aDataSet;
-        }
-        private static DataSet newUserRegistration(string pEmail, string pUsername, string pPassword)
-        {
-            // Login Check Credentials Procedure
-
-            String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=53211;";
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
-            paramEmail.Value = pEmail;
-            paramUsername.Value = pEmail;
-            paramPassword.Value = pEmail;
-            paramInput.Add(paramEmail);
-            paramInput.Add(paramUsername);
-            paramInput.Add(paramPassword);
-
-            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
-
-            return aDataSet;
-        }
-       
     }
 }
