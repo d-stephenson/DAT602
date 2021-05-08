@@ -219,7 +219,7 @@ namespace ProjectWork
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
-            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.int);
+            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.bit);
             paramAdminUsername.Value = pAdminUsername;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
@@ -232,6 +232,46 @@ namespace ProjectWork
             paramInput.Add(paramAccountAdmin);
 
             var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "addPlayer(@AdminUsername,@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
+
+            return aDataSet;
+        }
+                        
+        // Admin Update Player Procedure
+        private static DataSet updatePlayer(string pAdminUsername, string PlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.int);
+            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.bit);
+            var paramAccountLocked = new MySqlParameter("@AccountLocked", MySqlDbType.bit);
+            var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.bit);
+            var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.tinyint);
+            var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.int);
+            paramAdminUsername.Value = pAdminUsername;
+            paramPlayerID.Value = pPlayerID;
+            paramEmail.Value = pEmail;
+            paramUsername.Value = pUsername;
+            paramPassword.Value = pPassword;
+            paramAccountAdmin.Value = pAccountAdmin;     
+            paramAccountLocked.Value = pAccountLocked;   
+            paramActiveStatus.Value = pActiveStatus;   
+            paramFailedLogins.Value = pFailedLogins;   
+            paramHighScore.Value = pHighScore;          
+            paramInput.Add(paramAdminUsername);
+            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramEmail);
+            paramInput.Add(paramUsername);
+            paramInput.Add(paramPassword);
+            paramInput.Add(paramAccountAdmin);
+            paramInput.Add(paramAccountLocked);
+            paramInput.Add(paramActiveStatus);
+            paramInput.Add(paramFailedLogins);
+            paramInput.Add(paramHighScore);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "updatePlayer(@AdminUsername,@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
             return aDataSet;
         }
@@ -334,6 +374,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Add.Tables[0].Rows)
             {
                 Console.WriteLine("Add Player Status = " + aRow["Message"]);
+            }
+
+            // Admin Update Player Procedure
+            DataSet Update = updatePlayer("Bob", "17", "test2@gmail.com", "TestTwo", "P@ssword1", "0", "1", "0", "3", "99");
+            foreach (DataRow aRow in Update.Tables[0].Rows)
+            {
+                Console.WriteLine("Update Player Status = " + aRow["Message"]);
             }
         }
     }
