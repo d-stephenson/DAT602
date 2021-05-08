@@ -127,6 +127,28 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Select Gem & Update Turn Procedure
+        private static DataSet gemTurn(string pItemID, string pPlayID, string pPlayerID, string pGameID)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramItemID = new MySqlParameter("@ItemID", MySqlDbType.Int);
+            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            paramItemID.Value = pItemID;
+            paramPlayID.Value = pPlayID;
+            paramPlayerID.Value = pPlayerID;
+            paramGameID.Value = pGameID;
+            paramInput.Add(paramItemID);
+            paramInput.Add(paramPlayID);
+            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramGameID);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "gemTurn(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -184,6 +206,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Find.Tables[0].Rows)
             {
                 Console.WriteLine("Find Gem Status = " + aRow["Message"]);
+            }
+
+            // Select Gem & Update Turn Procedure
+            DataSet Turn = gemTurn("155", "500001", "1", "100001");
+            foreach (DataRow aRow in Turn.Tables[0].Rows)
+            {
+                Console.WriteLine("Player Turn Status = " + aRow["Message"]);
             }
         }
     }
