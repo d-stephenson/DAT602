@@ -210,6 +210,31 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Admin Add Player Procedure
+        private static DataSet addPlayer(string pAdminUsername, string pEmail, string pUsername, string pPassword, string pAccountAdmin)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
+            var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.int);
+            paramAdminUsername.Value = pAdminUsername;
+            paramEmail.Value = pEmail;
+            paramUsername.Value = pUsername;
+            paramPassword.Value = pPassword;
+            paramAccountAdmin.Value = pAccountAdmin;            
+            paramInput.Add(paramAdminUsername);
+            paramInput.Add(paramEmail);
+            paramInput.Add(paramUsername);
+            paramInput.Add(paramPassword);
+            paramInput.Add(paramAccountAdmin);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "addPlayer(@AdminUsername,@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -302,6 +327,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Kill.Tables[0].Rows)
             {
                 Console.WriteLine("Kill Game Status = " + aRow["Message"]);
+            }
+
+            // Admin Add Player Procedure
+            DataSet Add = addPlayer("Bob", "test2@gmail.com", "TestTwo", "P@ssword1", "1");
+            foreach (DataRow aRow in Add.Tables[0].Rows)
+            {
+                Console.WriteLine("Add Player Status = " + aRow["Message"]);
             }
         }
     }
