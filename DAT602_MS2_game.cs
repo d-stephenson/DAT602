@@ -47,6 +47,19 @@ namespace ProjectWork
 
             return aDataSet;
         }
+
+        // Home Screen Display Procedure
+        private static DataSet homeScreenDisplay(string pUsername)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramUsername.Value = pUsername;
+            paramInput.Add(paramUsername);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "homeScreenDisplay(@Username)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -71,6 +84,12 @@ namespace ProjectWork
             foreach (DataRow aRow in Login.Tables[0].Rows)
             {
                 Console.WriteLine("Login Status = " + aRow["Message"]);
+
+            // Home Screen Display Procedure
+            DataSet Home = loginCheckCredentials("TestOne");
+            foreach (DataRow aRow in Home.Tables[0].Rows)
+            {
+                Console.WriteLine("Home Screen Status = " + aRow["Message"]);
             }
         }
     }
