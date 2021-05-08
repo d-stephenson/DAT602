@@ -181,6 +181,19 @@ namespace ProjectWork
 
             return aDataSet;
         }
+                        
+        // Enter Admin Screen Procedure 
+        private static DataSet enterAdmin(string pUsername)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramUsername.Value = pUsername;
+            paramInput.Add(paramUsername);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(mySqlConnection, "enterAdmin(@Username)", paramInput.ToArray());
+
+            return aDataSet;
+        }
     }
 }
 
@@ -259,6 +272,13 @@ namespace ProjectWork
             foreach (DataRow aRow in Logout.Tables[0].Rows)
             {
                 Console.WriteLine("Logout Status = " + aRow["Message"]);
+            }
+
+            // Enter Admin Screen Procedure 
+            DataSet Enter = enterAdmin("TestOne");
+            foreach (DataRow aRow in Enter.Tables[0].Rows)
+            {
+                Console.WriteLine("Admin Status = " + aRow["Message"]);
             }
         }
     }
