@@ -62,7 +62,7 @@ BEGIN
         (pY >= Y - 10 AND pY <= Y + 10) AND 
         Username <> pUserName
 	  INTO @HitCount;
-      
+      	SET SQL_SAFE_UPDATES = 0; 
       UPDATE tblClickTarget
       SET Strength = Strength + @HitCount
       WHERE 

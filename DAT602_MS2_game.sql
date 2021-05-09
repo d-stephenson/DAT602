@@ -641,7 +641,7 @@ DELIMITER ;
 	SELECT * FROM tblPlay WHERE CharacterName = 'Grumpy' AND GameID = 100003;
 	CALL movePlayer(42, 12, 100003); 
 	CALL findGem(42, 12, 100003);
-	CALL selectGem(112, 500010, 12, 100003);
+	CALL selectGem(139, 500010, 12, 100003);
 
 	-- Now we can do the check, if by chance the above second move yeilded no items find the next character turn and do it again
 	SELECT * FROM tblPlay WHERE PlayerID = 12; -- Check play score has updated
@@ -762,7 +762,20 @@ DELIMITER ;
 	CALL playerLogout('NewUser_1');
 
 	-- Test active status will be displayed as false
-	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 
+	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1';
+    
+    -- Let's move a Player to NewUser_1 location in game 100003
+    SELECT PlayerID, pl.GameID
+    FROM tblPlay pl
+		JOIN tblGame ga ON pl.CharacterName = ga.CharacterTurn 
+    WHERE pl.GameiD = 100003; 
+    
+    SELECT * FROM tblPlay WHERE PlayerID = 13;
+    
+	CALL movePlayer(34, 13, 100003); 
+	SELECT * FROM tblPlay WHERE TileID = 34;
+	CALL findGem(34, 13, 100003);
+	CALL selectGem(NULL, 500011, 13, 100003);
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Enter Admin Screen Procedure 
