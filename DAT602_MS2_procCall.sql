@@ -207,10 +207,6 @@ USE sdghGameDatabase;
 
 	-- Test active status is displayed as false for Troy
 	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'Troy';
-
-    SELECT * FROM tblPlay WHERE GameID = 100001;
-    SELECT * FROM tblGame WHERE GameID = 100001;
-	SELECT * FROM tblPlayer WHERE PlayerID = 1 OR PlayerID = 4;
     
     -- Player 1 should be able to move to tile 79 with player 4 located on it as player 4 is not active
 	CALL movePlayer(79, 1, 100001); 

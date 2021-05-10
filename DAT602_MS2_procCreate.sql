@@ -358,7 +358,7 @@ BEGIN
 					   FROM tblPlay 
                        WHERE 
 							GameID = pGameID) 
-							AND TileID = pTileID 
+							AND TileID = pTileID
 							AND HomeTile = FALSE 
 	INTO availableTile; 
     
@@ -366,8 +366,7 @@ BEGIN
     FROM tblPlayer pl
 		JOIN tblPlay py ON pl.PlayerID = py.PlayerID
 	WHERE 
-		py.PlayerID = pPlayerID
-		AND TileID = pTileID
+		py.TileID = pTileID
 		AND GameID = pGameID
     INTO ifPlayerOnTileAreTheyActive; -- This allows player to move to a tile with another player located but the active status is 0
 
@@ -401,7 +400,7 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
 		AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
-        AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001 ) 
+        AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001) 
         AND (currentTurn = (SELECT CharacterName 
 							FROM tblPlay 
 							WHERE 
