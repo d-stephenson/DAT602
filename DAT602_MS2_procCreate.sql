@@ -41,7 +41,6 @@ SHOW GRANTS FOR 'root'@'localhost';
 
 	CALL CreateTables;
 	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
-    
 	CALL InsertTables;
 	
     -- Check table is encrypted
