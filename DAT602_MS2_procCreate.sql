@@ -11,11 +11,9 @@ CREATE USER IF NOT EXISTS 'superAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
 CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
 CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'P@ssword1';
 
-SHOW GRANTS FOR 'databaseAdmin'@'localhost';
-SHOW GRANTS FOR 'databaseAccess'@'localhost';
-SHOW GRANTS FOR 'root'@'localhost';
-
-GRANT ALL TO 'superAdmin'@'localhost';
+GRANT ALL 
+ON sdghGameDatabase
+TO 'superAdmin'@'localhost';
 
 GRANT CREATE, DROP, SELECT, UPDATE, DELETE, INSERT
 ON sdghGameDatabase.tblPlayer
@@ -29,16 +27,23 @@ GRANT SELECT
 ON sdghGameDatabase.tblPlayer
 TO 'databaseAccess'@'localhost';
 
+SHOW GRANTS FOR 'superAdmin'@'localhost';
+SHOW GRANTS FOR 'databaseAdmin'@'localhost';
+SHOW GRANTS FOR 'databaseAccess'@'localhost';
+SHOW GRANTS FOR 'root'@'localhost';
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Call Create, Insert Procedures from DAT601_MS1_game.sql
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL CreateTables;
 	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
+    
 	CALL InsertTables;
 	
     -- Check table is encrypted
-	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS FROM INFORMATION_SCHEMA.TABLES
+	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
+    FROM INFORMATION_SCHEMA.TABLES
 	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
