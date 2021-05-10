@@ -12,9 +12,11 @@ CREATE USER IF NOT EXISTS 'superAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
 CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
 CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'P@ssword1';
 
-GRANT ALL 
+FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES
 ON sdghGameDatabase
-TO 'superAdmin'@'localhost';
+TO 'superAdmin'@'localhost' WITH GRANT OPTION;
 
 GRANT CREATE, DROP, SELECT, UPDATE, DELETE, INSERT
 ON sdghGameDatabase.tblPlayer
@@ -59,7 +61,7 @@ SHOW GRANTS FOR 'root'@'localhost';
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE DEFINER = 'superAdmin'@'localhost' PROCEDURE newUserRegistration(
+CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE newUserRegistration(
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB
@@ -353,9 +355,9 @@ BEGIN
     FROM tblPlayer pl
 		JOIN tblPlay py ON pl.PlayerID = py.PlayerID
 	WHERE 
-		py.PlayerID = 9 
-		AND TileID = 34 
-		AND GameID = 100003
+		py.PlayerID = pPlayerID
+		AND TileID = pTileID
+		AND GameID = pGameID
     INTO ifPlayerOnTileAreTheyActive; -- This allows player to move to a tile with another player located but the active status is 0
     
     SELECT TileID
