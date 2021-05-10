@@ -134,7 +134,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL selectGem(NULL, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL selectGem(129, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
@@ -211,7 +211,7 @@ USE sdghGameDatabase;
     -- Player 1 should be able to move to tile 79 with player 4 located on it as player 4 is not active
 	CALL movePlayer(79, 1, 100001); 
 
-	SELECT * FROM tblPlay WHERE TileID = 79;
+	SELECT * FROM tblPlay WHERE TileID = 79; -- Test both players are on tile 79
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Enter Admin Screen Procedure 
