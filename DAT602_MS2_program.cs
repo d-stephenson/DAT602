@@ -10,7 +10,7 @@ namespace ProjectWork
 {
     public class paramProcedure
     {
-        String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=53211;";
+        String connectionString = "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=databaseAdmin@localhost;password=P@ssword1;";
         MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
 
         // New User Registration Procedure
