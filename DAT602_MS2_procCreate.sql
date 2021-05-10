@@ -345,22 +345,13 @@ BEGIN
 	DECLARE newTileRow tinyint DEFAULT NULL;
 	DECLARE newTileColumn tinyint DEFAULT NULL;
     
-	SELECT CharacterTurn
+	SELECT CharacterTurn -- Checks the character turn for the game
 	FROM tblGame
 	WHERE 
 		GameID = pGameID 
 	INTO currentTurn;
-	
-	SELECT ActiveStatus 
-    FROM tblPlayer pl
-		JOIN tblPlay py ON pl.PlayerID = py.PlayerID
-	WHERE 
-		py.PlayerID = pPlayerID
-		AND TileID = pTileID
-		AND GameID = pGameID
-    INTO ifPlayerOnTileAreTheyActive; -- This allows player to move to a tile with another player located but the active status is 0
     
-    SELECT TileID
+	SELECT TileID -- Checks if a tile is empty and available
 	FROM tblTile
 	WHERE 
 		TileID NOT IN (SELECT TileID 
@@ -370,8 +361,17 @@ BEGIN
 							AND TileID = pTileID 
 							AND HomeTile = FALSE 
 	INTO availableTile; 
+    
+	SELECT ActiveStatus -- Checks the active status if a player is on the tile selected
+    FROM tblPlayer pl
+		JOIN tblPlay py ON pl.PlayerID = py.PlayerID
+	WHERE 
+		py.PlayerID = pPlayerID
+		AND TileID = pTileID
+		AND GameID = pGameID
+    INTO ifPlayerOnTileAreTheyActive; -- This allows player to move to a tile with another player located but the active status is 0
 
-    SELECT TileRow
+    SELECT TileRow -- The current player tile row
     FROM tblTile ti 
         JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE 
@@ -379,7 +379,7 @@ BEGIN
         AND GameID = pGameID
 	INTO currentTileRow;
     
-	SELECT TileColumn
+	SELECT TileColumn -- The current player tile column
     FROM tblTile ti 
         JOIN tblPlay pl ON ti.TileID = pl.TileID
 	WHERE 
@@ -387,13 +387,13 @@ BEGIN
         AND GameID = pGameID
 	INTO currentTileColumn;
         
-	SELECT TileRow 
+	SELECT TileRow -- The selected tile row
     FROM tblTile
 	WHERE 
 		TileID = pTileID
 	INTO newTileRow;
     
-	SELECT TileColumn
+	SELECT TileColumn -- The selected tile column
     FROM tblTile
 	WHERE 
 		TileID = pTileID
@@ -401,7 +401,7 @@ BEGIN
     
     IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
 		AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
-        AND (availableTile IS NOT NULL OR pTileID = 001 OR ifPlayerOnTileAreTheyActive = 0) 
+        AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001 ) 
         AND (currentTurn = (SELECT CharacterName 
 							FROM tblPlay 
 							WHERE 

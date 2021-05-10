@@ -212,6 +212,7 @@ USE sdghGameDatabase;
     SELECT * FROM tblGame WHERE GameID = 100001;
 	SELECT * FROM tblPlayer WHERE PlayerID = 1 OR PlayerID = 4;
     
+    -- Player 1 should be able to move to tile 79 with player 4 located on it as player 4 is not active
 	CALL movePlayer(79, 1, 100001); 
 
 	SELECT * FROM tblPlay WHERE TileID = 79;
