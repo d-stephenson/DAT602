@@ -134,7 +134,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL selectGem(140, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID, second input to the correct playID, third input to correct playerID
+	CALL selectGem(NULL, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
@@ -146,18 +146,18 @@ USE sdghGameDatabase;
 	SELECT * FROM tblPlay WHERE CharacterName = 'Bashful' AND GameID = 100003;
 	CALL movePlayer(50, 10, 100003); 
 	CALL findGem(50, 10, 100003); -- Run to check if there are gems on the tile
-	CALL selectGem(147, 500008, 10, 100003); -- Run this to ensure player turn updates
+	CALL selectGem(158, 500008, 10, 100003); -- Run this to ensure player turn updates
 
 	SELECT * FROM tblPlay WHERE CharacterName = 'Dopey' AND GameID = 100003;
 	CALL movePlayer(50, 11, 100003); -- Check this player can't move to tile 50 as previous player moved to tile 50
 	CALL movePlayer(49, 11, 100003); 
 	CALL findGem(49, 11, 100003); -- Run to check if there are gems on the tile
-	CALL selectGem(NULL, 500009, 11, 100003); -- Run this to ensure player turn updates
+	CALL selectGem(142, 500009, 11, 100003); -- Run this to ensure player turn updates
 
 	SELECT * FROM tblPlay WHERE CharacterName = 'Grumpy' AND GameID = 100003;
 	CALL movePlayer(42, 12, 100003); 
 	CALL findGem(42, 12, 100003); -- Run to check if there are gems on the tile
-	CALL selectGem(139, 500010, 12, 100003); -- Run this to ensure player turn updates
+	CALL selectGem(143, 500010, 12, 100003); -- Run this to ensure player turn updates
 
 	-- Now we can do some checks, if by chance the above second move yielded no items find the next character turn and do it again
 	SELECT * FROM tblPlay WHERE PlayerID >= 9 AND PlayerID <= 15; -- Check play score has updated
@@ -188,17 +188,13 @@ USE sdghGameDatabase;
 	UPDATE tblItemGame SET TileID = 33, PlayID = NULL WHERE ItemID = 155 AND GameID = 100003; 
 	SELECT * FROM tblItemGame WHERE GameID = 100003 AND TileID = 33; -- Check 1 tile now has an item left
 	CALL movePlayer(33, 13, 100003); -- Move the next player
-    -- here
-    select * from tblGame where gameid = 100003
-    select * from tblPlay where gameid = 100003
     
     -- IMPORTANT: Amend the first input to the correct ItemID. Call selectGem procedure again
+	CALL findGem(33, 13, 100003); 
 	CALL selectGem(155, 500011, 13, 100003); 
-	CALL updateHS(500008, 10, 100003); -- Call updateHS procedure again
+	CALL updateHS(500011, 13, 100003); -- Call updateHS procedure again
+    
 	SELECT * FROM tblGame WHERE GameID = 100003; -- Character turn is now set to NULL as game has finished, no more items to collect
-
-	-- Re-run select all query from item/game table to confirm tile ID are NULL and play ID relate to play instance
-	SELECT * FROM tblItemGame WHERE GameID = 100003 AND TileID = 50; 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Player Logout Procedure
