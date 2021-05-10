@@ -148,10 +148,10 @@ BEGIN
 
 INSERT INTO tblPlayer
 VALUES 
-(000001, 'mstirtle0@alibaba.com', 'Bob', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000001, 'mstirtle0@alibaba.com', 'Bob', 'P@ssword1', TRUE, FALSE, TRUE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
 (000002, 'cgrooby1@walmart.com', 'Jane', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
 (000003, 'abartosinski2@irs.gov', 'John', 'P@ssword1', TRUE, FALSE, FALSE, 2, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
-(000004, 'mggghgh0@gmail.com', 'Troy', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
+(000004, 'mggghgh0@gmail.com', 'Troy', 'P@ssword1', TRUE, FALSE, TRUE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
 (000005, 'dringm@gmx.com', 'Chris', 'P@ssword1', TRUE, FALSE, FALSE, 3, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
 (000006, 'ythnfhhgj@frirs.gov', 'Sunny', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),
 (000007, 'looijnhg0@gmail.com', 'JCP', 'P@ssword1', TRUE, FALSE, FALSE, 0, 0, 'dsaf5165fdg46fg4sg6-54sdfg5'),

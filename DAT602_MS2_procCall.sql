@@ -202,27 +202,19 @@ USE sdghGameDatabase;
 
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- here 
-	CALL playerLogout('John');
 
-	-- Test active statusis displayed as false for Troy
+	CALL playerLogout('Troy');
+
+	-- Test active status is displayed as false for Troy
 	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'Troy';
 
-    SELECT * FROM tblPlay WHERE GameID = 100002;
-    SELECT * FROM tblGame WHERE GameID = 100002;
-	SELECT * FROM tblPlayer WHERE PlayerID >= 2 AND PlayerID <= 3;
+    SELECT * FROM tblPlay WHERE GameID = 100001;
+    SELECT * FROM tblGame WHERE GameID = 100001;
+	SELECT * FROM tblPlayer WHERE PlayerID = 1 OR PlayerID = 4;
     
-    
-	-- Update Bob to ensure active status is true so we can move him to Troy's location as Troy is now not active
-	UPDATE tblPlayer SET ActiveStatus = 1 WHERE Username = 'Bob'; -- Ensure player Bob is active to move as he is next turn being Doc
-    
-	CALL movePlayer(77, 1, 100001); 
-    
-    
-    
+	CALL movePlayer(79, 1, 100001); 
+
 	SELECT * FROM tblPlay WHERE TileID = 79;
-	CALL findGem(34, 13, 100003);
-	CALL selectGem(NULL, 500011, 13, 100003);
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Enter Admin Screen Procedure 
