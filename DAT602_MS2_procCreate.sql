@@ -37,6 +37,8 @@ SHOW GRANTS FOR 'root'@'localhost';
 -- Call Create, Insert Procedures from DAT601_MS1_game.sql
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
+
 	CALL CreateTables;
 	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
     
@@ -58,7 +60,7 @@ SHOW GRANTS FOR 'root'@'localhost';
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE newUserRegistration(
+CREATE DEFINER = 'superAdmin'@'localhost' PROCEDURE newUserRegistration(
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB
