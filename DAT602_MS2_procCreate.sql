@@ -37,10 +37,10 @@ SHOW GRANTS FOR 'root'@'localhost';
 
 SHOW GLOBAL VARIABLES LIKE '%isolation%';
 
-SET GLOBAL TRANSACTION ISOLATION LEVEL read uncommited; 
-SET GLOBAL TRANSACTION ISOLATION LEVEL read commited; 
-SET GLOBAL TRANSACTION ISOLATION LEVEL repeatable read; 
-SET GLOBAL TRANSACTION ISOLATION LEVEL serialization; 
+-- SET GLOBAL TRANSACTION ISOLATION LEVEL read uncommitted; 
+SET GLOBAL TRANSACTION ISOLATION LEVEL read committed; 
+-- SET GLOBAL TRANSACTION ISOLATION LEVEL repeatable read; 
+-- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization; 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Call Create, Insert Procedures from DAT601_MS1_game.sql
