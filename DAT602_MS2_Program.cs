@@ -12,6 +12,14 @@ namespace DAT602_ConsoleApp
     {
         static void Main(string[] args)
         {
+            DataAccess aDataAccess = new DataAccess();
+            Console.WriteLine("Message is " + aDataAccess.newUserRegistration("test1@gmail.com", "TestOne", "P@ssword1"));
+            Console.ReadLine();
+        
+            DataAccess bDataAccess = new DataAccess();
+            Console.WriteLine("Message is " + bDataAccess.loginCheckCredentials("TestOne", "P@ssword1"));
+            Console.ReadLine();
+
             // New User Registration Procedure
             DataAccess Registration = new UserRegistration("test1@gmail.com", "TestOne", "P@ssword1");
             foreach (DataRow aRow in Registration.Tables[0].Rows)
