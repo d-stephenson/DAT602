@@ -24,20 +24,20 @@ namespace DAT602_ConsoleApp
             foreach (DataRow aRow in Login.Tables[0].Rows)
             {
                 Console.WriteLine("Login Status = " + aRow["Message"]);
-
+            }
             // Home Screen Display Procedure
             DataAccess Home = new homeScreenDisplay("TestOne");
             foreach (DataRow aRow in Home.Tables[0].Rows)
             {
                 Console.WriteLine("Home Screen Status = " + aRow["Message"]);
-
+            }
             // New Game Procedure
             DataAccess Game = new Game("TestOne");
             foreach (DataRow aRow in Game.Tables[0].Rows)
             {
                 Console.WriteLine("New Game Status = " + aRow["Message"]);
             }
-            
+
             // Join Game Procedure
             DataAccess Join = new joinGame("100001", "1");
             foreach (DataRow aRow in Join.Tables[0].Rows)
