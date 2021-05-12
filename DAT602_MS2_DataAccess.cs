@@ -37,7 +37,7 @@ namespace DAT602_ConsoleApp
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
@@ -47,7 +47,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
 
         // Login Check Credentials Procedure
@@ -55,7 +55,7 @@ namespace DAT602_ConsoleApp
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
             paramInput.Add(paramUsername);
@@ -63,7 +63,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
 
         // Home Screen Display Procedure
@@ -76,7 +76,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "homeScreenDisplay(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
 
         // New Game Procedure
@@ -89,15 +89,15 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "newGame(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                
+
         // Join Game Procedure
         public string joinGame(string pGameID, string pPlayerID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
             paramGameID.Value = pGameID;
             paramPlayerID.Value = pPlayerID;
             paramInput.Add(paramGameID);
@@ -105,16 +105,16 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "joinGame(@GameID,@PlayerID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Player Moves Procedure
         public string playerMoves(string pTileID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramTileID.Value = pTileID;
             paramPlayerID.Value = pPlayerID;
             paramGameID.Value = pGameID;
@@ -124,16 +124,16 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerMoves(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Find Gem Procedure
         public string findGem(string pTileID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramTileID.Value = pTileID;
             paramPlayerID.Value = pPlayerID;
             paramGameID.Value = pGameID;
@@ -143,17 +143,17 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "findGem(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Select Gem & Update Turn Procedure
         public string gemTurn(string pItemID, string pPlayID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramItemID = new MySqlParameter("@ItemID", MySqlDbType.Int);
-            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            var paramItemID = new MySqlParameter("@ItemID", MySqlDbType.Int16);
+            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int16);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramItemID.Value = pItemID;
             paramPlayID.Value = pPlayID;
             paramPlayerID.Value = pPlayerID;
@@ -165,16 +165,16 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "gemTurn(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Update High Score & End Game Procedure
         public string scoreEnd(string pPlayID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int);
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
+            var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int16);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramPlayID.Value = pPlayID;
             paramPlayerID.Value = pPlayerID;
             paramGameID.Value = pGameID;
@@ -184,41 +184,41 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "scoreEnd(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Player Logout Procedure
         public string playerLogout(string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramUsername.Value = pUsername;
             paramInput.Add(paramUsername);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerLogout(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Enter Admin Screen Procedure 
         public string enterAdmin(string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramUsername.Value = pUsername;
             paramInput.Add(paramUsername);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "enterAdmin(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Admin Kill Game Procedure
         public string killGame(string pGameID, string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int);
-            var paramPlayID = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramGameID.Value = pGameID;
             paramUsername.Value = pUsername;
             paramInput.Add(paramGameID);
@@ -226,9 +226,9 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "killGame(@GameID,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Admin Add Player Procedure
         public string addPlayer(string pAdminUsername, string pEmail, string pUsername, string pPassword, string pAccountAdmin)
         {
@@ -236,13 +236,13 @@ namespace DAT602_ConsoleApp
             var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
-            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.bit);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
+            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.Bit);
             paramAdminUsername.Value = pAdminUsername;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
-            paramAccountAdmin.Value = pAccountAdmin;            
+            paramAccountAdmin.Value = pAccountAdmin;
             paramInput.Add(paramAdminUsername);
             paramInput.Add(paramEmail);
             paramInput.Add(paramUsername);
@@ -251,33 +251,33 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "addPlayer(@AdminUsername,@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
-                        
+
         // Admin Update Player Procedure
-        public string updatePlayer(string pAdminUsername, string PlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
+        public string updatePlayer(string pAdminUsername, string pPlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.int);
+            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            var paramPassword = new MySqlParameter("@Password", MySqlDbType.BLOB);
-            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.bit);
-            var paramAccountLocked = new MySqlParameter("@AccountLocked", MySqlDbType.bit);
-            var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.bit);
-            var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.tinyint);
-            var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.int);
+            var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
+            var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.Bit);
+            var paramAccountLocked = new MySqlParameter("@AccountLocked", MySqlDbType.Bit);
+            var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.Bit);
+            var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.TinyInt);
+            var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.Int16);
             paramAdminUsername.Value = pAdminUsername;
             paramPlayerID.Value = pPlayerID;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
-            paramAccountAdmin.Value = pAccountAdmin;     
-            paramAccountLocked.Value = pAccountLocked;   
-            paramActiveStatus.Value = pActiveStatus;   
-            paramFailedLogins.Value = pFailedLogins;   
-            paramHighScore.Value = pHighScore;          
+            paramAccountAdmin.Value = pAccountAdmin;
+            paramAccountLocked.Value = pAccountLocked;
+            paramActiveStatus.Value = pActiveStatus;
+            paramFailedLogins.Value = pFailedLogins;
+            paramHighScore.Value = pHighScore;
             paramInput.Add(paramAdminUsername);
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramEmail);
@@ -291,10 +291,10 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "updatePlayer(@AdminUsername,@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
 
-                        
+
         // Admin Delete Player Procedure
         public string deletePlayer(string pAdminUsername, string pUsername)
         {
@@ -302,14 +302,13 @@ namespace DAT602_ConsoleApp
             var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramAdminUsername.Value = pAdminUsername;
-            paramUsername.Value = pUsername;   
+            paramUsername.Value = pUsername;
             paramInput.Add(paramAdminUsername);
             paramInput.Add(paramUsername);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "deletePlayer(@AdminUsername,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
         }
     }
 }
-
