@@ -108,8 +108,8 @@ namespace DAT602_ConsoleApp
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
         }
                         
-        // Move Game Procedure
-        public string moveGame(string pTileID, string pPlayerID, string pGameID)
+        // Player Moves Procedure
+        public string playerMoves(string pTileID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int);
@@ -122,7 +122,7 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "moveGame(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerMoves(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();;
         }
