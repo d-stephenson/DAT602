@@ -47,7 +47,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "newUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Login Check Credentials Procedure
@@ -63,7 +63,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Home Screen Display Procedure
@@ -76,7 +76,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "homeScreenDisplay(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // New Game Procedure
@@ -89,7 +89,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "newGame(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Join Game Procedure
@@ -105,7 +105,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "joinGame(@GameID,@PlayerID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Player Moves Procedure
@@ -124,7 +124,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerMoves(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Find Gem Procedure
@@ -143,7 +143,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "findGem(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Select Gem & Update Turn Procedure
@@ -165,7 +165,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "gemTurn(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Update High Score & End Game Procedure
@@ -184,7 +184,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "scoreEnd(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Player Logout Procedure
@@ -197,7 +197,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerLogout(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Enter Admin Screen Procedure 
@@ -210,7 +210,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "enterAdmin(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Admin Kill Game Procedure
@@ -226,7 +226,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "killGame(@GameID,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Admin Add Player Procedure
@@ -251,7 +251,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "addPlayer(@AdminUsername,@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Admin Update Player Procedure
@@ -291,7 +291,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "updatePlayer(@AdminUsername,@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
 
@@ -308,7 +308,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "deletePlayer(@AdminUsername,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); ;
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
     }
 }
