@@ -23,7 +23,7 @@ ON sdghGameDatabase.tblPlayer
 TO 'databaseAdmin'@'localhost';
 
 GRANT EXECUTE 
-ON PROCEDURE newUserRegistration
+ON PROCEDURE loginCheckCredentials -- newUserRegistration
 TO 'databaseAdmin'@'localhost';
 
 GRANT SELECT
@@ -96,11 +96,11 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE loginCheckCredentials(
+CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE loginCheckCredentials(
 		IN pUsername varchar(50), 
 		IN pPassword BLOB
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	DECLARE retrieveSalt varchar(36) DEFAULT NULL;
@@ -145,6 +145,7 @@ BEGIN
 		SET MESSAGE_TEXT = 'You are already logged in'; 
         -- Conditions are met so user is already logged in
 	END IF;
+    SELECT INSERTED AS MESSAGE;
 END //
 DELIMITER ;
 

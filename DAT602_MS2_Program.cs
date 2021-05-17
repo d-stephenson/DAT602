@@ -12,6 +12,32 @@ namespace DAT602_ConsoleApp
     {
         static void Main(string[] args)
         {
+                        {
+               DataAccess aDataAccess = new DataAccess();
+
+               // New User Registration Procedure
+               Console.WriteLine("Testing newUserRegistration");
+               Console.WriteLine("===============================================");
+
+               Console.WriteLine("Message is " + aDataAccess.newUserRegistration("test1@gmail.com", "TestOne", "P@ssword1"));
+               Console.WriteLine("----------------------------------------------");
+
+               Console.ReadLine();
+            }
+
+            {
+               DataAccess aDataAccess = new DataAccess();
+
+               // New User Registration Procedure
+               Console.WriteLine("Testing loginCheckCredentials");
+               Console.WriteLine("===============================================");
+
+               Console.WriteLine("Message is " + aDataAccess.loginCheckCredentials("TestOne", "P@ssword1"));
+               Console.WriteLine("----------------------------------------------");
+
+               Console.ReadLine();
+            }
+
             // New User Registration Procedure
             DataAccess aDataAccess = new DataAccess();
             Console.WriteLine("Message is " + aDataAccess.newUserRegistration("test1@gmail.com", "TestOne", "P@ssword1"));

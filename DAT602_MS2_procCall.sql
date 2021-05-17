@@ -50,7 +50,9 @@ USE sdghGameDatabase;
 	CALL loginCheckCredentials('NewUser_5', 'P@ssword1');
 	CALL loginCheckCredentials('NewUser_6', 'P@ssword1');
 	CALL loginCheckCredentials('NewUser_7', 'P@ssword1');
-
+    
+	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'NewUser_2';
+select * from tblplayer
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Home Screen Display Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
