@@ -8,31 +8,10 @@
 USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
 
-CREATE USER IF NOT EXISTS 'superAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
+DROP USER 'databaseAdmin'@'localhost';
 CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
-CREATE USER IF NOT EXISTS 'databaseAccess'@'localhost' IDENTIFIED BY 'P@ssword1';
-
-FLUSH PRIVILEGES;
-
-GRANT ALL PRIVILEGES
-ON sdghGameDatabase
-TO 'superAdmin'@'localhost' WITH GRANT OPTION;
-
-GRANT CREATE, DROP, SELECT, UPDATE, DELETE, INSERT
-ON sdghGameDatabase.tblPlayer
-TO 'databaseAdmin'@'localhost';
-
-GRANT EXECUTE 
-ON PROCEDURE loginCheckCredentials -- newUserRegistration
-TO 'databaseAdmin'@'localhost';
-
-GRANT SELECT
-ON sdghGameDatabase.tblPlayer
-TO 'databaseAccess'@'localhost';
-
-SHOW GRANTS FOR 'superAdmin'@'localhost';
+GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
-SHOW GRANTS FOR 'databaseAccess'@'localhost';
 SHOW GRANTS FOR 'root'@'localhost';
 
 SHOW GLOBAL VARIABLES LIKE '%isolation%';
@@ -68,7 +47,7 @@ SET GLOBAL TRANSACTION ISOLATION LEVEL read committed;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE newUserRegistration(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE newUserRegistration(
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB
@@ -82,6 +61,8 @@ BEGIN
 	
 	INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
 	VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+    
+    SELECT 'INSERTED' AS MESSAGE;
 END //
 DELIMITER ;
 
@@ -96,7 +77,7 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS loginCheckCredentials;
-CREATE DEFINER = 'databaseAdmin'@'localhost' PROCEDURE loginCheckCredentials(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE loginCheckCredentials(
 		IN pUsername varchar(50), 
 		IN pPassword BLOB
     )
@@ -139,13 +120,25 @@ BEGIN
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE 
 			Username = pUsername; 
+        
+		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+        FROM tblPlayer py 
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+        GROUP BY pl.GameID;  
+        
+		SELECT Username AS 'Player', HighScore AS 'High Score' 
+		FROM tblPlayer; 
 		-- If credentials are correct user is logged into account by setting active status to true
 	ELSE 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are already logged in'; 
+		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+        FROM tblPlayer py 
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+        GROUP BY pl.GameID;  
+        
+		SELECT Username AS 'Player', HighScore AS 'High Score' 
+		FROM tblPlayer;  
         -- Conditions are met so user is already logged in
 	END IF;
-    SELECT INSERTED AS MESSAGE;
 END //
 DELIMITER ;
 
