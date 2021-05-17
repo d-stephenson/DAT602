@@ -28,7 +28,7 @@ namespace DAT602_ConsoleApp
             {
                DataAccess aDataAccess = new DataAccess();
 
-               // New User Registration Procedure
+               // Login Check Credentials Procedure
                Console.WriteLine("Testing loginCheckCredentials");
                Console.WriteLine("===============================================");
 
