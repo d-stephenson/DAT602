@@ -8,7 +8,7 @@
 USE sdghGameDatabase;
 SELECT `user`, `host` FROM mysql.user;
 
-DROP USER 'databaseAdmin'@'localhost';
+DROP USER IF EXISTS 'databaseAdmin'@'localhost';
 CREATE USER IF NOT EXISTS 'databaseAdmin'@'localhost' IDENTIFIED BY 'P@ssword1';
 GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
@@ -152,10 +152,10 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS homeScreen;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE homeScreen(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE homeScreen(
 		IN pUsername varchar(10)
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE accessScreen bit DEFAULT NULL;
@@ -190,10 +190,10 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS newGame;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE newGame(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE newGame(
         IN pUsername varchar(10)
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	DECLARE firstItem int DEFAULT NULL;
@@ -265,11 +265,11 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS joinGame;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE joinGame(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE joinGame(
         IN pGameID int,
         IN pPlayerID int
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE selectedCharacter varchar(10) DEFAULT NULL;
@@ -330,12 +330,12 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS movePlayer;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE movePlayer(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE movePlayer(
         IN pTileID int,
         IN pPlayerID int,
         IN pGameID int
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	DECLARE currentTurn varchar(10) DEFAULT NULL;
@@ -435,12 +435,12 @@ DELIMITER ;
 
 DELIMITER // 
 DROP PROCEDURE IF EXISTS findGem;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE findGem(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE findGem(
         IN pTileID int,
         IN pPlayerID int,
         IN pGameID int
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	DROP TEMPORARY TABLE IF EXISTS selectOneGem;
@@ -480,13 +480,13 @@ DELIMITER ;
 
 DELIMITER // 
 DROP PROCEDURE IF EXISTS selectGem;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE selectGem(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE selectGem(
         IN pItemID int,
         IN pPlayID int,
         IN pPlayerID int,
         IN pGameID int
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	DECLARE gemPoints tinyint DEFAULT NULL;
@@ -547,12 +547,12 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updateHS_EG;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updateHS_EG(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE updateHS_EG(
         IN pPlayID int,
         IN pPlayerID int,
         IN pGameID int
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
  	DECLARE playerPS int DEFAULT NULL;
@@ -610,10 +610,10 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS playerLogout;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE playerLogout(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE playerLogout(
         IN pUsername varchar(10)
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
 	UPDATE tblPlayer 
@@ -669,11 +669,11 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS killGame;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE killGame(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE killGame(
 		IN pGameID int,
 		IN pUsername varchar(10)	
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE checkAdmin bit DEFAULT NULL;
@@ -711,14 +711,14 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS addPlayer;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE addPlayer(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE addPlayer(
 		IN pAdminUsername varchar(10),
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB,
 		IN pAccountAdmin bit	
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE checkAdmin bit DEFAULT NULL;
@@ -747,7 +747,7 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS updatePlayer;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updatePlayer(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE updatePlayer(
 		IN pAdminUsername varchar(10),
 		IN pPlayerID int,
 		IN pEmail varchar(50), 
@@ -759,7 +759,7 @@ CREATE DEFINER = ‘root’@’localhost’ PROCEDURE updatePlayer(
 		IN pFailedLogins tinyint,
 		IN pHighScore int 	
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE checkAdmin bit DEFAULT NULL;
@@ -814,11 +814,11 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS deletePlayer;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE deletePlayer(
+CREATE DEFINER = 'root'@'localhost' PROCEDURE deletePlayer(
 		IN pAdminUsername varchar(10),
 		IN pUsername varchar(10)	
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 
 BEGIN
     DECLARE checkAdmin bit DEFAULT NULL;

@@ -205,7 +205,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL playerLogout('Troy');
+	CALL playerLogout('NewUser_1');
 
 	-- Test active status is displayed as false for Troy
 	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'Troy';
