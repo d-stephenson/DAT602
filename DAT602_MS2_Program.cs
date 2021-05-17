@@ -12,10 +12,6 @@ namespace DAT602_ConsoleApp
     {
         static void Main(string[] args)
         {
-           
-
-
-
             bool showMenu = true;
             while (showMenu)
             {
@@ -29,22 +25,23 @@ namespace DAT602_ConsoleApp
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Regsiter account");
             Console.WriteLine("2) User login");
-            Console.WriteLine("3) Regsiter account");
-            Console.WriteLine("4) User login");
-            Console.WriteLine("5) Regsiter account");
-            Console.WriteLine("6) User login");
-            Console.WriteLine("7) Regsiter account");
-            Console.WriteLine("8) User login");
-            Console.WriteLine("9) Regsiter account");
-            Console.WriteLine("10) User login");
-            Console.WriteLine("11) Regsiter account");
-            Console.WriteLine("12) User login");
-            Console.WriteLine("13) Regsiter account");
-            Console.WriteLine("14) User login");
+            Console.WriteLine("3) Create a new game");
+            Console.WriteLine("4) Join a game");
+            Console.WriteLine("5) Move a player");
+            Console.WriteLine("6) Find a gem");
+            Console.WriteLine("7) Select a gem");
+            Console.WriteLine("8) Update turn");
+            Console.WriteLine("9) Logout of game");
+            Console.WriteLine("10) Enter admin area");
+            Console.WriteLine("11) Kill a game");
+            Console.WriteLine("12) Add a new player");
+            Console.WriteLine("13) Update a players details");
+            Console.WriteLine("14) Delete a player");
             Console.WriteLine("15) Exit");
             Console.Write("\r\nSelect an option: ");
 
             DataAccess aDataAccess = new DataAccess();
+            
             switch (Console.ReadLine())
             {
                 case "1":
@@ -95,7 +92,6 @@ namespace DAT602_ConsoleApp
                     return true;
             }
         }
-
     }
 }
 
