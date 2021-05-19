@@ -222,6 +222,7 @@ BEGIN
     VALUES (chosenBoardType, firstCharacter);
     
 	SET newGameId = LAST_INSERT_ID();
+    
 	BEGIN
 		IF newGameId > 0 THEN
 			INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
@@ -281,17 +282,19 @@ BEGIN
 							GameID =  pGameID) 
                             AND PlayerID = pPlayerID
 	INTO selectedUser;
-                          
-    IF selectedCharacter IS NOT NULL AND selectedUser IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game and prevents update from happening if player re-joining the game                      
-		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES (selectedUser, selectedCharacter, pGameID);
-        
-		SELECT 'Youve joined the game!!!' AS MESSAGE;
-	ELSEIF selectedUser IS NULL THEN
-		SELECT 'You are back in the game!!!' AS MESSAGE;
-	ELSEIF selectedCharacter IS NULL AND selectedUser IS NOT NULL THEN
-		SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
-	END IF;
+    
+    BEGIN                      
+		IF selectedCharacter IS NOT NULL AND selectedUser IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game and prevents update from happening if player re-joining the game                      
+			INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
+			VALUES (selectedUser, selectedCharacter, pGameID);
+			
+			SELECT 'Youve joined the game!!!' AS MESSAGE;
+		ELSEIF selectedUser IS NULL THEN
+			SELECT 'You are back in the game!!!' AS MESSAGE;
+		ELSEIF selectedCharacter IS NULL AND selectedUser IS NOT NULL THEN
+			SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
+		END IF;
+	END;
 END //
 DELIMITER ;
 
@@ -374,33 +377,33 @@ BEGIN
 	WHERE 
 		TileID = pTileID
 	INTO newTileColumn;
-    
-    IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
-		AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
-        AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001) 
-        AND (currentTurn = (SELECT CharacterName 
-							FROM tblPlay 
-							WHERE 
-								PlayerID = pPlayerID 
-								AND GameID = pGameID)) THEN  
-		UPDATE tblPlay
-		SET TileID = pTileID
-		WHERE 
-			PlayerID = pPlayerID 
-            AND GameID = pGameID;
-            
-		SELECT TileColour, TileRow, TileColumn 
-		FROM tblCharacter ch 
-			JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-			JOIN tblTile ti ON pl.TileID = ti.TileID
-		WHERE 
-			PlayerID = pPlayerID;
-            
-		SELECT 'Your character has moved!!!' AS MESSAGE;
-	ELSE
-
-		SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
-	END IF;
+    BEGIN
+		IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
+			AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
+			AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001) 
+			AND (currentTurn = (SELECT CharacterName 
+								FROM tblPlay 
+								WHERE 
+									PlayerID = pPlayerID 
+									AND GameID = pGameID)) THEN  
+			UPDATE tblPlay
+			SET TileID = pTileID
+			WHERE 
+				PlayerID = pPlayerID 
+				AND GameID = pGameID;
+				
+			SELECT TileColour, TileRow, TileColumn 
+			FROM tblCharacter ch 
+				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+				JOIN tblTile ti ON pl.TileID = ti.TileID
+			WHERE 
+				PlayerID = pPlayerID;
+				
+			SELECT 'Your character has moved!!!' AS MESSAGE;
+		ELSE
+			SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
+		END IF;
+	END;
 END //
 DELIMITER ;
 
@@ -433,7 +436,7 @@ BEGIN
 			pl.TileID = pTileID 
             AND PlayerID = pPlayerID 
             AND pl.GameID = pGameID;
-			
+	BEGIN
 		IF (SELECT COUNT(ItemID) 
 			FROM tblItemGame 
 			WHERE TileID = pTileID 
@@ -443,6 +446,7 @@ BEGIN
 		ELSE 
 			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;
+	END;
 END //
 DELIMITER ;
 
@@ -485,32 +489,34 @@ BEGIN
 						AND GameID = pGameID) 
 	INTO nextTurn; 
     
-	IF pItemID IS NOT NULL THEN     
-		UPDATE tblItemGame
-		SET TileID = NULL, PlayID = pPlayID
-		WHERE 
-			ItemID = pItemID 
-            AND GameID = pGameID;
+    BEGIN
+		IF pItemID IS NOT NULL THEN     
+			UPDATE tblItemGame
+			SET TileID = NULL, PlayID = pPlayID
+			WHERE 
+				ItemID = pItemID 
+				AND GameID = pGameID;
 
-		UPDATE tblPlay
-		SET PlayScore = PlayScore + gemPoints
-		WHERE 
-			PlayID = pPlayID;
-	END IF;
+			UPDATE tblPlay
+			SET PlayScore = PlayScore + gemPoints
+			WHERE 
+				PlayID = pPlayID;
+		END IF;
 
-	IF nextTurn IS NOT NULL THEN
-		UPDATE tblGame
-		SET CharacterTurn = nextTurn
-		WHERE 
-			GameID = pGameID;
-	ELSEIF nextTurn IS NULL THEN
-		UPDATE tblGame
-		SET CharacterTurn = 'Doc'
-		WHERE 
-			GameID = pGameID;
-	END IF;
-    
-	SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
+		IF nextTurn IS NOT NULL THEN
+			UPDATE tblGame
+			SET CharacterTurn = nextTurn
+			WHERE 
+				GameID = pGameID;
+		ELSEIF nextTurn IS NULL THEN
+			UPDATE tblGame
+			SET CharacterTurn = 'Doc'
+			WHERE 
+				GameID = pGameID;
+			
+            SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
+		END IF;
+    END;
 END //
 DELIMITER ;
 
@@ -556,29 +562,31 @@ BEGIN
 	WHERE 
 		GameID = pGameID
 	INTO tileCount;
+    
+    BEGIN 
+		IF playerPS > playerHS THEN 
+			UPDATE tblPlayer
+			SET Highscore = playerPS
+			WHERE 
+				PlayerID = pPlayerID; 
+		END IF;
 
-	IF playerPS > playerHS THEN 
-		UPDATE tblPlayer
-		SET Highscore = playerPS
-		WHERE 
-			PlayerID = pPlayerID; 
-	END IF;
-    
-    IF tileCount = 0 THEN 
-		UPDATE tblGame
-        SET CharacterTurn = NULL
-        WHERE 
-			GameID = pGameID;
-        
-        SELECT pl.CharacterName, pl.PlayScore 
-        FROM tblPlay pl
-				JOIN tblCharacter ch ON pl.CharacterName = ch.CharacterName 
-		WHERE (SELECT MAX(PlayScore) 
-			   FROM tblPlay) 
-			   AND GameID = pGameID;
-	END IF;
-    
-	SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
+		IF tileCount = 0 THEN 
+			UPDATE tblGame
+			SET CharacterTurn = NULL
+			WHERE 
+				GameID = pGameID;
+			
+			SELECT pl.CharacterName, pl.PlayScore 
+			FROM tblPlay pl
+					JOIN tblCharacter ch ON pl.CharacterName = ch.CharacterName 
+			WHERE (SELECT MAX(PlayScore) 
+				   FROM tblPlay) 
+				   AND GameID = pGameID;
+			
+				SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
+		END IF;
+	END;
 END //
 DELIMITER ;
 
@@ -628,18 +636,20 @@ BEGIN
 	WHERE
 		Username = pUsername 
 	INTO accessAdmin;
-
-    IF accessAdmin IS TRUE THEN
-        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
-        
-		SELECT Username AS 'Player', HighScore AS 'High Score' 
-		FROM tblPlayer;  
-	ELSE
-		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-	END IF;
+    
+	BEGIN 
+		IF accessAdmin IS TRUE THEN
+			SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+			FROM tblPlayer py 
+				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+			GROUP BY pl.GameID;  
+			
+			SELECT Username AS 'Player', HighScore AS 'High Score' 
+			FROM tblPlayer;  
+		ELSE
+			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+		END IF;
+	END;
 END //
 DELIMITER ;
 
@@ -666,19 +676,21 @@ BEGIN
 	WHERE
 		Username = pUsername 
 	INTO checkAdmin;
+    
+	BEGIN
+		IF checkAdmin IS True THEN
+			DELETE FROM tblItemGame
+			WHERE GameID = pGameID;
+			
+			DELETE FROM tblPlay
+			WHERE GameID = pGameID;
+			
+			DELETE FROM tblGame
+			WHERE GameID = pGameID;
 
-    IF checkAdmin IS True THEN
-		DELETE FROM tblItemGame
-		WHERE GameID = pGameID;
-		
-		DELETE FROM tblPlay
-		WHERE GameID = pGameID;
-		
-		DELETE FROM tblGame
-		WHERE GameID = pGameID;
-
-		SELECT 'This game has been killed by Admin' AS MESSAGE; 
-	END IF;
+			SELECT 'This game has been killed by Admin' AS MESSAGE; 
+		END IF;
+	END;
 END //
 DELIMITER ;   
 
@@ -713,13 +725,15 @@ BEGIN
 	INTO checkAdmin;
     
 	SELECT UUID() INTO newSalt;
-
-    IF checkAdmin IS TRUE THEN
-		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
-		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
-        
-		SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
-	END IF;
+    
+	BEGIN
+		IF checkAdmin IS TRUE THEN
+			INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
+			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
+			
+			SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
+		END IF;
+	END;
 END //
 DELIMITER ;     
 
@@ -756,33 +770,35 @@ BEGIN
 	INTO checkAdmin;
     
 	SELECT UUID() INTO newSalt;
-
-    IF EXISTS (SELECT PlayerID 
-			   FROM tblPlayer 
-               WHERE 
-					PlayerID = pPlayerID) 
-					AND checkAdmin IS TRUE THEN
-		UPDATE tblPlayer
-		SET Email = pEmail, 
-			Username = pUsername, 
-			`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'),  
-			Salt = newSalt,
-			AccountAdmin = pAccountAdmin, 
-			AccountLocked = pAccountLocked, 
-			ActiveStatus = pActiveStatus, 
-			FailedLogins = pFailedLogins, 
-			HighScore = pHighScore
-		WHERE 
-			PlayerID = pPlayerID;
-	ELSEIF EXISTS (SELECT PlayerID 
+	
+    BEGIN
+		IF EXISTS (SELECT PlayerID 
 				   FROM tblPlayer 
-                   WHERE 
+				   WHERE 
 						PlayerID = pPlayerID) 
-                        AND checkAdmin IS FALSE THEN
-		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-	ELSE 
-		SELECT 'There is no account with this PlayerID' AS MESSAGE; 
-	END IF;
+						AND checkAdmin IS TRUE THEN
+			UPDATE tblPlayer
+			SET Email = pEmail, 
+				Username = pUsername, 
+				`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'),  
+				Salt = newSalt,
+				AccountAdmin = pAccountAdmin, 
+				AccountLocked = pAccountLocked, 
+				ActiveStatus = pActiveStatus, 
+				FailedLogins = pFailedLogins, 
+				HighScore = pHighScore
+			WHERE 
+				PlayerID = pPlayerID;
+		ELSEIF EXISTS (SELECT PlayerID 
+					   FROM tblPlayer 
+					   WHERE 
+							PlayerID = pPlayerID) 
+							AND checkAdmin IS FALSE THEN
+			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+		ELSE 
+			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
+		END IF;
+	END;
 END //
 DELIMITER ;     
 
@@ -810,20 +826,22 @@ BEGIN
 	WHERE
 		Username = pAdminUsername 
 	INTO checkAdmin;
-
-    IF EXISTS (SELECT Username 
-			   FROM tblPlayer 
-               WHERE Username = pUsername) 
-               AND checkAdmin IS TRUE THEN 
-		DELETE FROM tblPlayer 
-		WHERE Username = pUsername;
-	ELSEIF EXISTS (SELECT Username 
+	
+    BEGIN
+		IF EXISTS (SELECT Username 
 				   FROM tblPlayer 
-                   WHERE Username = pUsername) 
-                   AND checkAdmin IS FALSE THEN
-		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-	ELSE 
-		SELECT 'There is no account with this username' AS MESSAGE; 
-	END IF;
+				   WHERE Username = pUsername) 
+				   AND checkAdmin IS TRUE THEN 
+			DELETE FROM tblPlayer 
+			WHERE Username = pUsername;
+		ELSEIF EXISTS (SELECT Username 
+					   FROM tblPlayer 
+					   WHERE Username = pUsername) 
+					   AND checkAdmin IS FALSE THEN
+			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+		ELSE 
+			SELECT 'There is no account with this username' AS MESSAGE; 
+		END IF;
+	END;
 END //
 DELIMITER ;     
