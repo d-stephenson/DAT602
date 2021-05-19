@@ -45,53 +45,65 @@ namespace DAT602_ConsoleApp
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine("Message is " + aDataAccess.newUserRegistration("NewUser_16@gmail.com", "NewUser_16", "P@ssword1"));
+                    Console.WriteLine(aDataAccess.newUserRegistration("NewUser_1@gmail.com", "NewUser_1", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "2":
-                    var aHomePage = aDataAccess.loginCheckCredentials("NewUser_15", "P@ssword1"); 
-                    // foreach (var aHomePage in aDataAccess.HomeDisplayData())
+                    var aHomePage = aDataAccess.loginCheckCredentials("NewUser_1", "P@ssword1");
+                    Console.WriteLine(aDataAccess.loginCheckCredentials("NewUser_1", "P@ssword1"));
+                    //foreach (var aHomePage in aDataAccess.HomeScreenDisplay())
                     //{
-                    //    Console.WriteLine(p.UserName + " " + p.Strength);
+                    //    Console.WriteLine(aHomePage.HomeDisplayData);
                     //}
-                    Console.WriteLine(aDataAccess.loginCheckCredentials("NewUser_15", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "3":
-                    Console.WriteLine("Message is " + aDataAccess.newGame("NewUser_1"));
+                    Console.WriteLine(aDataAccess.newGame("NewUser_1"));
+                    Console.ReadLine();
                     return true;
                 case "4":
-                    Console.WriteLine("Message is " + aDataAccess.joinGame("100003", "10"));
+                    Console.WriteLine(aDataAccess.joinGame("100003", "9"));
+                    Console.ReadLine();
                     return true;
                 case "5":
-                    Console.WriteLine("Message is " + aDataAccess.playerMoves("2", "9", "100003"));
+                    Console.WriteLine(aDataAccess.playerMoves("34", "9", "100003"));
+                    Console.ReadLine();
                     return true;
                 case "6":
-                    Console.WriteLine("Message is " + aDataAccess.findGem("34", "9", "100003"));
-                    return true;
+                    Console.WriteLine(aDataAccess.findGem("34", "9", "100003"));
+                    Console.ReadLine();
+                    return true; 
                 case "7":
-                    Console.WriteLine("Message is " + aDataAccess.gemTurn("129", "500007", "9", "100003"));
+                    Console.WriteLine(aDataAccess.gemTurn("129", "500007", "9", "100003"));
+                    Console.ReadLine();
                     return true;
                 case "8":
-                    Console.WriteLine("Message is " + aDataAccess.scoreEnd("500007", "9", "100003"));
+                    Console.WriteLine(aDataAccess.scoreEnd("500007", "9", "100003"));
+                    Console.ReadLine();
                     return true;
                 case "9":
-                    Console.WriteLine("Message is " + aDataAccess.playerLogout("NewUser_1"));
+                    Console.WriteLine(aDataAccess.playerLogout("NewUser_1"));
+                    Console.ReadLine();
                     return true;
                 case "10":
-                    Console.WriteLine("Message is " + aDataAccess.enterAdmin("NewUser_1"));
+                    Console.WriteLine(aDataAccess.enterAdmin("NewUser_1"));
+                    Console.ReadLine();
                     return true;
                 case "11":
-                    Console.WriteLine("Message is " + aDataAccess.killGame("100003", "NewUser_1"));
+                    Console.WriteLine(aDataAccess.killGame("100003", "NewUser_1"));
+                    Console.ReadLine();
                     return true;
                 case "12":
-                    Console.WriteLine("Message is " + aDataAccess.addPlayer("NewUser_1", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1"));
+                    Console.WriteLine(aDataAccess.addPlayer("NewUser_1", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1"));
+                    Console.ReadLine();
                     return true;
                 case "13":
-                    Console.WriteLine("Message is " + aDataAccess.updatePlayer("NewUser_1", "16", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1", "0", "1", "3", "456"));
+                    Console.WriteLine(aDataAccess.updatePlayer("NewUser_1", "16", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1", "0", "1", "3", "456"));
+                    Console.ReadLine();
                     return true;
                 case "14":
-                    Console.WriteLine("Message is " + aDataAccess.deletePlayer("NewUser_8", "NewUser_1"));
+                    Console.WriteLine(aDataAccess.deletePlayer("NewUser_2", "NewUser_4"));
+                    Console.ReadLine();
                     return true;
                 case "15":
                     return false;
