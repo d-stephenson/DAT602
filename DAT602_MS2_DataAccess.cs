@@ -64,14 +64,15 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
 
+
             theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[0].AsEnumerable()
-                         select
+                        select
                             new GameCount
                             {
                                 GameID = aResult.Field<int>("GameID"),
                                 PlayerCount = aResult.Field<int>("PlayerCount"),
                             }).ToList();
-
+            
             theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[1].AsEnumerable()
                         select
                             new PlayerHighScore
@@ -79,6 +80,7 @@ namespace DAT602_ConsoleApp
                                 Player = aResult.Field<string>("Player"),
                                 HighScore = aResult.Field<int>("HighScore"),
                             }).ToList();
+
 
             return theHomeDisplayData; 
         }
