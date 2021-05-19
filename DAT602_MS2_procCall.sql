@@ -99,7 +99,7 @@ USE sdghGameDatabase;
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	SELECT * FROM tblPlay ORDER BY PlayerID DESC; -- Find a PlayerID and GameID to join player to game
-	CALL joinGame(100003, 10); -- Test join game procedure
+	CALL joinGame(100003, 8); -- Test join game procedure
 
 	-- Add remaining players 
 	CALL joinGame(100003, 11);

@@ -278,7 +278,7 @@ BEGIN
 		PlayerID NOT IN (SELECT PlayerID 
 						 FROM tblPlay 
                          WHERE 
-							GameID = pGameID) 
+							GameID =  pGameID) 
                             AND PlayerID = pPlayerID
 	INTO selectedUser;
                           
@@ -287,9 +287,9 @@ BEGIN
 		VALUES (selectedUser, selectedCharacter, pGameID);
         
 		SELECT 'Youve joined the game!!!' AS MESSAGE;
-	ELSEIF selectedCharacter IS NOT NULL AND selectedUser IS NULL THEN
+	ELSEIF selectedUser IS NULL THEN
 		SELECT 'You are back in the game!!!' AS MESSAGE;
-	ELSE 
+	ELSEIF selectedCharacter IS NULL AND selectedUser IS NOT NULL THEN
 		SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
 	END IF;
 END //
