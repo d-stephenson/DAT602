@@ -285,23 +285,11 @@ BEGIN
     IF selectedCharacter IS NOT NULL AND selectedUser IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game and prevents update from happening if player re-joining the game                      
 		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 		VALUES (selectedUser, selectedCharacter, pGameID);
-		SELECT * 
-        FROM tblPlay 
-        WHERE 
-			GameID = pGameID;
+        
+		SELECT 'Youve joined the game!!!' AS MESSAGE;
 	ELSEIF selectedCharacter IS NOT NULL AND selectedUser IS NULL THEN
-		SELECT * 
-        FROM tblPlay 
-        WHERE 
-			GameID = pGameID;
-
 		SELECT 'You are back in the game!!!' AS MESSAGE;
 	ELSE 
-		SELECT * 
-        FROM tblPlay 
-        WHERE 
-			GameID = pGameID;
-		
 		SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
 	END IF;
 END //
