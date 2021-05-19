@@ -239,9 +239,10 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_1'; -- Upgrade new user 1 to admin priviledges 
-	CALL adminScreen('NewUser_1');
-
+	CALL adminScreen('NewUser_1'); -- Not an admin user
+	UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_2'; -- Upgrade new user 2 to admin priviledges 
+	CALL adminScreen('NewUser_2'); -- Not an admin user
+    
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Kill Game Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -249,7 +250,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL killGame(100003, 'NewUser_1'); -- Warning message will display saying game has been killed
+	CALL killGame(100003, 'NewUser_2'); -- Warning message will display saying game has been killed
 
 	-- Confirm game has been deleted
 	SELECT * FROM tblGame WHERE GameID = 100003;
@@ -263,7 +264,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL addPlayer('NewUser_1', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+	CALL addPlayer('NewUser_2', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
 
 	-- Confirm player has been added and has admin privileges
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; 
@@ -275,7 +276,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL updatePlayer('NewUser_1', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 1, 3, 456); -- Admin NewUser_ updates player NewUser_8
+	CALL updatePlayer('NewUser_2', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 0, 3, 56); -- Admin NewUser_ updates player NewUser_8
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -285,7 +286,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL deletePlayer('NewUser_8', 'NewUser_1'); -- Delete NewUser_1 
+	CALL deletePlayer('NewUser_2', 'NewUser_1'); -- Delete NewUser_1 
 
 	-- Test records removed from relevant tables
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 

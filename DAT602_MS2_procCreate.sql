@@ -789,6 +789,7 @@ BEGIN
 				HighScore = pHighScore
 			WHERE 
 				PlayerID = pPlayerID;
+			SELECT 'Yay! Youve updated the player' AS MESSAGE; 
 		ELSEIF EXISTS (SELECT PlayerID 
 					   FROM tblPlayer 
 					   WHERE 
@@ -834,6 +835,7 @@ BEGIN
 				   AND checkAdmin IS TRUE THEN 
 			DELETE FROM tblPlayer 
 			WHERE Username = pUsername;
+			SELECT 'Oh dear, I hope you were meant to delete that player - no going back now!!!' AS MESSAGE; 
 		ELSEIF EXISTS (SELECT Username 
 					   FROM tblPlayer 
 					   WHERE Username = pUsername) 
