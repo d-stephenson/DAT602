@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using MySql.Data.MySqlClient;
 
 namespace DAT602_ConsoleApp
 {
@@ -41,14 +35,21 @@ namespace DAT602_ConsoleApp
             Console.Write("\r\nSelect an option: ");
 
             DataAccess aDataAccess = new DataAccess();
-            
+
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine("Message is " + aDataAccess.newUserRegistration("test7@gmail.com", "Test7", "P@ssword1"));
+                    Console.WriteLine("Message is " + aDataAccess.newUserRegistration("NewUser_16@gmail.com", "NewUser_16", "P@ssword1"));
+                    Console.ReadLine();
                     return true;
                 case "2":
-                    Console.WriteLine("Message is " + aDataAccess.loginCheckCredentials("Test7", "P@ssword1")); 
+                    var aHomePage = aDataAccess.loginCheckCredentials("NewUser_15", "P@ssword1"); 
+                    // foreach (var aHomePage in aDataAccess.HomeDisplayData())
+                    //{
+                    //    Console.WriteLine(p.UserName + " " + p.Strength);
+                    //}
+                    Console.WriteLine(aDataAccess.loginCheckCredentials("NewUser_15", "P@ssword1"));
+                    Console.ReadLine();
                     return true;
                 case "3":
                     Console.WriteLine("Message is " + aDataAccess.newGame("NewUser_1"));

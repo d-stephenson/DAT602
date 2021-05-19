@@ -12,7 +12,7 @@ namespace DAT602_ConsoleApp
     {
         private static string connectionString
         {
-            get { return "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=databaseAdmin@localhost;password=P@ssword1;"; }
+            get { return "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=P@ssword1"; }
 
         }
 
@@ -51,8 +51,9 @@ namespace DAT602_ConsoleApp
         }
 
         // Login Check Credentials Procedure
-        public string loginCheckCredentials(string pUsername, string pPassword)
+        public HomeDisplayData loginCheckCredentials(string pUsername, string pPassword)
         {
+            HomeDisplayData theHomeDisplayData = new HomeDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
@@ -63,7 +64,23 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
+            theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[0].AsEnumerable()
+                         select
+                            new GameCount
+                            {
+                                GameID = aResult.Field<int>("GameID"),
+                                PlayerCount = aResult.Field<int>("PlayerCount"),
+                            }).ToList();
+
+            theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                        select
+                            new PlayerHighScore
+                            {
+                                Player = aResult.Field<string>("Player"),
+                                HighScore = aResult.Field<int>("HighScore"),
+                            }).ToList();
+
+            return theHomeDisplayData; 
         }
 
         // Home Screen Display Procedure
@@ -266,7 +283,7 @@ namespace DAT602_ConsoleApp
             var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.Bit);
             var paramAccountLocked = new MySqlParameter("@AccountLocked", MySqlDbType.Bit);
             var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.Bit);
-            var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.TinyInt);
+            var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.Byte);
             var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.Int16);
             paramAdminUsername.Value = pAdminUsername;
             paramPlayerID.Value = pPlayerID;
@@ -291,7 +308,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "updatePlayer(@AdminUsername,@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
 
@@ -308,7 +325,7 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "deletePlayer(@AdminUsername,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
     }
 }
