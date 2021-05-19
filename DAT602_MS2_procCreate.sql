@@ -502,7 +502,9 @@ BEGIN
 			WHERE 
 				PlayID = pPlayID;
 		END IF;
+	END;
 
+	BEGIN
 		IF nextTurn IS NOT NULL THEN
 			UPDATE tblGame
 			SET CharacterTurn = nextTurn
@@ -514,8 +516,7 @@ BEGIN
 			WHERE 
 				GameID = pGameID;
 		END IF;
-		SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
-    END;
+	END;
 END //
 DELIMITER ;
 
