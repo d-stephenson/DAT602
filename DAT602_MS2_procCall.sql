@@ -151,7 +151,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL selectGem(129, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL selectGem(107, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
@@ -190,7 +190,9 @@ USE sdghGameDatabase;
 
 	-- Update the high score and check if game is over for player moves 
 	CALL updateHS_EG(500007, 9, 100003);
-	CALL updateHS_EG(500008, 10, 100003);
+    
+    -- Only need to be called if you had to move the player to find a gem
+	CALL updateHS_EG(500008, 10, 100003); 
 	CALL updateHS_EG(500009, 11, 100003);
 	CALL updateHS_EG(500010, 12, 100003);
 

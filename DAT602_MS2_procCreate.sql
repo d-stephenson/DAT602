@@ -513,9 +513,8 @@ BEGIN
 			SET CharacterTurn = 'Doc'
 			WHERE 
 				GameID = pGameID;
-			
-            SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
 		END IF;
+		SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
     END;
 END //
 DELIMITER ;
