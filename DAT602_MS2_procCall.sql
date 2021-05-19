@@ -8,6 +8,21 @@
 USE sdghGameDatabase;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-- Call Create, Insert Procedures from DAT601_MS1_game.sql
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
+
+	CALL CreateTables;
+	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
+	CALL InsertTables;
+	
+    -- Check table is encrypted
+	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
+    FROM INFORMATION_SCHEMA.TABLES
+	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -51,7 +66,7 @@ USE sdghGameDatabase;
 	CALL loginCheckCredentials('NewUser_6', 'P@ssword1');
 	CALL loginCheckCredentials('NewUser_7', 'P@ssword1');
     
-	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'NewUser_2';
+	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'NewUser_1';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Home Screen Display Procedure

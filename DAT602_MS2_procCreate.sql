@@ -22,21 +22,6 @@ SET GLOBAL TRANSACTION ISOLATION LEVEL read committed;
 -- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization; 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- Call Create, Insert Procedures from DAT601_MS1_game.sql
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
-
-	CALL CreateTables;
-	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
-	CALL InsertTables;
-	
-    -- Check table is encrypted
-	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
-    FROM INFORMATION_SCHEMA.TABLES
-	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
-
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -62,7 +47,7 @@ BEGIN
 	INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
 	VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
     
-    SELECT 'INSERTED' AS MESSAGE;
+    SELECT 'Your account is created, let the games begin!!!' AS MESSAGE;
 END //
 DELIMITER ;
 
@@ -112,8 +97,8 @@ BEGIN
 		SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
         WHERE 
 			Username = pUsername;
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked'; 
+		    
+		SELECT 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked' AS MESSAGE;
         -- Increments the failed logins, if it equals 5 then account is locked
 	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
 		UPDATE tblPlayer
@@ -121,21 +106,21 @@ BEGIN
         WHERE 
 			Username = pUsername; 
         
-		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
         FROM tblPlayer py 
             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
         
-		SELECT Username AS 'Player', HighScore AS 'High Score' 
+		SELECT Username AS 'Player', HighScore AS 'HighScore' 
 		FROM tblPlayer; 
 		-- If credentials are correct user is logged into account by setting active status to true
 	ELSE 
-		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
         FROM tblPlayer py 
             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
         GROUP BY pl.GameID;  
         
-		SELECT Username AS 'Player', HighScore AS 'High Score' 
+		SELECT Username AS 'Player', HighScore AS 'HighScore' 
 		FROM tblPlayer;  
         -- Conditions are met so user is already logged in
 	END IF;
@@ -150,33 +135,33 @@ DELIMITER ;
 -- login attempt be successful, which is further check by selecting the active status of the user, then the relevant 
 -- information as described in the storyboarding is displayed. 
 
-DELIMITER //
-DROP PROCEDURE IF EXISTS homeScreen;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE homeScreen(
-		IN pUsername varchar(10)
-    )
-SQL SECURITY DEFINER
+-- DELIMITER //
+-- DROP PROCEDURE IF EXISTS homeScreen;
+-- CREATE DEFINER = 'root'@'localhost' PROCEDURE homeScreen(
+-- 		IN pUsername varchar(10)
+--     )
+-- SQL SECURITY DEFINER
 
-BEGIN
-    DECLARE accessScreen bit DEFAULT NULL;
-  
-	SELECT ActiveStatus 
-	FROM tblPlayer
-	WHERE
-		Username = pUsername 
-	INTO accessScreen;
+-- BEGIN
+--     DECLARE accessScreen bit DEFAULT NULL;
+--   
+-- 	SELECT ActiveStatus 
+-- 	FROM tblPlayer
+-- 	WHERE
+-- 		Username = pUsername 
+-- 	INTO accessScreen;
 
-    IF accessScreen IS TRUE THEN
-        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
-        
-		SELECT Username AS 'Player', HighScore AS 'High Score' 
-		FROM tblPlayer;  
-	END IF;
-END //
-DELIMITER ;
+--     IF accessScreen IS TRUE THEN
+--         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+--         FROM tblPlayer py 
+--             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+--         GROUP BY pl.GameID;  
+--         
+-- 		SELECT Username AS 'Player', HighScore AS 'High Score' 
+-- 		FROM tblPlayer;  
+-- 	END IF;
+-- END //
+-- DELIMITER ;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure
@@ -237,21 +222,24 @@ BEGIN
     VALUES (chosenBoardType, firstCharacter);
     
 	SET newGameId = LAST_INSERT_ID();
+	BEGIN
+		IF newGameId > 0 THEN
+			INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
+			VALUES ((SELECT PlayerID 
+					 FROM tblPlayer 
+					 WHERE 
+						Username = pUsername), firstCharacter, newGameId);
+		END IF;  
 
-	IF newGameId > 0 THEN
-		INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
-		VALUES ((SELECT PlayerID 
-				 FROM tblPlayer 
-                 WHERE 
-					Username = pUsername), firstCharacter, newGameId);
-    END IF;  
+		WHILE firstItem <= lastItem DO 
+			INSERT INTO tblItemGame(ItemID, GameID, TileID)
+			VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(lastTile-excludeHomeTile+1)+excludeHomeTile)));
 
-    WHILE firstItem <= lastItem DO 
-        INSERT INTO tblItemGame(ItemID, GameID, TileID)
-        VALUES (firstItem, newGameId, (SELECT FLOOR(RAND()*(lastTile-excludeHomeTile+1)+excludeHomeTile)));
+			SET firstItem = firstItem + 1;
+		END WHILE;
 
-        SET firstItem = firstItem + 1;
-    END WHILE;
+		SELECT 'Your new game is created, find those gems!!!' AS MESSAGE;
+	END;
 END //
 DELIMITER ;
 
@@ -306,15 +294,15 @@ BEGIN
         FROM tblPlay 
         WHERE 
 			GameID = pGameID;
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are back in the game';
+
+		SELECT 'You are back in the game!!!' AS MESSAGE;
 	ELSE 
 		SELECT * 
         FROM tblPlay 
         WHERE 
 			GameID = pGameID;
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'All seven dwarfs are playing this game';
+		
+		SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
 	END IF;
 END //
 DELIMITER ;
@@ -419,9 +407,11 @@ BEGIN
 			JOIN tblTile ti ON pl.TileID = ti.TileID
 		WHERE 
 			PlayerID = pPlayerID;
+            
+		SELECT 'Your character has moved!!!' AS MESSAGE;
 	ELSE
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You cannot move to this tile';
+
+		SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
 	END IF;
 END //
 DELIMITER ;
@@ -461,10 +451,9 @@ BEGIN
 			WHERE TileID = pTileID 
             AND GameID = pGameID) > 0 THEN
 				SELECT * 
-                FROM selectOneGem;
+                FROM selectOneGem AS MESSAGE;
 		ELSE 
-			SIGNAL SQLSTATE '02000'
-			SET MESSAGE_TEXT = 'Sorry, there are no Gems on this tile';	
+			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;
 END //
 DELIMITER ;
@@ -532,6 +521,8 @@ BEGIN
 		WHERE 
 			GameID = pGameID;
 	END IF;
+    
+	SELECT 'Yay!!! The gem is yours.' AS MESSAGE;
 END //
 DELIMITER ;
 
@@ -598,6 +589,8 @@ BEGIN
 			   FROM tblPlay) 
 			   AND GameID = pGameID;
 	END IF;
+    
+	SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 END //
 DELIMITER ;
 
@@ -619,7 +612,10 @@ BEGIN
 	UPDATE tblPlayer 
     SET ActiveStatus = 0
     WHERE Username = pUsername;
+    
+    SELECT 'Youre all logged out!!!' AS MESSAGE;
 END //
+
 DELIMITER ;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -654,8 +650,7 @@ BEGIN
 		SELECT Username AS 'Player', HighScore AS 'High Score' 
 		FROM tblPlayer;  
 	ELSE
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are not an admin user';
+		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 	END IF;
 END //
 DELIMITER ;
@@ -694,8 +689,7 @@ BEGIN
 		DELETE FROM tblGame
 		WHERE GameID = pGameID;
 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'This game has been killed by Admin';
+		SELECT 'This game has been killed by Admin' AS MESSAGE; 
 	END IF;
 END //
 DELIMITER ;   
@@ -735,6 +729,8 @@ BEGIN
     IF checkAdmin IS TRUE THEN
 		INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
 		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
+        
+		SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
 	END IF;
 END //
 DELIMITER ;     
@@ -795,11 +791,9 @@ BEGIN
                    WHERE 
 						PlayerID = pPlayerID) 
                         AND checkAdmin IS FALSE THEN
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are not an admin user';
+		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 	ELSE 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'There is no account with this PlayerID';
+		SELECT 'There is no account with this PlayerID' AS MESSAGE; 
 	END IF;
 END //
 DELIMITER ;     
@@ -839,11 +833,9 @@ BEGIN
 				   FROM tblPlayer 
                    WHERE Username = pUsername) 
                    AND checkAdmin IS FALSE THEN
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'You are not an admin user';
+		SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 	ELSE 
-		SIGNAL SQLSTATE '02000'
-		SET MESSAGE_TEXT = 'There is no account with this Username';
+		SELECT 'There is no account with this username' AS MESSAGE; 
 	END IF;
 END //
 DELIMITER ;     
