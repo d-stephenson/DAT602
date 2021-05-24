@@ -10,7 +10,10 @@ namespace DAT602_ConsoleApp
 {
     class HomeDisplayData
     {
-        public List<GameCount> GameCount;
-        public List<PlayerHighScore> PlayerHighScore;
+        public string message;
+        public bool haveData;
+        public List<GameCount>GameCount;
+        public List<PlayerHighScore>PlayerHighScore;
+
     }
 }

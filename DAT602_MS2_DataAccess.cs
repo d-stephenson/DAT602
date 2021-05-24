@@ -63,26 +63,31 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPassword);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
-
-
-            theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[0].AsEnumerable()
-                        select
-                            new GameCount
-                            {
-                                GameID = aResult.Field<int>("GameID"),
-                                PlayerCount = aResult.Field<int>("PlayerCount"),
-                            }).ToList();
             
-            theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[1].AsEnumerable()
-                        select
-                            new PlayerHighScore
-                            {
-                                Player = aResult.Field<string>("Player"),
-                                HighScore = aResult.Field<int>("HighScore"),
-                            }).ToList();
+            var aMessage=(aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            theHomeDisplayData.message = aMessage;
+            if (aMessage != "You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked")
+            {
+                theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                                                select
+                                                    new GameCount
+                                                    {
+                                                        GameID = Convert.ToInt32(aResult.ItemArray[0].ToString()),//Field<int>("GameID"),
+                                                        PlayerCount = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("PlayerCount"),
+                                                    }).ToList();
 
-
-            return theHomeDisplayData; 
+                theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
+                                                      select
+                                                          new PlayerHighScore
+                                                          {
+                                                              Player = aResult.Field<string>("Player"),
+                                                              HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
+                                                          }).ToList();
+                theHomeDisplayData.haveData = true;
+            }
+            else
+                theHomeDisplayData.haveData = false;
+            return theHomeDisplayData;
         }
 
         // Home Screen Display Procedure
@@ -128,7 +133,7 @@ namespace DAT602_ConsoleApp
         }
 
         // Player Moves Procedure
-        public string playerMoves(string pTileID, string pPlayerID, string pGameID)
+        public string movePlayer(string pTileID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
@@ -141,7 +146,7 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "playerMoves(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "movePlayer(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }

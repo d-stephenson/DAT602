@@ -45,36 +45,32 @@ namespace DAT602_ConsoleApp
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine(aDataAccess.newUserRegistration("NewUser_1@gmail.com", "NewUser_1", "P@ssword1"));
+                    Console.WriteLine(aDataAccess.newUserRegistration("Test92@gmail.com", "Test92", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "2":
-                    var aHomePage = aDataAccess.loginCheckCredentials("NewUser_1", "P@ssword1");
-                    Console.WriteLine(aDataAccess.loginCheckCredentials("NewUser_1", "P@ssword1"));
-                    //foreach (var aHomePage in aDataAccess.HomeScreenDisplay())
-                    //{
-                    //    Console.WriteLine(aHomePage.HomeDisplayData);
-                    //}
-                    Console.ReadLine();
+                    var aHomePage = aDataAccess.loginCheckCredentials("Test92", "P@ssword1");
+                    //Console.WriteLine(aDataAccess.loginCheckCredentials("Test01", "P@ssword1"));
+                    //Console.ReadLine();
                     return true;
                 case "3":
-                    Console.WriteLine(aDataAccess.newGame("NewUser_1"));
+                    Console.WriteLine(aDataAccess.newGame("Test01"));
                     Console.ReadLine();
                     return true;
                 case "4":
-                    Console.WriteLine(aDataAccess.joinGame("100003", "9"));
+                    Console.WriteLine(aDataAccess.joinGame("100001", "18"));
                     Console.ReadLine();
                     return true;
                 case "5":
-                    Console.WriteLine(aDataAccess.playerMoves("34", "9", "100003"));
+                    Console.WriteLine(aDataAccess.movePlayer("78", "1", "100001"));
                     Console.ReadLine();
                     return true;
                 case "6":
-                    Console.WriteLine(aDataAccess.findGem("34", "9", "100003"));
+                    Console.WriteLine(aDataAccess.findGem("78", "1", "100001"));
                     Console.ReadLine();
                     return true; 
                 case "7":
-                    Console.WriteLine(aDataAccess.gemTurn("129", "500007", "9", "100003"));
+                    Console.WriteLine(aDataAccess.gemTurn("129", "500001", "1", "100001"));
                     Console.ReadLine();
                     return true;
                 case "8":
