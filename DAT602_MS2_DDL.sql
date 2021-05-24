@@ -1,4 +1,5 @@
 -- Seven Dwarfs Gem Hunt Project Physical Design Milestone One [refer to Logical Diagram v2.2]
+-- UPDATES RELATED TO WORK COMPLETED FOR MILESTONE 2
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Database Setup
