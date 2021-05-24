@@ -13,6 +13,7 @@ namespace DAT602_ConsoleApp
         public int GameID;
         public int PlayerCount;
 
+
         // 		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
     }
 }

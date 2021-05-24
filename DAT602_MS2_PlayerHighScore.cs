@@ -13,6 +13,7 @@ namespace DAT602_ConsoleApp
         public string Player;
         public int HighScore;
 
+
         // 		SELECT Username AS 'Player', HighScore AS 'High Score' 
     }
 }
