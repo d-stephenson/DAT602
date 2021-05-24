@@ -149,7 +149,7 @@ DELIMITER ;
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Home Screen Display Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+-- PROCEDURE NO LONGER REQUIRED
 -- Two select statements make up the procedure and have been designed with thought given to the end GUI, should a 
 -- login attempt be successful, which is further check by selecting the active status of the user, then the relevant 
 -- information as described in the storyboarding is displayed. 
@@ -461,8 +461,9 @@ BEGIN
 			WHERE TileID = pTileID 
             AND GameID = pGameID) > 0 THEN
 				SELECT * 
-                FROM selectOneGem AS MESSAGE;
-			SELECT 'Youve moved your player!!!' AS MESSAGE;
+                FROM selectOneGem;
+                
+			SELECT 'Youve found gems!!!' AS MESSAGE;
 		ELSE 
 			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;
@@ -538,7 +539,7 @@ BEGIN
 		END IF;
 	END;
     
-    SELECT 'You have another Gem!!!' AS MESSAGE;
+    SELECT 'Turn updated!!!' AS MESSAGE;
 END //
 DELIMITER ;
 

@@ -45,11 +45,11 @@ namespace DAT602_ConsoleApp
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine(aDataAccess.newUserRegistration("Test93@gmail.com", "Test93", "P@ssword1"));
+                    Console.WriteLine(aDataAccess.NewUserRegistration("NewUser_9@gmail.com", "NewUser_9", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "2":
-                    var aHomePage = aDataAccess.loginCheckCredentials("Test93", "P@ssword1");
+                    var aHomePage = aDataAccess.LoginCheckCredentials("NewUser_9", "P@ssword1");
                     Console.WriteLine("List of games");
                     foreach (var item in aHomePage.GameCount)
                     {
@@ -65,51 +65,51 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "3":
-                    Console.WriteLine(aDataAccess.newGame("Test01"));
+                    Console.WriteLine(aDataAccess.NewGame("NewUser_9"));
                     Console.ReadLine();
                     return true;
                 case "4":
-                    Console.WriteLine(aDataAccess.joinGame("100001", "18"));
+                    Console.WriteLine(aDataAccess.JoinGame("100003", "16"));
                     Console.ReadLine();
                     return true;
                 case "5":
-                    Console.WriteLine(aDataAccess.movePlayer("78", "1", "100001"));
+                    Console.WriteLine(aDataAccess.MovePlayer("78", "16", "100003"));
                     Console.ReadLine();
                     return true;
                 case "6":
-                    Console.WriteLine(aDataAccess.findGem("78", "1", "100001"));
+                    Console.WriteLine(aDataAccess.FindGem("78", "16", "100003"));
                     Console.ReadLine();
                     return true; 
                 case "7":
-                    Console.WriteLine(aDataAccess.gemTurn("129", "500001", "1", "100001"));
+                    Console.WriteLine(aDataAccess.GemTurn("129", "500014", "16", "100003"));
                     Console.ReadLine();
                     return true;
                 case "8":
-                    Console.WriteLine(aDataAccess.scoreEnd("500007", "9", "100003"));
-                    Console.ReadLine();
+                    Console.WriteLine(aDataAccess.ScoreEnd("500014", "16", "100003"));
+                    Console.ReadLine(); 
                     return true;
                 case "9":
-                    Console.WriteLine(aDataAccess.playerLogout("NewUser_1"));
+                    Console.WriteLine(aDataAccess.PlayerLogout("NewUser_9"));
                     Console.ReadLine();
                     return true;
                 case "10":
-                    Console.WriteLine(aDataAccess.enterAdmin("NewUser_1"));
+                    Console.WriteLine(aDataAccess.EnterAdmin("NewUser_2"));
                     Console.ReadLine();
                     return true;
                 case "11":
-                    Console.WriteLine(aDataAccess.killGame("100003", "NewUser_1"));
+                    Console.WriteLine(aDataAccess.KillGame("100002", "NewUser_2"));
                     Console.ReadLine();
                     return true;
                 case "12":
-                    Console.WriteLine(aDataAccess.addPlayer("NewUser_1", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1"));
+                    Console.WriteLine(aDataAccess.AddPlayer("NewUser_2", "NewUser_10@gmail.com", "NewUser_10", "P@ssword1", "1"));
                     Console.ReadLine();
                     return true;
                 case "13":
-                    Console.WriteLine(aDataAccess.updatePlayer("NewUser_1", "16", "NewUser_8@gmail.com", "NewUser_8", "P@ssword1", "1", "0", "1", "3", "456"));
+                    Console.WriteLine(aDataAccess.UpdatePlayer("NewUser_2", "16", "NewUser_8@yahoo.com", "NewUser_8", "P@ssword1", "1", "0", "1", "3", "109"));
                     Console.ReadLine();
                     return true;
                 case "14":
-                    Console.WriteLine(aDataAccess.deletePlayer("NewUser_2", "NewUser_4"));
+                    Console.WriteLine(aDataAccess.DeletePlayer("NewUser_2", "NewUser_5"));
                     Console.ReadLine();
                     return true;
                 case "15":
