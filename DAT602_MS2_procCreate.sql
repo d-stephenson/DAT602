@@ -14,12 +14,27 @@ GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'databaseAdmin'@'localhost';
 SHOW GRANTS FOR 'root'@'localhost';
 
-SHOW GLOBAL VARIABLES LIKE '%isolation%';
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-- Call Create, Insert Procedures from DAT601_MS1_game.sql
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
--- SET GLOBAL TRANSACTION ISOLATION LEVEL read uncommitted; 
-SET GLOBAL TRANSACTION ISOLATION LEVEL read committed; 
--- SET GLOBAL TRANSACTION ISOLATION LEVEL repeatable read; 
--- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization; 
+	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
+
+	CALL CreateTables;
+	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
+	CALL InsertTables;
+	
+    -- Check table is encrypted
+	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
+    FROM INFORMATION_SCHEMA.TABLES
+	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%'; 
+    
+    SHOW GLOBAL VARIABLES LIKE '%isolation%';
+
+	-- SET GLOBAL TRANSACTION ISOLATION LEVEL read uncommitted; 
+	SET GLOBAL TRANSACTION ISOLATION LEVEL read committed; 
+	-- SET GLOBAL TRANSACTION ISOLATION LEVEL repeatable read; 
+	-- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
@@ -105,6 +120,8 @@ BEGIN
         SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
         WHERE 
 			Username = pUsername; 
+            
+		SELECT 'Success' AS MESSAGE;
         
 		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
         FROM tblPlayer py 
@@ -115,6 +132,8 @@ BEGIN
 		FROM tblPlayer; 
 		-- If credentials are correct user is logged into account by setting active status to true
 	ELSE 
+		SELECT 'You are logged in' AS MESSAGE;
+    
 		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
         FROM tblPlayer py 
             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
@@ -443,6 +462,7 @@ BEGIN
             AND GameID = pGameID) > 0 THEN
 				SELECT * 
                 FROM selectOneGem AS MESSAGE;
+			SELECT 'Youve moved your player!!!' AS MESSAGE;
 		ELSE 
 			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;
@@ -517,6 +537,8 @@ BEGIN
 				GameID = pGameID;
 		END IF;
 	END;
+    
+    SELECT 'You have another Gem!!!' AS MESSAGE;
 END //
 DELIMITER ;
 
@@ -584,7 +606,7 @@ BEGIN
 				   FROM tblPlay) 
 				   AND GameID = pGameID;
 			
-				SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
+			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
 	END;
 END //

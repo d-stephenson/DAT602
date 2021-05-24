@@ -8,21 +8,6 @@
 USE sdghGameDatabase;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- Call Create, Insert Procedures from DAT601_MS1_game.sql
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
-
-	CALL CreateTables;
-	ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
-	CALL InsertTables;
-	
-    -- Check table is encrypted
-	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
-    FROM INFORMATION_SCHEMA.TABLES
-	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%';
-
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -151,7 +136,7 @@ USE sdghGameDatabase;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL selectGem(107, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL selectGem(117, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
@@ -167,10 +152,10 @@ USE sdghGameDatabase;
 
 	SELECT * FROM tblPlay WHERE CharacterName = 'Dopey' AND GameID = 100003;
 	CALL movePlayer(50, 11, 100003); -- Check this player can't move to tile 50 as previous player moved to tile 50
-	CALL movePlayer(49, 11, 100003); 
+	CALL movePlayer(50, 11, 100003); 
 	CALL findGem(49, 11, 100003); -- Run to check if there are gems on the tile
 	CALL selectGem(142, 500009, 11, 100003); -- Run this to ensure player turn updates
-
+ 	CALL movePlayer(34, 1, 100001); 
 	SELECT * FROM tblPlay WHERE CharacterName = 'Grumpy' AND GameID = 100003;
 	CALL movePlayer(42, 12, 100003); 
 	CALL findGem(42, 12, 100003); -- Run to check if there are gems on the tile
@@ -241,7 +226,7 @@ USE sdghGameDatabase;
 
 	CALL adminScreen('NewUser_1'); -- Not an admin user
 	UPDATE tblPlayer SET AccountAdmin = 1 WHERE Username = 'NewUser_2'; -- Upgrade new user 2 to admin priviledges 
-	CALL adminScreen('NewUser_2'); -- Not an admin user
+	CALL adminScreen('NewUser_2'); -- Should now be an admin user
     
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Kill Game Procedure
