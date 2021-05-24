@@ -45,13 +45,24 @@ namespace DAT602_ConsoleApp
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine(aDataAccess.newUserRegistration("Test92@gmail.com", "Test92", "P@ssword1"));
+                    Console.WriteLine(aDataAccess.newUserRegistration("Test93@gmail.com", "Test93", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "2":
-                    var aHomePage = aDataAccess.loginCheckCredentials("Test92", "P@ssword1");
-                    //Console.WriteLine(aDataAccess.loginCheckCredentials("Test01", "P@ssword1"));
-                    //Console.ReadLine();
+                    var aHomePage = aDataAccess.loginCheckCredentials("Test93", "P@ssword1");
+                    Console.WriteLine("List of games");
+                    foreach (var item in aHomePage.GameCount)
+                    {
+                        Console.WriteLine("This game id is: " + item.GameID.ToString());
+                        Console.WriteLine("This game's player count is: " + item.PlayerCount.ToString());
+                    }
+                    Console.WriteLine("List of players");
+                    foreach (var item in aHomePage.PlayerHighScore)
+                    {
+                        Console.WriteLine("This player is: " + item.Player);
+                        Console.WriteLine("Their high score is: " + item.HighScore.ToString());
+                    }
+                    Console.ReadLine();
                     return true;
                 case "3":
                     Console.WriteLine(aDataAccess.newGame("Test01"));
