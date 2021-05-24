@@ -155,7 +155,7 @@ DELIMITER ;
 -- information as described in the storyboarding is displayed. 
 
 -- DELIMITER //
--- DROP PROCEDURE IF EXISTS homeScreen;
+-- DROP PROCEDURE IF EXISTS HomeScreen;
 -- CREATE DEFINER = 'root'@'localhost' PROCEDURE homeScreen(
 -- 		IN pUsername varchar(10)
 --     )
