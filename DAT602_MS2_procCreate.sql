@@ -46,8 +46,8 @@ SHOW GRANTS FOR 'root'@'localhost';
 -- procedure gives new players the ability to register an account.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS newUserRegistration;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE newUserRegistration(
+DROP PROCEDURE IF EXISTS NewUserRegistration;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE NewUserRegistration(
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB
@@ -76,8 +76,8 @@ DELIMITER ;
 -- is entered and an error message is returned. 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS loginCheckCredentials;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE loginCheckCredentials(
+DROP PROCEDURE IF EXISTS LoginCheckCredentials;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE LoginCheckCredentials(
 		IN pUsername varchar(50), 
 		IN pPassword BLOB
     )
@@ -193,8 +193,8 @@ DELIMITER ;
 -- so each game is different to the last.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS newGame;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE newGame(
+DROP PROCEDURE IF EXISTS NewGame;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE NewGame(
         IN pUsername varchar(10)
     )
 SQL SECURITY DEFINER
@@ -272,8 +272,8 @@ DELIMITER ;
 -- then an error message is displayed.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS joinGame;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE joinGame(
+DROP PROCEDURE IF EXISTS JoinGame;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE JoinGame(
         IN pGameID int,
         IN pPlayerID int
     )
@@ -327,8 +327,8 @@ DELIMITER ;
 -- a tile that is not plus or minus one adjacent from the current tile an error message is displayed. 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS movePlayer;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE movePlayer(
+DROP PROCEDURE IF EXISTS MovePlayer;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE MovePlayer(
         IN pTileID int,
         IN pPlayerID int,
         IN pGameID int
@@ -434,8 +434,8 @@ DELIMITER ;
 -- selected by the player.
 
 DELIMITER // 
-DROP PROCEDURE IF EXISTS findGem;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE findGem(
+DROP PROCEDURE IF EXISTS FindGem;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE FindGem(
         IN pTileID int,
         IN pPlayerID int,
         IN pGameID int
@@ -480,8 +480,8 @@ DELIMITER ;
 -- instance total.
 
 DELIMITER // 
-DROP PROCEDURE IF EXISTS selectGem;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE selectGem(
+DROP PROCEDURE IF EXISTS SelectGem;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE SelectGem(
         IN pItemID int,
         IN pPlayID int,
         IN pPlayerID int,
@@ -553,8 +553,8 @@ DELIMITER ;
 -- effectively ending the game as no more turns can occur.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS updateHS_EG;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE updateHS_EG(
+DROP PROCEDURE IF EXISTS UpdateHS_EG;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdateHS_EG(
         IN pPlayID int,
         IN pPlayerID int,
         IN pGameID int
@@ -605,7 +605,7 @@ BEGIN
 			WHERE (SELECT MAX(PlayScore) 
 				   FROM tblPlay) 
 				   AND GameID = pGameID;
-			
+		ELSE	
 			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
 	END;
@@ -620,8 +620,8 @@ DELIMITER ;
 -- the login procedure will check the active status and request login credentials.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS playerLogout;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE playerLogout(
+DROP PROCEDURE IF EXISTS PlayerLogout;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE PlayerLogout(
         IN pUsername varchar(10)
     )
 SQL SECURITY DEFINER
@@ -645,8 +645,8 @@ DELIMITER ;
 -- is returned.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS adminScreen;
-CREATE DEFINER = ‘root’@’localhost’ PROCEDURE adminScreen(
+DROP PROCEDURE IF EXISTS AdminScreen;
+CREATE DEFINER = ‘root’@’localhost’ PROCEDURE AdminScreen(
 		IN pUsername varchar(10)
     )
 SQL SECURITY INVOKER
@@ -683,8 +683,8 @@ DELIMITER ;
 -- the play instances and item/game instances associated with that game. 
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS killGame;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE killGame(
+DROP PROCEDURE IF EXISTS KillGame;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE KillGame(
 		IN pGameID int,
 		IN pUsername varchar(10)	
     )
@@ -726,8 +726,8 @@ DELIMITER ;
 -- changes can be made in the update player procedure.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS addPlayer;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE addPlayer(
+DROP PROCEDURE IF EXISTS AddPlayer;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE AddPlayer(
 		IN pAdminUsername varchar(10),
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
@@ -766,8 +766,8 @@ DELIMITER ;
 -- The procedure allows an admin user to update all information pertaining to an existing player.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS updatePlayer;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE updatePlayer(
+DROP PROCEDURE IF EXISTS UpdatePlayer;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdatePlayer(
 		IN pAdminUsername varchar(10),
 		IN pPlayerID int,
 		IN pEmail varchar(50), 
@@ -834,8 +834,8 @@ DELIMITER ;
 -- item/game table.
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS deletePlayer;
-CREATE DEFINER = 'root'@'localhost' PROCEDURE deletePlayer(
+DROP PROCEDURE IF EXISTS DeletePlayer;
+CREATE DEFINER = 'root'@'localhost' PROCEDURE DeletePlayer(
 		IN pAdminUsername varchar(10),
 		IN pUsername varchar(10)	
     )
