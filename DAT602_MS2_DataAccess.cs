@@ -63,10 +63,11 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPassword);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "loginCheckCredentials(@Username,@Password)", paramInput.ToArray());
-            
-            var aMessage=(aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+
+            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
             theHomeDisplayData.message = aMessage;
-            if (aMessage != "You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked")
+            Console.WriteLine(aMessage);
+            if ((aMessage == "Success") || (aMessage == "You are logged in"))
             {
                 theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
                                                 select
@@ -84,10 +85,14 @@ namespace DAT602_ConsoleApp
                                                               HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
                                                           }).ToList();
                 theHomeDisplayData.haveData = true;
+
+                return theHomeDisplayData;
             }
-            else
-                theHomeDisplayData.haveData = false;
-            return theHomeDisplayData;
+            else 
+            {
+                return null;
+            }
+            
         }
 
         // Home Screen Display Procedure
