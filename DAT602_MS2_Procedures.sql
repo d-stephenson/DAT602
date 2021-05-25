@@ -663,7 +663,7 @@ BEGIN
     
 	BEGIN 
 		IF accessAdmin IS TRUE THEN
-			SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
 			FROM tblPlayer py 
 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
 			GROUP BY pl.GameID;  
@@ -715,6 +715,8 @@ BEGIN
 			WHERE GameID = pGameID;
 
 			SELECT 'This game has been killed by Admin' AS MESSAGE; 
+		ELSE
+			SELECT 'No game with that ID' AS MESSAGE; 
 		END IF;
 	END;
 END //
@@ -758,6 +760,8 @@ BEGIN
 			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
 			
 			SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
+		ELSE
+			SELECT 'Youve done something wrong, cant add this player!!!' AS MESSAGE;
 		END IF;
 	END;
 END //
