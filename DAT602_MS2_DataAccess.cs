@@ -156,8 +156,10 @@ namespace DAT602_ConsoleApp
         }
 
         // Find Gem Procedure
-        public string FindGem(string pTileID, string pPlayerID, string pGameID)
+        public GemDisplayData FindGem(string pTileID, string pPlayerID, string pGameID)
         {
+
+            GemDisplayData theGemDisplayData = new GemDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
             var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
@@ -171,7 +173,33 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "FindGem(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            theGemDisplayData.message = aMessage;
+            Console.WriteLine(aMessage);
+            if (aMessage == "Youve found gems!!!")
+            {
+                theGemDisplayData.GemSelection = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                                                  select
+                                                      new GemSelection
+                                                      {
+                                                          ItemID = Convert.ToInt32(aResult.ItemArray[0].ToString()),
+                                                          GemType = aResult.Field<string>("Player"),
+                                                          Points = Convert.ToInt32(aResult.ItemArray[2].ToString()),
+                                                          GameID = Convert.ToInt32(aResult.ItemArray[3].ToString()),
+                                                          PlayerID = Convert.ToInt32(aResult.ItemArray[4].ToString()),
+                                                          PlayID = Convert.ToInt32(aResult.ItemArray[5].ToString()),
+                                                          TileID = Convert.ToInt32(aResult.ItemArray[6].ToString())
+                                                      }).ToList();
+
+
+                theGemDisplayData.haveGem = true;
+
+                return theGemDisplayData;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // Select Gem & Update Turn Procedure
