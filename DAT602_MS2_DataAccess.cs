@@ -167,7 +167,6 @@ namespace DAT602_ConsoleApp
         // Find Gem Procedure
         public GemDisplayData FindGem(string pTileID, string pPlayerID, string pGameID)
         {
-
             GemDisplayData theGemDisplayData = new GemDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
@@ -234,8 +233,9 @@ namespace DAT602_ConsoleApp
         }
 
         // Update High Score & End Game Procedure
-        public string ScoreEnd(string pPlayID, string pPlayerID, string pGameID)
+        public WinnerDisplayData ScoreEnd(string pPlayID, string pPlayerID, string pGameID)
         {
+            WinnerDisplayData theWinnerDisplayData = new WinnerDisplayData(); 
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramPlayID = new MySqlParameter("@PlayID", MySqlDbType.Int16);
             var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
@@ -249,7 +249,28 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "ScoreEnd(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
+            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            theWinnerDisplayData.message = aMessage;
+            Console.WriteLine(aMessage);
+            if (aMessage == "This game is over!!!")
+            {
+                theWinnerDisplayData.Winner = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                                                  select
+                                                      new Winner
+                                                      {
+                                                          CharacterName = aResult.Field<string>("CharacterName"),
+                                                          PlayScore = Convert.ToInt32(aResult.ItemArray[1].ToString())
+                                                      }).ToList();
+
+
+                theWinnerDisplayData.haveWinner = true;
+
+                return theWinnerDisplayData;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // Player Logout Procedure

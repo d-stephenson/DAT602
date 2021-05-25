@@ -103,15 +103,33 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "8":
-                    Console.WriteLine(aDataAccess.ScoreEnd("500014", "16", "100003"));
-                    Console.ReadLine(); 
+                    var aWinner = aDataAccess.ScoreEnd("500014", "16", "100003");
+                    Console.WriteLine("And the Winner is...");
+                    foreach (var item in aWinner.Winner)
+                    {
+                        Console.WriteLine("Congratulate: " + item.CharacterName);
+                        Console.WriteLine("Their points are: " + item.PlayScore.ToString());
+                    }
+                    Console.ReadLine();
                     return true;
                 case "9":
                     Console.WriteLine(aDataAccess.PlayerLogout("NewUser_9"));
                     Console.ReadLine();
                     return true;
                 case "10":
-                    Console.WriteLine(aDataAccess.EnterAdmin("NewUser_2"));
+                    var aAdminPage = aDataAccess.EnterAdmin("NewUser_2");
+                    Console.WriteLine("List of games");
+                    foreach (var item in aAdminPage.GameCount)
+                    {
+                        Console.WriteLine("This game id is: " + item.GameID.ToString());
+                        Console.WriteLine("This game's player count is: " + item.PlayerCount.ToString());
+                    }
+                    Console.WriteLine("List of players");
+                    foreach (var item in aAdminPage.PlayerHighScore)
+                    {
+                        Console.WriteLine("This player is: " + item.Player);
+                        Console.WriteLine("Their high score is: " + item.HighScore.ToString());
+                    }
                     Console.ReadLine();
                     return true;
                 case "11":
