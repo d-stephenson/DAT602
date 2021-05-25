@@ -8,10 +8,11 @@ using MySql.Data.MySqlClient;
 
 namespace DAT602_ConsoleApp
 {
-    class GemDisplayData
+    class Winner
     {
-        public string message;
-        public bool haveGem;
-        public List<GemSelection> GemSelection;
+        public string CharacterName;
+        public int PlayScore;
+
+        // CharacterName, pl.PlayScore
     }
 }

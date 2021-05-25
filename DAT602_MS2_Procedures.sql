@@ -605,6 +605,8 @@ BEGIN
 			WHERE (SELECT MAX(PlayScore) 
 				   FROM tblPlay) 
 				   AND GameID = pGameID;
+                   
+			SELECT 'This game is over!!!' AS MESSAGE;
 		ELSE	
 			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
@@ -666,8 +668,10 @@ BEGIN
 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
 			GROUP BY pl.GameID;  
 			
-			SELECT Username AS 'Player', HighScore AS 'High Score' 
+			SELECT Username AS 'Player', HighScore AS 'HighScore' 
 			FROM tblPlayer;  
+            
+            SELECT 'You are logged into the admin console' AS MESSAGE; 
 		ELSE
 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 		END IF;

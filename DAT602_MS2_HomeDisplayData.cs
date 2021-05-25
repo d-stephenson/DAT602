@@ -14,6 +14,5 @@ namespace DAT602_ConsoleApp
         public bool haveData;
         public List<GameCount>GameCount;
         public List<PlayerHighScore>PlayerHighScore;
-
     }
 }
