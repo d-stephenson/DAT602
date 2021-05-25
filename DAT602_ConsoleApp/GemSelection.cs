@@ -17,6 +17,6 @@ namespace DAT602_ConsoleApp
         public int TileID;
 
 
-        // 		ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
+        // 		ig.ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
     }
 }

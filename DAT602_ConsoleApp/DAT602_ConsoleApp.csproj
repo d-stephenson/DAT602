@@ -97,6 +97,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileDisplayData.cs" />
     <Compile Include="TileInfo.cs" />
+    <Compile Include="Winner.cs" />
+    <Compile Include="WinnerDisplayData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
