@@ -94,19 +94,6 @@ namespace DAT602_ConsoleApp
             }
         }
 
-        // Home Screen Display Procedure
-        public string HomeScreenDisplay(string pUsername)
-        {
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            paramUsername.Value = pUsername;
-            paramInput.Add(paramUsername);
-
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "HomeScreenDisplay(@Username)", paramInput.ToArray());
-
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
-        }
-
         // New Game Procedure
         public string NewGame(string pUsername)
         {
@@ -137,8 +124,9 @@ namespace DAT602_ConsoleApp
         }
 
         // Player Moves Procedure
-        public string MovePlayer(string pTileID, string pPlayerID, string pGameID)
+        public TileDisplayData MovePlayer(string pTileID, string pPlayerID, string pGameID)
         {
+            TileDisplayData theTileDisplayData = new TileDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
             var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
@@ -152,7 +140,28 @@ namespace DAT602_ConsoleApp
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
+            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            theTileDisplayData.message = aMessage;
+            Console.WriteLine(aMessage);
+            if (aMessage == "Your character has moved!!!") 
+            {
+                theTileDisplayData.TileInfo = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                                                select
+                                                    new TileInfo
+                                                    {
+                                                        TileColour = aResult.Field<string>("TileColour"),
+                                                        TileRow = Convert.ToInt32(aResult.ItemArray[1].ToString()),
+                                                        TileColumn = Convert.ToInt32(aResult.ItemArray[2].ToString())
+                                                    }).ToList();
+
+                theTileDisplayData.haveTile = true;
+
+                return theTileDisplayData;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // Find Gem Procedure
@@ -183,7 +192,7 @@ namespace DAT602_ConsoleApp
                                                       new GemSelection
                                                       {
                                                           ItemID = Convert.ToInt32(aResult.ItemArray[0].ToString()),
-                                                          GemType = aResult.Field<string>("Player"),
+                                                          GemType = aResult.Field<string>("GemType"),
                                                           Points = Convert.ToInt32(aResult.ItemArray[2].ToString()),
                                                           GameID = Convert.ToInt32(aResult.ItemArray[3].ToString()),
                                                           PlayerID = Convert.ToInt32(aResult.ItemArray[4].ToString()),

@@ -73,7 +73,14 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "5":
-                    Console.WriteLine(aDataAccess.MovePlayer("78", "16", "100003"));
+                    var aTileInfo = aDataAccess.MovePlayer("78", "16", "100003");
+                    Console.WriteLine("Tile Details");
+                    foreach (var item in aTileInfo.TileInfo)
+                    {
+                        Console.WriteLine("This tile colour is: " + item.TileColour);
+                        Console.WriteLine("The tile row is: " + item.TileRow.ToString());
+                        Console.WriteLine("The tile column is: " + item.TileColumn.ToString());
+                    }
                     Console.ReadLine();
                     return true;
                 case "6":
