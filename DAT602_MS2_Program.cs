@@ -77,9 +77,20 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "6":
-                    Console.WriteLine(aDataAccess.FindGem("78", "16", "100003"));
-                    Console.ReadLine();
-                    return true; 
+                    var aGemSelection = aDataAccess.FindGem("78", "16", "100003");
+                    Console.WriteLine("List of gems");
+                    foreach (var item in aGemSelection.GemSelection)
+                    {
+                        Console.WriteLine("This item id is: " + item.ItemID.ToString());
+                        Console.WriteLine("This gem type is: " + item.GemType);
+                        Console.WriteLine("The points are: " + item.Points.ToString());
+                        Console.WriteLine("The game id is: " + item.GameID.ToString());
+                        Console.WriteLine("This player id is: " + item.PlayerID.ToString());
+                        Console.WriteLine("This play id is: " + item.PlayID.ToString());
+                        Console.WriteLine("This tile id is: " + item.TileID.ToString());
+                    }
+                        Console.ReadLine();
+                        return true;
                 case "7":
                     Console.WriteLine(aDataAccess.GemTurn("129", "500014", "16", "100003"));
                     Console.ReadLine();
