@@ -198,8 +198,6 @@ namespace DAT602_ConsoleApp
                                                           PlayID = Convert.ToInt32(aResult.ItemArray[5].ToString()),
                                                           TileID = Convert.ToInt32(aResult.ItemArray[6].ToString())
                                                       }).ToList();
-
-
                 theGemDisplayData.haveGem = true;
 
                 return theGemDisplayData;
@@ -211,7 +209,7 @@ namespace DAT602_ConsoleApp
         }
 
         // Select Gem & Update Turn Procedure
-        public string GemTurn(string pItemID, string pPlayID, string pPlayerID, string pGameID)
+        public string SelectGem(string pItemID, string pPlayID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramItemID = new MySqlParameter("@ItemID", MySqlDbType.Int16);
@@ -227,13 +225,13 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "GemTurn(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "SelectGem(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Update High Score & End Game Procedure
-        public WinnerDisplayData ScoreEnd(string pPlayID, string pPlayerID, string pGameID)
+        public WinnerDisplayData UpdateHS_EG(string pPlayID, string pPlayerID, string pGameID)
         {
             WinnerDisplayData theWinnerDisplayData = new WinnerDisplayData(); 
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
@@ -247,7 +245,7 @@ namespace DAT602_ConsoleApp
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "ScoreEnd(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "UpdateHS_EG(@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
 
             var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
             theWinnerDisplayData.message = aMessage;
@@ -285,7 +283,7 @@ namespace DAT602_ConsoleApp
         }
 
         // Enter Admin Screen Procedure 
-        public HomeDisplayData EnterAdmin(string pUsername)
+        public HomeDisplayData AdminScreen(string pUsername)
         {
             HomeDisplayData theHomeDisplayData = new HomeDisplayData(); 
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
@@ -293,7 +291,7 @@ namespace DAT602_ConsoleApp
             paramUsername.Value = pUsername;
             paramInput.Add(paramUsername);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "EnterAdmin(@Username)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)", paramInput.ToArray());
 
             var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
             theHomeDisplayData.message = aMessage;

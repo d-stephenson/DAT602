@@ -761,7 +761,7 @@ BEGIN
 			
 			SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
 		ELSE
-			SELECT 'Youve done something wrong, cant add this player!!!' AS MESSAGE;
+			SELECT 'Youve done somethig wrong, cant add this player!!!' AS MESSAGE;
 		END IF;
 	END;
 END //
@@ -1010,7 +1010,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(NULL, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL SelectGem(122, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0

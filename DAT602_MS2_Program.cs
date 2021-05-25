@@ -45,11 +45,11 @@ namespace DAT602_ConsoleApp
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine(aDataAccess.NewUserRegistration("NewUser_9@gmail.com", "NewUser_9", "P@ssword1"));
+                    Console.WriteLine(aDataAccess.NewUserRegistration("ConsoleU_1@appmail.com", "ConsoleU_1", "P@ssword1"));
                     Console.ReadLine();
                     return true;
                 case "2":
-                    var aHomePage = aDataAccess.LoginCheckCredentials("NewUser_9", "P@ssword1");
+                    var aHomePage = aDataAccess.LoginCheckCredentials("ConsoleU_1", "P@ssword1");
                     Console.WriteLine("List of games");
                     foreach (var item in aHomePage.GameCount)
                     {
@@ -65,15 +65,15 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "3":
-                    Console.WriteLine(aDataAccess.NewGame("NewUser_9"));
+                    Console.WriteLine(aDataAccess.NewGame("ConsoleU_1"));
                     Console.ReadLine();
                     return true;
                 case "4":
-                    Console.WriteLine(aDataAccess.JoinGame("100003", "16"));
+                    Console.WriteLine(aDataAccess.JoinGame("100003", "1"));
                     Console.ReadLine();
                     return true;
                 case "5":
-                    var aTileInfo = aDataAccess.MovePlayer("78", "16", "100003");
+                    var aTileInfo = aDataAccess.MovePlayer("32", "9", "100003"); 
                     Console.WriteLine("Tile Details");
                     foreach (var item in aTileInfo.TileInfo)
                     {
@@ -84,7 +84,7 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "6":
-                    var aGemSelection = aDataAccess.FindGem("78", "16", "100003");
+                    var aGemSelection = aDataAccess.FindGem("50", "9", "100003");
                     Console.WriteLine("List of gems");
                     foreach (var item in aGemSelection.GemSelection)
                     {
@@ -99,11 +99,11 @@ namespace DAT602_ConsoleApp
                         Console.ReadLine();
                         return true;
                 case "7":
-                    Console.WriteLine(aDataAccess.GemTurn("129", "500014", "16", "100003"));
+                    Console.WriteLine(aDataAccess.SelectGem("129", "500007", "9", "100003"));
                     Console.ReadLine();
                     return true;
                 case "8":
-                    var aWinner = aDataAccess.ScoreEnd("500014", "16", "100003");
+                    var aWinner = aDataAccess.UpdateHS_EG("500007", "9", "100003");
                     Console.WriteLine("And the Winner is...");
                     foreach (var item in aWinner.Winner)
                     {
@@ -113,11 +113,11 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "9":
-                    Console.WriteLine(aDataAccess.PlayerLogout("NewUser_9"));
+                    Console.WriteLine(aDataAccess.PlayerLogout("ConsoleU_1"));
                     Console.ReadLine();
                     return true;
                 case "10":
-                    var aAdminPage = aDataAccess.EnterAdmin("NewUser_2");
+                    var aAdminPage = aDataAccess.AdminScreen("Bob");
                     Console.WriteLine("List of games");
                     foreach (var item in aAdminPage.GameCount)
                     {
@@ -133,19 +133,19 @@ namespace DAT602_ConsoleApp
                     Console.ReadLine();
                     return true;
                 case "11":
-                    Console.WriteLine(aDataAccess.KillGame("100002", "NewUser_2"));
+                    Console.WriteLine(aDataAccess.KillGame("100002", "Bob"));
                     Console.ReadLine();
                     return true;
                 case "12":
-                    Console.WriteLine(aDataAccess.AddPlayer("NewUser_2", "NewUser_10@gmail.com", "NewUser_10", "P@ssword1", "1"));
+                    Console.WriteLine(aDataAccess.AddPlayer("Bob", "ConsoleU_2@appmail.com", "ConsoleU_2", "P@ssword1", "1"));
                     Console.ReadLine();
                     return true;
                 case "13":
-                    Console.WriteLine(aDataAccess.UpdatePlayer("NewUser_2", "16", "NewUser_8@yahoo.com", "NewUser_8", "P@ssword1", "1", "0", "1", "3", "109"));
+                    Console.WriteLine(aDataAccess.UpdatePlayer("Bob", "10", "ChangeU_2@appmail.com", "ChangeU_2", "P@ssword1", "1", "0", "1", "3", "109"));
                     Console.ReadLine();
                     return true;
                 case "14":
-                    Console.WriteLine(aDataAccess.DeletePlayer("NewUser_2", "NewUser_5"));
+                    Console.WriteLine(aDataAccess.DeletePlayer("Bob", "ChangeU_2"));
                     Console.ReadLine();
                     return true;
                 case "15":
