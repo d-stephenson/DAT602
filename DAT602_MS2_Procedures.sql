@@ -398,6 +398,7 @@ BEGIN
 	WHERE 
 		TileID = pTileID
 	INTO newTileColumn;
+    
     BEGIN
 		IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
 			AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
@@ -445,31 +446,25 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE FindGem(
 SQL SECURITY DEFINER
 
 BEGIN
-	DROP TEMPORARY TABLE IF EXISTS selectOneGem;
-	CREATE TEMPORARY TABLE selectOneGem AS
-		SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
-		FROM tblPlay pl
-			JOIN tblItemGame ig ON pl.TileID = ig.TileID 
-				AND pl.GameID = ig.GameID
-					JOIN tblItem it ON ig.ItemID = it.ItemID
-					JOIN tblGem ge ON it.GemType = ge.GemType  
-		WHERE   
-			pl.TileID = pTileID
-            AND PlayerID = pPlayerID
-            AND pl.GameID = pGameID;
-	BEGIN
-		IF (SELECT COUNT(ItemID) 
-			FROM tblItemGame 
-			WHERE TileID = pTileID 
-            AND GameID = pGameID) > 0 THEN
-				SELECT 'Youve found gems!!!' AS MESSAGE;
-                
-				SELECT *
-                FROM selectOneGem;
-		ELSE 
-				SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
-		END IF;
-	END;
+	IF (SELECT COUNT(ItemID) 
+		FROM tblItemGame 
+		WHERE TileID = pTileID 
+			AND GameID = pGameID) > 0 THEN
+			SELECT 'Youve found gems!!!' AS MESSAGE;
+		   
+		  SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+	FROM tblPlay pl
+		JOIN tblItemGame ig ON pl.TileID = ig.TileID 
+			AND pl.GameID = ig.GameID
+				JOIN tblItem it ON ig.ItemID = it.ItemID
+				JOIN tblGem ge ON it.GemType = ge.GemType  
+	WHERE   
+		pl.TileID = pTileID
+			AND pl.PlayerID = pPlayerID
+			AND pl.GameID = pGameID; 
+	ELSE 
+		SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
+	END IF;
 END //
 DELIMITER ;
 
@@ -497,8 +492,9 @@ BEGIN
     DECLARE nextTurn varchar(10) DEFAULT NULL;
 		
 	SELECT Points 
-    FROM selectOneGem
-	WHERE 
+    FROM tblGem ge-- selectOneGem
+		JOIN tblItem it ON ge.GemType = it.GemType
+    WHERE 
 		ItemID = pItemID
 	INTO gemPoints;
     
@@ -1016,8 +1012,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(155, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
-
+	CALL SelectGem(135, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+-- change back to 155 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
 	SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
