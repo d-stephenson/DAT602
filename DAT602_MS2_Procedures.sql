@@ -450,7 +450,7 @@ BEGIN
 			AND GameID = pGameID) > 0 THEN
 			SELECT 'Youve found gems!!!' AS MESSAGE;
 		   
-		SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+		SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points AS 'Points', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
 		FROM tblPlay pl
 			JOIN tblItemGame ig ON pl.TileID = ig.TileID 
 				AND pl.GameID = ig.GameID
@@ -490,7 +490,7 @@ BEGIN
     DECLARE nextTurn varchar(10) DEFAULT NULL;
 		
 	SELECT Points 
-    FROM tblGem ge-- selectOneGem
+    FROM tblGem ge
 		JOIN tblItem it ON ge.GemType = it.GemType
     WHERE 
 		ItemID = pItemID
@@ -588,6 +588,7 @@ BEGIN
 			SET Highscore = playerPS
 			WHERE 
 				PlayerID = pPlayerID; 
+			SELECT 'Score is updated!!!' AS MESSAGE;
 		END IF;
 
 		IF tileCount = 0 THEN 
@@ -602,8 +603,8 @@ BEGIN
 			FROM tblPlay pl
 					JOIN tblCharacter ch ON pl.CharacterName = ch.CharacterName 
 			WHERE (SELECT MAX(PlayScore) 
-				   FROM tblPlay) 
-				   AND GameID = pGameID;
+					FROM tblPlay) 
+						AND GameID = pGameID;
 		ELSE	
 			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
@@ -1010,7 +1011,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(114, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL SelectGem(109, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0

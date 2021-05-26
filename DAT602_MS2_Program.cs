@@ -85,31 +85,31 @@ namespace DAT602_ConsoleApp
                     return true;
                 case "6":
                     var aGemSelection = aDataAccess.FindGem("50", "9", "100003");
-                    if (aGemSelection != null)
+                    //if (aGemSelection != null)
+                    //{
+                    foreach (var item in aGemSelection.GemSelection)
                     {
                         Console.WriteLine("List of gems");
-                        foreach (var item in aGemSelection.GemSelection)
-                        {
-                            Console.WriteLine("This item id is: " + item.ItemID.ToString());
-                            Console.WriteLine("This gem type is: " + item.GemType);
-                            Console.WriteLine("The points are: " + item.Points.ToString());
-                            Console.WriteLine("The game id is: " + item.GameID.ToString());
-                            Console.WriteLine("This player id is: " + item.PlayerID.ToString());
-                            Console.WriteLine("This play id is: " + item.PlayID.ToString());
-                            Console.WriteLine("This tile id is: " + item.TileID.ToString());
-                        }
+                        Console.WriteLine("This item id is: " + item.ItemID.ToString());
+                        Console.WriteLine("This gem type is: " + item.GemType);
+                        Console.WriteLine("The points are: " + item.Points.ToString());
+                        Console.WriteLine("The game id is: " + item.GameID.ToString());
+                        Console.WriteLine("This player id is: " + item.PlayerID.ToString());
+                        Console.WriteLine("This play id is: " + item.PlayID.ToString());
+                        Console.WriteLine("This tile id is: " + item.TileID.ToString());
                     }
-                        Console.ReadLine();
-                        return true;
+                //}
+                    Console.ReadLine();
+                    return true;
                 case "7":
                     Console.WriteLine(aDataAccess.SelectGem("135", "500007", "9", "100003"));
                     Console.ReadLine();
                     return true;
                 case "8":
                     var aWinner = aDataAccess.UpdateHS_EG("500007", "9", "100003");
-                    Console.WriteLine("And the Winner is...");
                     foreach (var item in aWinner.Winner)
                     {
+                        Console.WriteLine("And the Winner is...");
                         Console.WriteLine("Congratulate: " + item.CharacterName);
                         Console.WriteLine("Their points are: " + item.PlayScore.ToString());
                     }
