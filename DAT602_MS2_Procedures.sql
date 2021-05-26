@@ -307,10 +307,8 @@ BEGIN
 			VALUES (selectedUser, selectedCharacter, pGameID);
 			
 			SELECT 'Youve joined the game!!!' AS MESSAGE;
-			
 		ELSEIF selectedUser IS NULL THEN
 			SELECT 'You are back in the game!!!' AS MESSAGE;
-
 		ELSEIF selectedCharacter IS NULL AND selectedUser IS NOT NULL THEN
 			SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
 
@@ -452,16 +450,16 @@ BEGIN
 			AND GameID = pGameID) > 0 THEN
 			SELECT 'Youve found gems!!!' AS MESSAGE;
 		   
-		  SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
-	FROM tblPlay pl
-		JOIN tblItemGame ig ON pl.TileID = ig.TileID 
-			AND pl.GameID = ig.GameID
-				JOIN tblItem it ON ig.ItemID = it.ItemID
-				JOIN tblGem ge ON it.GemType = ge.GemType  
-	WHERE   
-		pl.TileID = pTileID
-			AND pl.PlayerID = pPlayerID
-			AND pl.GameID = pGameID; 
+		SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+		FROM tblPlay pl
+			JOIN tblItemGame ig ON pl.TileID = ig.TileID 
+				AND pl.GameID = ig.GameID
+					JOIN tblItem it ON ig.ItemID = it.ItemID
+					JOIN tblGem ge ON it.GemType = ge.GemType  
+		WHERE   
+			pl.TileID = pTileID
+				AND pl.PlayerID = pPlayerID
+				AND pl.GameID = pGameID; 
 	ELSE 
 		SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 	END IF;
@@ -1012,8 +1010,8 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(135, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
--- change back to 155 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	CALL SelectGem(114, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
 	SELECT * FROM tblGame WHERE GameID = 100003; -- Check character turn has updated in game table
