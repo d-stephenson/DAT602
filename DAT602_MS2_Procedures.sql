@@ -307,10 +307,13 @@ BEGIN
 			VALUES (selectedUser, selectedCharacter, pGameID);
 			
 			SELECT 'Youve joined the game!!!' AS MESSAGE;
+			
 		ELSEIF selectedUser IS NULL THEN
 			SELECT 'You are back in the game!!!' AS MESSAGE;
+
 		ELSEIF selectedCharacter IS NULL AND selectedUser IS NOT NULL THEN
 			SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
+
 		END IF;
 	END;
 END //
@@ -409,15 +412,15 @@ BEGIN
 			WHERE 
 				PlayerID = pPlayerID 
 				AND GameID = pGameID;
-				
-			SELECT TileColour, TileRow, TileColumn 
+						
+			SELECT 'Your character has moved!!!' AS MESSAGE;	
+			
+            SELECT TileColour, TileRow, TileColumn 
 			FROM tblCharacter ch 
 				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
 				JOIN tblTile ti ON pl.TileID = ti.TileID
 			WHERE 
 				PlayerID = pPlayerID;
-				
-			SELECT 'Your character has moved!!!' AS MESSAGE;
 		ELSE
 			SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
 		END IF;
@@ -459,12 +462,12 @@ BEGIN
 			FROM tblItemGame 
 			WHERE TileID = pTileID 
             AND GameID = pGameID) > 0 THEN
-				SELECT * 
-                FROM selectOneGem;
+				SELECT 'Youve found gems!!!' AS MESSAGE;
                 
-			SELECT 'Youve found gems!!!' AS MESSAGE;
+				SELECT ItemID, GemType, Points, GameID, PlayerID, PlayID, TileID 
+                FROM selectOneGem;
 		ELSE 
-			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
+				SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;
 	END;
 END //
@@ -598,15 +601,14 @@ BEGIN
 			SET CharacterTurn = NULL
 			WHERE 
 				GameID = pGameID;
-			
+			SELECT 'This game is over!!!' AS MESSAGE;
+                        
 			SELECT pl.CharacterName, pl.PlayScore 
 			FROM tblPlay pl
 					JOIN tblCharacter ch ON pl.CharacterName = ch.CharacterName 
 			WHERE (SELECT MAX(PlayScore) 
 				   FROM tblPlay) 
 				   AND GameID = pGameID;
-                   
-			SELECT 'This game is over!!!' AS MESSAGE;
 		ELSE	
 			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
@@ -668,10 +670,10 @@ BEGIN
 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
 			GROUP BY pl.GameID;  
 			
-			SELECT Username AS 'Player', HighScore AS 'HighScore' 
-			FROM tblPlayer;  
+			SELECT 'You are logged into the admin console' AS MESSAGE; 
             
-            SELECT 'You are logged into the admin console' AS MESSAGE; 
+            SELECT Username AS 'Player', HighScore AS 'HighScore' 
+			FROM tblPlayer;  
 		ELSE
 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 		END IF;
@@ -1010,7 +1012,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(122, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL SelectGem(155, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
