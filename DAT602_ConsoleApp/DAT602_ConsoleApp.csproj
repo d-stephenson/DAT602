@@ -86,7 +86,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="GameCount.cs" />
     <Compile Include="GemDisplayData.cs" />
