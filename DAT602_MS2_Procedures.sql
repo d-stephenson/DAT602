@@ -454,9 +454,9 @@ BEGIN
 					JOIN tblItem it ON ig.ItemID = it.ItemID
 					JOIN tblGem ge ON it.GemType = ge.GemType  
 		WHERE   
-			pl.TileID = 32
-            AND PlayerID = 9
-            AND pl.GameID = 100003;
+			pl.TileID = pTileID
+            AND PlayerID = pPlayerID
+            AND pl.GameID = pGameID;
 	BEGIN
 		IF (SELECT COUNT(ItemID) 
 			FROM tblItemGame 
@@ -464,7 +464,7 @@ BEGIN
             AND GameID = pGameID) > 0 THEN
 				SELECT 'Youve found gems!!!' AS MESSAGE;
                 
-				SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points, pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+				SELECT *
                 FROM selectOneGem;
 		ELSE 
 				SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
@@ -533,15 +533,15 @@ BEGIN
 			SET CharacterTurn = nextTurn
 			WHERE 
 				GameID = pGameID;
+                    SELECT 'Turn updated!!!' AS MESSAGE;
 		ELSEIF nextTurn IS NULL THEN
 			UPDATE tblGame
 			SET CharacterTurn = 'Doc'
 			WHERE 
 				GameID = pGameID;
+                    SELECT 'Turn updated!!!' AS MESSAGE;
 		END IF;
 	END;
-    
-    SELECT 'Turn updated!!!' AS MESSAGE;
 END //
 DELIMITER ;
 

@@ -285,7 +285,7 @@ namespace DAT602_ConsoleApp
         // Enter Admin Screen Procedure 
         public HomeDisplayData AdminScreen(string pUsername)
         {
-            HomeDisplayData theHomeDisplayData = new HomeDisplayData(); 
+            HomeDisplayData theAdminDisplayData = new HomeDisplayData(); 
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramUsername.Value = pUsername;
@@ -294,11 +294,11 @@ namespace DAT602_ConsoleApp
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)", paramInput.ToArray());
 
             var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            theHomeDisplayData.message = aMessage;
+            theAdminDisplayData.message = aMessage;
             Console.WriteLine(aMessage);
             if (aMessage == "You are logged into the admin console")
             {
-                theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
+                theAdminDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
                                                 select
                                                     new GameCount
                                                     {
@@ -306,16 +306,16 @@ namespace DAT602_ConsoleApp
                                                         PlayerCount = Convert.ToInt32(aResult.ItemArray[1].ToString())
                                                     }).ToList();
 
-                theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
+                theAdminDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
                                                       select
                                                           new PlayerHighScore
                                                           {
                                                               Player = aResult.Field<string>("Player"),
                                                               HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())
                                                           }).ToList();
-                theHomeDisplayData.haveData = true;
+                theAdminDisplayData.haveData = true;
 
-                return theHomeDisplayData;
+                return theAdminDisplayData;
             }
             else
             {
