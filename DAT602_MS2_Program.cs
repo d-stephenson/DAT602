@@ -23,7 +23,7 @@ namespace DAT602_ConsoleApp
         {
             Console.Clear();
             Console.WriteLine("Choose an option:");
-            Console.WriteLine("1) Regsiter account");
+            Console.WriteLine("1) Register account");
             Console.WriteLine("2) User login");
             Console.WriteLine("3) Create a new game");
             Console.WriteLine("4) Join a game");
