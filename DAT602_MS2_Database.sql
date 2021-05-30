@@ -613,10 +613,8 @@ GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Global Transaction Isolation Level
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	-- Re-run CreateTables and InsertTables from DAT601_MS1_game.sql as changes have been made to facilitate these procedures
 	
-    -- Check table is encrypted
+    -- 	Check table is encrypted
 	-- 	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
 	--  FROM INFORMATION_SCHEMA.TABLES
 	-- 	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%'; 
@@ -626,7 +624,7 @@ GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 	-- SET GLOBAL TRANSACTION ISOLATION LEVEL repeatable read; 
 	-- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization;
     
-	--  SHOW GLOBAL VARIABLES LIKE '%isolation%';
+	-- SHOW GLOBAL VARIABLES LIKE '%isolation%';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
