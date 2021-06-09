@@ -648,9 +648,11 @@ BEGIN
 	DECLARE newSalt varchar(36);
 	
 	SELECT UUID() INTO newSalt;
-	
-	INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
-	VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+    
+	START TRANSACTION;
+		INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
+		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+    COMMIT;
     
     SELECT 'Your account is created, let the games begin!!!' AS MESSAGE;
 END //
@@ -696,43 +698,45 @@ BEGIN
 	WHERE
 		Username = pUsername
 	INTO currentAS;
-    
-    IF proposedUID IS NULL AND currentAS = 0 THEN 
-		UPDATE tblPlayer
-		SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
-        WHERE 
-			Username = pUsername;
-		    
-		SELECT 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked' AS MESSAGE;
-        -- Increments the failed logins, if it equals 5 then account is locked
-	ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
-		UPDATE tblPlayer
-        SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
-        WHERE 
-			Username = pUsername; 
-            
-		SELECT 'Success' AS MESSAGE;
-        
-		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
-        
-		SELECT Username AS 'Player', HighScore AS 'HighScore' 
-		FROM tblPlayer; 
-		-- If credentials are correct user is logged into account by setting active status to true
-	ELSE 
-		SELECT 'You are logged in' AS MESSAGE;
-    
-		SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
-        
-		SELECT Username AS 'Player', HighScore AS 'HighScore' 
-		FROM tblPlayer;  
-        -- Conditions are met so user is already logged in
-	END IF;
+	
+    START TRANSACTION;
+		IF proposedUID IS NULL AND currentAS = 0 THEN 
+			UPDATE tblPlayer
+			SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
+			WHERE 
+				Username = pUsername;
+				
+			SELECT 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked' AS MESSAGE;
+			-- Increments the failed logins, if it equals 5 then account is locked
+		ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
+			UPDATE tblPlayer
+			SET ActiveStatus = 1, FailedLogins = 0, AccountLocked = 0
+			WHERE 
+				Username = pUsername; 
+				
+			SELECT 'Success' AS MESSAGE;
+			
+			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
+			FROM tblPlayer py 
+				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+			GROUP BY pl.GameID;  
+			
+			SELECT Username AS 'Player', HighScore AS 'HighScore' 
+			FROM tblPlayer; 
+			-- If credentials are correct user is logged into account by setting active status to true
+		ELSE 
+			SELECT 'You are logged in' AS MESSAGE;
+		
+			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
+			FROM tblPlayer py 
+				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+			GROUP BY pl.GameID;  
+			
+			SELECT Username AS 'Player', HighScore AS 'HighScore' 
+			FROM tblPlayer;  
+			-- Conditions are met so user is already logged in
+		END IF;
+    COMMIT;
 END //
 DELIMITER ;
 
@@ -832,7 +836,7 @@ BEGIN
     
 	SET newGameId = LAST_INSERT_ID();
     
-	BEGIN
+	START TRANSACTION;
 		IF newGameId > 0 THEN
 			INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 			VALUES ((SELECT PlayerID 
@@ -847,9 +851,9 @@ BEGIN
 
 			SET firstItem = firstItem + 1;
 		END WHILE;
-
+	COMMIT;
+        
 		SELECT 'Your new game is created, find those gems!!!' AS MESSAGE;
-	END;
 END //
 DELIMITER ;
 
@@ -892,7 +896,7 @@ BEGIN
                             AND PlayerID = pPlayerID
 	INTO selectedUser;
     
-    BEGIN                      
+    START TRANSACTION;                    
 		IF selectedCharacter IS NOT NULL AND selectedUser IS NOT NULL THEN -- Prevents more then Character count of 7 joining a game and prevents update from happening if player re-joining the game                      
 			INSERT INTO tblPlay(PlayerID, CharacterName, GameID)
 			VALUES (selectedUser, selectedCharacter, pGameID);
@@ -904,7 +908,7 @@ BEGIN
 			SELECT 'All seven dwarfs are playing this game!!!' AS MESSAGE;
 
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -988,7 +992,7 @@ BEGIN
 		TileID = pTileID
 	INTO newTileColumn;
     
-    BEGIN
+    START TRANSACTION;
 		IF ((newTileRow = currentTileRow OR newTileRow = currentTileRow + 1 OR newTileRow = currentTileRow - 1) 
 			AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
 			AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001) 
@@ -1014,7 +1018,7 @@ BEGIN
 		ELSE
 			SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -1035,25 +1039,27 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE FindGem(
 SQL SECURITY DEFINER
 
 BEGIN
-	IF (SELECT COUNT(ItemID) 
-		FROM tblItemGame 
-		WHERE TileID = pTileID 
-			AND GameID = pGameID) > 0 THEN
-			SELECT 'Youve found gems!!!' AS MESSAGE;
-		   
-		SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points AS 'Points', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
-		FROM tblPlay pl
-			JOIN tblItemGame ig ON pl.TileID = ig.TileID 
-				AND pl.GameID = ig.GameID
-					JOIN tblItem it ON ig.ItemID = it.ItemID
-					JOIN tblGem ge ON it.GemType = ge.GemType  
-		WHERE   
-			pl.TileID = pTileID
-				AND pl.PlayerID = pPlayerID
-				AND pl.GameID = pGameID; 
-	ELSE 
-		SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
-	END IF;
+	START TRANSACTION;
+		IF (SELECT COUNT(ItemID) 
+			FROM tblItemGame 
+			WHERE TileID = pTileID 
+				AND GameID = pGameID) > 0 THEN
+				SELECT 'Youve found gems!!!' AS MESSAGE;
+			   
+			SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points AS 'Points', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+			FROM tblPlay pl
+				JOIN tblItemGame ig ON pl.TileID = ig.TileID 
+					AND pl.GameID = ig.GameID
+						JOIN tblItem it ON ig.ItemID = it.ItemID
+						JOIN tblGem ge ON it.GemType = ge.GemType  
+			WHERE   
+				pl.TileID = pTileID
+					AND pl.PlayerID = pPlayerID
+					AND pl.GameID = pGameID; 
+		ELSE 
+			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
+		END IF;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -1097,7 +1103,7 @@ BEGIN
 						AND GameID = pGameID) 
 	INTO nextTurn; 
     
-    BEGIN
+    START TRANSACTION;
 		IF pItemID IS NOT NULL THEN     
 			UPDATE tblItemGame
 			SET TileID = NULL, PlayID = pPlayID
@@ -1110,9 +1116,9 @@ BEGIN
 			WHERE 
 				PlayID = pPlayID;
 		END IF;
-	END;
+	COMMIT;
 
-	BEGIN
+	START TRANSACTION;
 		IF nextTurn IS NOT NULL THEN
 			UPDATE tblGame
 			SET CharacterTurn = nextTurn
@@ -1126,7 +1132,7 @@ BEGIN
 				GameID = pGameID;
                     SELECT 'Turn updated!!!' AS MESSAGE;
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -1173,7 +1179,7 @@ BEGIN
 		GameID = pGameID
 	INTO tileCount;
     
-    BEGIN 
+    START TRANSACTION;
 		IF playerPS > playerHS THEN 
 			UPDATE tblPlayer
 			SET Highscore = playerPS
@@ -1199,7 +1205,7 @@ BEGIN
 		ELSE	
 			SELECT 'Time for the next dwarf to make his move!!!' AS MESSAGE;
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -1218,13 +1224,14 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE PlayerLogout(
 SQL SECURITY DEFINER
 
 BEGIN
-	UPDATE tblPlayer 
-    SET ActiveStatus = 0
-    WHERE Username = pUsername;
+	START TRANSACTION;
+		UPDATE tblPlayer 
+		SET ActiveStatus = 0
+		WHERE Username = pUsername;
+	COMMIT;
     
-    SELECT 'Youre all logged out!!!' AS MESSAGE;
+	SELECT 'Youre all logged out!!!' AS MESSAGE;
 END //
-
 DELIMITER ;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1250,7 +1257,7 @@ BEGIN
 		Username = pUsername 
 	INTO accessAdmin;
     
-	BEGIN 
+	START TRANSACTION; 
 		IF accessAdmin IS TRUE THEN
 			SELECT 'You are logged into the admin console' AS MESSAGE; 
             
@@ -1264,7 +1271,7 @@ BEGIN
 		ELSE
 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;
 
@@ -1292,7 +1299,7 @@ BEGIN
 		Username = pUsername 
 	INTO checkAdmin;
     
-	BEGIN
+	START TRANSACTION;
 		IF checkAdmin IS True THEN
 			DELETE FROM tblItemGame
 			WHERE GameID = pGameID;
@@ -1307,7 +1314,7 @@ BEGIN
 		ELSE
 			SELECT 'No game with that ID' AS MESSAGE; 
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;   
 
@@ -1343,7 +1350,7 @@ BEGIN
     
 	SELECT UUID() INTO newSalt;
     
-	BEGIN
+	START TRANSACTION;
 		IF checkAdmin IS TRUE THEN
 			INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
 			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
@@ -1352,7 +1359,7 @@ BEGIN
 		ELSE
 			SELECT 'Youve done somethig wrong, cant add this player!!!' AS MESSAGE;
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;     
 
@@ -1390,7 +1397,7 @@ BEGIN
     
 	SELECT UUID() INTO newSalt;
 	
-    BEGIN
+    START TRANSACTION;
 		IF EXISTS (SELECT PlayerID 
 				   FROM tblPlayer 
 				   WHERE 
@@ -1418,7 +1425,7 @@ BEGIN
 		ELSE 
 			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;     
 
@@ -1447,7 +1454,7 @@ BEGIN
 		Username = pAdminUsername 
 	INTO checkAdmin;
 	
-    BEGIN
+    START TRANSACTION;
 		IF EXISTS (SELECT Username 
 				   FROM tblPlayer 
 				   WHERE Username = pUsername) 
@@ -1463,7 +1470,7 @@ BEGIN
 		ELSE 
 			SELECT 'There is no account with this username' AS MESSAGE; 
 		END IF;
-	END;
+	COMMIT;
 END //
 DELIMITER ;  
 
@@ -1602,7 +1609,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL SelectGem(109, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
+	CALL SelectGem(103, 500007, 9, 100003); -- IMPORTANT: Amend the first input to the correct itemID or NULL, second input to the correct playID, third input to correct playerID
 
 	-- Do the following checks to confirm procedure success
 	SELECT * FROM tblPlay WHERE PlayerID = 9; -- Check play score has updated from 0
