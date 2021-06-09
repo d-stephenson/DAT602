@@ -592,6 +592,7 @@ DELIMITER ;
 -- Call Create, Insert Procedures
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+USE sdghGameDatabase;
 CALL CreateTables;
 CALL InsertTables;
 
@@ -611,13 +612,13 @@ GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 -- SHOW GRANTS FOR 'root'@'localhost';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- Global Transaction Isolation Level
+-- Global Database Controls
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
     -- 	Check table is encrypted
-	-- 	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
-	--  FROM INFORMATION_SCHEMA.TABLES
-	-- 	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%'; 
+	SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_OPTIONS 
+	FROM INFORMATION_SCHEMA.TABLES
+	WHERE CREATE_OPTIONS LIKE '%ENCRYPTION%'; 
     
 	SET GLOBAL TRANSACTION ISOLATION LEVEL read committed; 
 	-- SET GLOBAL TRANSACTION ISOLATION LEVEL read uncommitted; 
@@ -625,6 +626,9 @@ GRANT ALL ON sdghGameDatabase TO 'databaseAdmin'@'localhost';
 	-- SET GLOBAL TRANSACTION ISOLATION LEVEL serialization;
     
 	-- SHOW GLOBAL VARIABLES LIKE '%isolation%';
+    
+    SELECT @@autocommit;
+    SET AUTOCOMMIT=0;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New User Registration Procedure
