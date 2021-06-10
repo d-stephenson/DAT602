@@ -648,17 +648,24 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE NewUserRegistration(
     )
 SQL SECURITY DEFINER
 
-BEGIN
-	DECLARE newSalt varchar(36);
-	
-	SELECT UUID() INTO newSalt;
-    
-	START TRANSACTION;
-		INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
-		VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
-    COMMIT;
-    
-    SELECT 'Your account is created, let the games begin!!!' AS MESSAGE;
+BEGIN        
+	DECLARE EXIT HANDLER FOR 1062
+		BEGIN
+			SELECT 'Either the email or username entered already exists' AS MESSAGE;
+		END;
+        
+    BEGIN    
+		DECLARE newSalt varchar(36);
+		
+		SELECT UUID() INTO newSalt;
+		
+		START TRANSACTION;
+			INSERT INTO tblPlayer(Email, Username, `Password`, Salt) 
+			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
+			
+			SELECT 'Your account is created, let the games begin!!!' AS MESSAGE;
+		COMMIT;
+    END;
 END //
 DELIMITER ;
 
@@ -747,38 +754,38 @@ DELIMITER ;
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Home Screen Display Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- PROCEDURE NO LONGER REQUIRED
+
 -- Two select statements make up the procedure and have been designed with thought given to the end GUI, should a 
 -- login attempt be successful, which is further check by selecting the active status of the user, then the relevant 
 -- information as described in the storyboarding is displayed. 
 
--- DROP PROCEDURE IF EXISTS HomeScreen;
--- DELIMITER //
--- CREATE DEFINER = 'root'@'localhost' PROCEDURE HomeScreen(
--- 		IN pUsername varchar(10)
---     )
--- SQL SECURITY DEFINER
+DROP PROCEDURE IF EXISTS HomeScreen;
+DELIMITER //
+CREATE DEFINER = 'root'@'localhost' PROCEDURE HomeScreen(
+		IN pUsername varchar(10)
+    )
+SQL SECURITY DEFINER
 
--- BEGIN
---     DECLARE accessScreen bit DEFAULT NULL;
---   
--- 	SELECT ActiveStatus 
--- 	FROM tblPlayer
--- 	WHERE
--- 		Username = pUsername 
--- 	INTO accessScreen;
+BEGIN
+    DECLARE accessScreen bit DEFAULT NULL;
+    
+	SELECT ActiveStatus 
+	FROM tblPlayer
+	WHERE
+		Username = pUsername 
+	INTO accessScreen;
 
---     IF accessScreen IS TRUE THEN
---         SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
---         FROM tblPlayer py 
---             JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
---         GROUP BY pl.GameID;  
---         
--- 		SELECT Username AS 'Player', HighScore AS 'High Score' 
--- 		FROM tblPlayer;  
--- 	END IF;
--- END //
--- DELIMITER ;
+    IF playerExists IS NOT NULL AND accessScreen IS TRUE THEN 
+        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+        FROM tblPlayer py 
+            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+        GROUP BY pl.GameID;  
+        
+		SELECT Username AS 'Player', HighScore AS 'High Score' 
+		FROM tblPlayer; 
+	END IF;
+END //
+DELIMITER ;
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure
@@ -1536,8 +1543,8 @@ DELIMITER ;
 
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- PROCEDURE NO LONGER REQUIRED
--- 	CALL HomeScreen('NewUser_1');
+
+	CALL HomeScreen('NewUser_f');
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure
