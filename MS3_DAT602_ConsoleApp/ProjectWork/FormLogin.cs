@@ -21,5 +21,16 @@ namespace ProjectWork
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.LoginCheckCredentials(UsernameText.Text, PasswordText.Text);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -33,8 +33,8 @@ namespace ProjectWork
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.UsernameText = new System.Windows.Forms.TextBox();
+            this.PasswordText = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -82,19 +82,20 @@ namespace ProjectWork
             this.label4.TabIndex = 3;
             this.label4.Text = "Password";
             // 
-            // textBox1
+            // UsernameText
             // 
-            this.textBox1.Location = new System.Drawing.Point(379, 209);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(175, 20);
-            this.textBox1.TabIndex = 4;
+            this.UsernameText.Location = new System.Drawing.Point(379, 209);
+            this.UsernameText.Name = "UsernameText";
+            this.UsernameText.Size = new System.Drawing.Size(175, 20);
+            this.UsernameText.TabIndex = 4;
+            this.UsernameText.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // textBox2
+            // PasswordText
             // 
-            this.textBox2.Location = new System.Drawing.Point(379, 234);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(175, 20);
-            this.textBox2.TabIndex = 5;
+            this.PasswordText.Location = new System.Drawing.Point(379, 234);
+            this.PasswordText.Name = "PasswordText";
+            this.PasswordText.Size = new System.Drawing.Size(175, 20);
+            this.PasswordText.TabIndex = 5;
             // 
             // button1
             // 
@@ -104,6 +105,7 @@ namespace ProjectWork
             this.button1.TabIndex = 6;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label5
             // 
@@ -124,7 +126,7 @@ namespace ProjectWork
             this.button2.Text = "New User";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // LoginScreen
+            // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -132,13 +134,13 @@ namespace ProjectWork
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.PasswordText);
+            this.Controls.Add(this.UsernameText);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "LoginScreen";
+            this.Name = "FormLogin";
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -151,8 +153,8 @@ namespace ProjectWork
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox UsernameText;
+        private System.Windows.Forms.TextBox PasswordText;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;

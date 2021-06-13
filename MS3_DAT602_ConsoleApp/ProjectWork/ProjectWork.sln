@@ -31,9 +31,6 @@ namespace ProjectWork
             }
         }
 
-        public static string validatedUsername = "";
-        public static string loginStatus = "";
-
         // New User Registration Procedure
         public string NewUserRegistration(string pEmail, string pUsername, string pPassword)
         {
@@ -54,9 +51,9 @@ namespace ProjectWork
         }
 
         // Login Check Credentials Procedure
-        public void LoginCheckCredentials(string pUsername, string pPassword)
+        public HomeDisplayData LoginCheckCredentials(string pUsername, string pPassword)
         {
-            //HomeDisplayData theHomeDisplayData = new HomeDisplayData();
+            HomeDisplayData theHomeDisplayData = new HomeDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
@@ -67,18 +64,9 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "LoginCheckCredentials(@Username,@Password)", paramInput.ToArray());
 
-            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Success") || ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "You are logged in"))
-            {
-                DataAccess.validatedUsername = pUsername;
-            }
-            else
-            { 
-                DataAccess.loginStatus = "You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked"; 
-            }
-
-            //var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            //theHomeDisplayData.message = aMessage;
-            //Console.WriteLine(aMessage);
+            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            theHomeDisplayData.message = aMessage;
+            Console.WriteLine(aMessage);
             //if ((aMessage == "Success") || (aMessage == "You are logged in"))
             //{
             //    theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
@@ -106,8 +94,8 @@ namespace ProjectWork
             //}
         }
 
-        // HomeDisplay
-        public HomeDisplayData HomeScreen(string pUsername)
+        // Home Display 
+        public HomeDisplayData getHomeDisplayData(string pUsername)
         {
             HomeDisplayData theHomeDisplayData = new HomeDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
