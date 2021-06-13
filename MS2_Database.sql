@@ -727,24 +727,24 @@ BEGIN
 				
 			SELECT 'Success' AS MESSAGE;
 			
-			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
-			FROM tblPlayer py 
-				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-			GROUP BY pl.GameID;  
-			
-			SELECT Username AS 'Player', HighScore AS 'HighScore' 
-			FROM tblPlayer; 
-			-- If credentials are correct user is logged into account by setting active status to true
+-- 			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
+-- 			FROM tblPlayer py 
+-- 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+-- 			GROUP BY pl.GameID;  
+-- 			
+-- 			SELECT Username AS 'Player', HighScore AS 'HighScore' 
+-- 			FROM tblPlayer; 
+-- 			-- If credentials are correct user is logged into account by setting active status to true
 		ELSE 
 			SELECT 'You are logged in' AS MESSAGE;
 		
-			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
-			FROM tblPlayer py 
-				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-			GROUP BY pl.GameID;  
-			
-			SELECT Username AS 'Player', HighScore AS 'HighScore' 
-			FROM tblPlayer;  
+-- 			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
+-- 			FROM tblPlayer py 
+-- 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+-- 			GROUP BY pl.GameID;  
+-- 			
+-- 			SELECT Username AS 'Player', HighScore AS 'HighScore' 
+-- 			FROM tblPlayer;  
 			-- Conditions are met so user is already logged in
 		END IF;
     COMMIT;
@@ -775,12 +775,12 @@ BEGIN
 		Username = pUsername 
 	INTO accessScreen;
 
-    IF playerExists IS NOT NULL AND accessScreen IS TRUE THEN 
-        SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
-        FROM tblPlayer py 
-            JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-        GROUP BY pl.GameID;  
-        
+	IF accessScreen IS TRUE THEN 
+		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
+		FROM tblPlayer py 
+			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+		GROUP BY pl.GameID;  
+		
 		SELECT Username AS 'Player', HighScore AS 'High Score' 
 		FROM tblPlayer; 
 	END IF;
@@ -1544,7 +1544,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL HomeScreen('NewUser_f');
+	CALL HomeScreen('NewUser_1');
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure
