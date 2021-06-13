@@ -12,6 +12,12 @@ namespace ProjectWork
 {
     public partial class FormHomeDisplay : Form
     {
+        private List<HomeDisplayData> HomeDisplayDataList;
+        public void refreshDS()
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = HomeDisplayDataList;
+        }
         public FormHomeDisplay()
         {
             InitializeComponent();
@@ -69,9 +75,14 @@ namespace ProjectWork
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            HomeDisplayData aDisplayData = DataAccess.GameCount();
-            theHomeDisplayData = aDisplayData.GameCount;
+            HomeDisplayData aDisplayData = DataAccess.theHomeDisplayData();
+            HomeDisplayDataList = aDisplayData.GameCount();
             refreshDS();
+        }
+
+        private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

@@ -145,6 +145,7 @@ namespace ProjectWork
             this.button3.TabIndex = 19;
             this.button3.Text = "Admin";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button3_MouseClick);
             // 
             // button4
             // 
@@ -167,7 +168,7 @@ namespace ProjectWork
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(255, 154);
+            this.dataGridView1.Location = new System.Drawing.Point(261, 154);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(134, 184);
             this.dataGridView1.TabIndex = 22;

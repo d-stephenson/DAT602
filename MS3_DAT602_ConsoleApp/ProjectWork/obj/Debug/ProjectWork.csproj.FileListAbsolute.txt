@@ -31,3 +31,5 @@ D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.csproj.GenerateRe
 D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.csproj.CoreCompileInputs.cache
 D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.exe
 D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.pdb
+D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.csproj.AssemblyReference.cache
+D:\GitHub\DAT602\ProjectWork\ProjectWork\obj\Debug\ProjectWork.FormLogin.resources
