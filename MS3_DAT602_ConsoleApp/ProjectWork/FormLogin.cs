@@ -39,7 +39,6 @@ namespace ProjectWork
             {
                 MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
             }
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -52,6 +51,11 @@ namespace ProjectWork
             FormRegister aRegisterDisplay = new FormRegister();
             aRegisterDisplay.Show();
             this.Hide();
+        }
+
+        private void PasswordText_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

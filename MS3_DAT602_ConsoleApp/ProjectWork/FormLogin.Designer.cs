@@ -96,6 +96,7 @@ namespace ProjectWork
             this.PasswordText.Name = "PasswordText";
             this.PasswordText.Size = new System.Drawing.Size(175, 20);
             this.PasswordText.TabIndex = 5;
+            this.PasswordText.TextChanged += new System.EventHandler(this.PasswordText_TextChanged);
             // 
             // Login
             // 

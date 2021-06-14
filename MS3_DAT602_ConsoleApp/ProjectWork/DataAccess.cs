@@ -33,9 +33,10 @@ namespace ProjectWork
 
         public static string validatedUsername = "";
         public static string loginStatus = "";
+        public static string registrationStatus = "";
 
         // New User Registration Procedure
-        public string NewUserRegistration(string pEmail, string pUsername, string pPassword)
+        public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
@@ -50,7 +51,16 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "NewUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            //return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+
+            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Your account is created, let the games begin!!!"))
+            {
+                DataAccess.registrationStatus = "New Account";
+            }
+            else             
+            {
+                DataAccess.registrationStatus = "Failed";
+            }
         }
 
         // Login Check Credentials Procedure

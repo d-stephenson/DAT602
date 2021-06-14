@@ -37,12 +37,12 @@ namespace ProjectWork
 
             foreach (PlayerHighScore item in HomeDisplayData.PlayerHighScore)
             {
-                string[] rowN =
+                string[] rowM =
                 {
                     item.Player,
                     item.HighScore.ToString()
                 };
-                dataGridView2.Rows.Add(rowN);
+                dataGridView2.Rows.Add(rowM);
             }
 
         }
@@ -93,6 +93,20 @@ namespace ProjectWork
 
         private void Admin_Click(object sender, EventArgs e)
         {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.AdminScreen(DataAccess.validatedUsername);
+            // if loginStatus == "Success" then go to FormHomeDisplay
+            if (DataAccess.loginStatus == "Logged In")
+            {
+                FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+                aAdminDisplay.Show();
+                this.Close();
+            }
+            // else if loginStats == "Failed" then display fail message
+            else if (DataAccess.loginStatus == "Failed")
+            {
+                MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
+            }
 
         }
 
@@ -103,12 +117,14 @@ namespace ProjectWork
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-      
+
         }
 
         private void NewGame_Click(object sender, EventArgs e)
         {
-
+            FormGame aGameDisplay = new FormGame();
+            aGameDisplay.Show();
+            this.Close();
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)

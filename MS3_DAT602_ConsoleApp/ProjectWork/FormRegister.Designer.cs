@@ -29,39 +29,42 @@ namespace ProjectWork
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Register = new System.Windows.Forms.Button();
+            this.Password = new System.Windows.Forms.TextBox();
+            this.Username = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Email = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // button1
+            // Register
             // 
-            this.button1.Location = new System.Drawing.Point(406, 288);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Register";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Register.Location = new System.Drawing.Point(406, 288);
+            this.Register.Name = "Register";
+            this.Register.Size = new System.Drawing.Size(75, 23);
+            this.Register.TabIndex = 15;
+            this.Register.Text = "Register";
+            this.Register.UseVisualStyleBackColor = true;
+            this.Register.Click += new System.EventHandler(this.Register_Click);
             // 
-            // textBox2
+            // Password
             // 
-            this.textBox2.Location = new System.Drawing.Point(382, 259);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(175, 20);
-            this.textBox2.TabIndex = 14;
+            this.Password.Location = new System.Drawing.Point(382, 259);
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(175, 20);
+            this.Password.TabIndex = 14;
+            this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             // 
-            // textBox1
+            // Username
             // 
-            this.textBox1.Location = new System.Drawing.Point(382, 234);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(175, 20);
-            this.textBox1.TabIndex = 13;
+            this.Username.Location = new System.Drawing.Point(382, 234);
+            this.Username.Name = "Username";
+            this.Username.Size = new System.Drawing.Size(175, 20);
+            this.Username.TabIndex = 13;
+            this.Username.TextChanged += new System.EventHandler(this.Username_TextChanged);
             // 
             // label4
             // 
@@ -105,12 +108,13 @@ namespace ProjectWork
             this.label1.TabIndex = 9;
             this.label1.Text = "Seven Dwarfs Gem Hunt";
             // 
-            // textBox3
+            // Email
             // 
-            this.textBox3.Location = new System.Drawing.Point(382, 209);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(175, 20);
-            this.textBox3.TabIndex = 17;
+            this.Email.Location = new System.Drawing.Point(382, 209);
+            this.Email.Name = "Email";
+            this.Email.Size = new System.Drawing.Size(175, 20);
+            this.Email.TabIndex = 17;
+            this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             // 
             // label5
             // 
@@ -122,21 +126,21 @@ namespace ProjectWork
             this.label5.TabIndex = 16;
             this.label5.Text = "Email";
             // 
-            // Form2
+            // FormRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 441);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.Email);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Register);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.Username);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
+            this.Name = "FormRegister";
             this.Text = "Register";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,14 +148,14 @@ namespace ProjectWork
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button Register;
+        private System.Windows.Forms.TextBox Password;
+        private System.Windows.Forms.TextBox Username;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label label5;
     }
 }
