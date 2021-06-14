@@ -35,7 +35,7 @@ namespace ProjectWork
                 this.Hide();
             }
             // else if loginStats == "Failed" then display fail message
-            else
+            else if(DataAccess.loginStatus == "Failed")
             {
                 MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
             }

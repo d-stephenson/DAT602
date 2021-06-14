@@ -103,9 +103,7 @@ namespace ProjectWork
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //HomeDisplayData aDisplayData = DataAccess.HomeScreen();
-            //HomeDisplayDataList = aDisplayData.GameCount();
-            //refreshDS();
+      
         }
 
         private void button3_MouseClick(object sender, MouseEventArgs e)
@@ -116,6 +114,18 @@ namespace ProjectWork
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Logout_Click(object sender, EventArgs e)
+        {
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Close();
         }
     }
 }

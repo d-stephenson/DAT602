@@ -56,7 +56,6 @@ namespace ProjectWork
         // Login Check Credentials Procedure
         public void LoginCheckCredentials(string pUsername, string pPassword)
         {
-            //HomeDisplayData theHomeDisplayData = new HomeDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
@@ -72,41 +71,16 @@ namespace ProjectWork
                 DataAccess.validatedUsername = pUsername;
                 DataAccess.loginStatus = "Logged In";
             }
+            else if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked")
+            {
+                DataAccess.loginStatus = "Failed";
+            }
             else
             {
                 DataAccess.loginStatus = "Failed";
             }
-
-            //var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            //theHomeDisplayData.message = aMessage;
-            //Console.WriteLine(aMessage);
-            //if ((aMessage == "Success") || (aMessage == "You are logged in"))
-            //{
-            //    theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
-            //                                    select
-            //                                        new GameCount
-            //                                        {
-            //                                            GameID = Convert.ToInt32(aResult.ItemArray[0].ToString()),//Field<int>("GameID"),
-            //                                            PlayerCount = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("PlayerCount"),
-            //                                        }).ToList();
-
-            //    theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
-            //                                          select
-            //                                              new PlayerHighScore
-            //                                              {
-            //                                                  Player = aResult.Field<string>("Player"),
-            //                                                  HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
-            //                                              }).ToList();
-            //    theHomeDisplayData.haveData = true;
-
-            //    return theHomeDisplayData;
-            //}
-            //else
-            //{
-            //    return null;
-            //}
         }
-        // aDataSet.Tables[1].AsEnumerable()
+
         // HomeDisplay
         public HomeDisplayData HomeScreen()
         {
@@ -116,18 +90,6 @@ namespace ProjectWork
                 GameCount = new List<GameCount>(),
                 PlayerHighScore = new List<PlayerHighScore>()
             };
-
-            //    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[0].ItemArray[0].ToString()),//Field<int>("GameID"),
-            //    PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[0].ItemArray[1].ToString())//aResult.Field<int>("PlayerCount"),
-
-
-            //PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
-            //                   select
-            //                       new PlayerHighScore
-            //                       {
-            //                           Player = aResult.Field<string>("Player"),
-            //                           HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
-            //                       }).ToList()
 
             theHomeDisplayData.haveData = true;
 
@@ -146,10 +108,6 @@ namespace ProjectWork
             }
             return theHomeDisplayData;
         }
-
-
-
-
 
         // New Game Procedure
         public string NewGame(string pUsername)
