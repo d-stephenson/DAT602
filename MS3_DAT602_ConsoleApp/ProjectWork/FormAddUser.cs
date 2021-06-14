@@ -45,7 +45,7 @@ namespace ProjectWork
         private void Confirm_Click(object sender, EventArgs e)
         {
             DataAccess aDataAccess = new DataAccess();
-            aDataAccess.AddPlayer(Email.Text, Username.Text, Password.Text, Admin.checkbox);
+            aDataAccess.AddPlayer(Email.Text, Username.Text, Password.Text, Admin.Checkbox.Checked);
             // if loginStatus == "Success" then go to FormHomeDisplay
             if (DataAccess.addStatus == "New Account")
             {
