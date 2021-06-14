@@ -46,5 +46,12 @@ namespace ProjectWork
         {
 
         }
+
+        private void NewUser_Click(object sender, EventArgs e)
+        {
+            FormRegister aRegisterDisplay = new FormRegister();
+            aRegisterDisplay.Show();
+            this.Hide();
+        }
     }
 }

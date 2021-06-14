@@ -37,7 +37,7 @@ namespace ProjectWork
             this.PasswordText = new System.Windows.Forms.TextBox();
             this.Login = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.NewUser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -117,21 +117,22 @@ namespace ProjectWork
             this.label5.TabIndex = 7;
             this.label5.Text = "Register as a New User";
             // 
-            // button2
+            // NewUser
             // 
-            this.button2.Location = new System.Drawing.Point(403, 374);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "New User";
-            this.button2.UseVisualStyleBackColor = true;
+            this.NewUser.Location = new System.Drawing.Point(403, 374);
+            this.NewUser.Name = "NewUser";
+            this.NewUser.Size = new System.Drawing.Size(75, 23);
+            this.NewUser.TabIndex = 8;
+            this.NewUser.Text = "New User";
+            this.NewUser.UseVisualStyleBackColor = true;
+            this.NewUser.Click += new System.EventHandler(this.NewUser_Click);
             // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(895, 446);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.NewUser);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.Login);
             this.Controls.Add(this.PasswordText);
@@ -157,7 +158,7 @@ namespace ProjectWork
         private System.Windows.Forms.TextBox PasswordText;
         private System.Windows.Forms.Button Login;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button NewUser;
     }
 }
 
