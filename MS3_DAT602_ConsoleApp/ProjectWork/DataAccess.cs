@@ -8,9 +8,9 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class DataAccess
+    public class DataAccess
     {
-        private static string connectionString
+        public static string connectionString
         {
             get { return "Server=localhost;Port=3306;Database=sdghGameDatabase;Uid=root;password=P@ssword1"; }
 
@@ -70,10 +70,11 @@ namespace ProjectWork
             if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Success") || ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "You are logged in"))
             {
                 DataAccess.validatedUsername = pUsername;
+                DataAccess.loginStatus = "Logged In";
             }
             else
-            { 
-                DataAccess.loginStatus = "You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked"; 
+            {
+                DataAccess.loginStatus = "Failed";
             }
 
             //var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
@@ -105,38 +106,49 @@ namespace ProjectWork
             //    return null;
             //}
         }
-
+        // aDataSet.Tables[1].AsEnumerable()
         // HomeDisplay
-        public HomeDisplayData HomeScreen(string pUsername)
+        public HomeDisplayData HomeScreen()
         {
-            HomeDisplayData theHomeDisplayData = new HomeDisplayData();
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            paramUsername.Value = pUsername;
-            paramInput.Add(paramUsername);
-
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "HomeScreen(@Username)");
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "HomeScreen()");
+            HomeDisplayData theHomeDisplayData = new HomeDisplayData()
             {
-                theHomeDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
-                                                select
-                                                    new GameCount
-                                                    {
-                                                        GameID = Convert.ToInt32(aResult.ItemArray[0].ToString()),//Field<int>("GameID"),
-                                                        PlayerCount = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("PlayerCount"),
-                                                    }).ToList();
+                GameCount = new List<GameCount>(),
+                PlayerHighScore = new List<PlayerHighScore>()
+            };
 
-                theHomeDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
-                                                      select
-                                                          new PlayerHighScore
-                                                          {
-                                                              Player = aResult.Field<string>("Player"),
-                                                              HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
-                                                          }).ToList();
-                theHomeDisplayData.haveData = true;
+            //    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[0].ItemArray[0].ToString()),//Field<int>("GameID"),
+            //    PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[0].ItemArray[1].ToString())//aResult.Field<int>("PlayerCount"),
 
-                return theHomeDisplayData;
+
+            //PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
+            //                   select
+            //                       new PlayerHighScore
+            //                       {
+            //                           Player = aResult.Field<string>("Player"),
+            //                           HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())//aResult.Field<int>("HighScore"),
+            //                       }).ToList()
+
+            theHomeDisplayData.haveData = true;
+
+            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
+            {
+                theHomeDisplayData.GameCount.Add(new GameCount()
+                { 
+                    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[0]),
+                    PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
+                });
+                theHomeDisplayData.PlayerHighScore.Add(new PlayerHighScore()
+                {
+                    Player = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
+                    HighScore = Convert.ToInt32(aDataSet.Tables[1].Rows[i].ItemArray[1])
+                });
             }
+            return theHomeDisplayData;
         }
+
+
+
 
 
         // New Game Procedure

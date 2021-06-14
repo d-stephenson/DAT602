@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class PlayerHighScore
+    public class PlayerHighScore
     {
         public string Player;
         public int HighScore;

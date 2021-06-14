@@ -716,7 +716,7 @@ BEGIN
 			SET FailedLogins = FailedLogins +1, AccountLocked = (FailedLogins +1) > 5, ActiveStatus = (FailedLogins +1) < 1
 			WHERE 
 				Username = pUsername;
-				
+		
 			SELECT 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked' AS MESSAGE;
 			-- Increments the failed logins, if it equals 5 then account is locked
 		ELSEIF proposedUID IS NOT NULL AND currentAS = 0 THEN
@@ -762,20 +762,20 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS HomeScreen;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE HomeScreen(
-		IN pUsername varchar(10)
+-- 		IN pUsername varchar(10)
     )
 SQL SECURITY DEFINER
 
 BEGIN
-    DECLARE accessScreen bit DEFAULT NULL;
-    
-	SELECT ActiveStatus 
-	FROM tblPlayer
-	WHERE
-		Username = pUsername 
-	INTO accessScreen;
+--     DECLARE accessScreen bit DEFAULT NULL;
+--     
+-- 	SELECT ActiveStatus 
+-- 	FROM tblPlayer
+-- 	WHERE
+-- 		Username = pUsername 
+-- 	INTO accessScreen;
 
-	IF accessScreen IS TRUE THEN 
+-- 	IF accessScreen IS TRUE THEN 
 		SELECT GameID AS 'Game ID', COUNT(pl.GameID) AS 'Player Count'
 		FROM tblPlayer py 
 			JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
@@ -783,7 +783,7 @@ BEGIN
 		
 		SELECT Username AS 'Player', HighScore AS 'High Score' 
 		FROM tblPlayer; 
-	END IF;
+-- 	END IF;
 END //
 DELIMITER ;
 
@@ -1534,7 +1534,7 @@ DELIMITER ;
 	CALL LoginCheckCredentials('NewUser_5', 'P@ssword1');
 	CALL LoginCheckCredentials('NewUser_6', 'P@ssword1');
 	CALL LoginCheckCredentials('NewUser_7', 'P@ssword1');
-    
+
 	SELECT PlayerID, Username, ActiveStatus FROM tblPlayer WHERE Username = 'NewUser_1';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1544,7 +1544,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL HomeScreen('NewUser_1');
+	CALL HomeScreen();
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- New Game Procedure

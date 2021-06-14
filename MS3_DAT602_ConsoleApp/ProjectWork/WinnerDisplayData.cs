@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class WinnerDisplayData
+    public class WinnerDisplayData
     {
         public string message;
         public bool haveWinner;

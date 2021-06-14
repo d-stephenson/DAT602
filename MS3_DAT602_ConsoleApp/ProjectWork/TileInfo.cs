@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectWork
 {
-    class TileInfo
+    public class TileInfo
     {
         public string TileColour;
         public int TileRow;

@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class GemDisplayData
+    public class GemDisplayData
     {
         public string message;
         public bool haveGem;

@@ -22,10 +22,24 @@ namespace ProjectWork
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Login_Click(object sender, EventArgs e)
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.LoginCheckCredentials(UsernameText.Text, PasswordText.Text);
+            // if loginStatus == "Success" then go to FormHomeDisplay
+            if(DataAccess.loginStatus == "Logged In")
+            {
+                FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
+                aHomeDisplay.refreshDS();
+                aHomeDisplay.Show();
+                this.Hide();
+            }
+            // else if loginStats == "Failed" then display fail message
+            else
+            {
+                MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
+            }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

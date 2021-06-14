@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectWork
 {
-    class TileDisplayData
+    public class TileDisplayData
     {
         public string message;
         public bool haveTile;

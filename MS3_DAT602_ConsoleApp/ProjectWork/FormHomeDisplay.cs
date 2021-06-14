@@ -12,11 +12,39 @@ namespace ProjectWork
 {
     public partial class FormHomeDisplay : Form
     {
-        private List<HomeDisplayData> HomeDisplayDataList;
+        private HomeDisplayData HomeDisplayData = new HomeDisplayData();
         public void refreshDS()
         {
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = HomeDisplayDataList;
+            HomeDisplayData = new DataAccess().HomeScreen();
+
+            dataGridView1.ColumnCount = 2;
+            dataGridView2.ColumnCount = 2;
+
+            dataGridView1.Columns[0].Name = "Game ID";
+            dataGridView1.Columns[1].Name = "Player count";
+            dataGridView2.Columns[0].Name = "Player name";
+            dataGridView2.Columns[1].Name = "High Score";
+
+            foreach (GameCount item in HomeDisplayData.GameCount)
+            {
+                string[] rowN =
+                {
+                    item.GameID.ToString(),
+                    item.PlayerCount.ToString()
+                };
+                dataGridView1.Rows.Add(rowN);
+            }
+
+            foreach (PlayerHighScore item in HomeDisplayData.PlayerHighScore)
+            {
+                string[] rowN =
+                {
+                    item.Player,
+                    item.HighScore.ToString()
+                };
+                dataGridView2.Rows.Add(rowN);
+            }
+
         }
         public FormHomeDisplay()
         {
@@ -75,12 +103,17 @@ namespace ProjectWork
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            HomeDisplayData aDisplayData = DataAccess.HomeScreen();
-            HomeDisplayDataList = aDisplayData.GameCount();
-            refreshDS();
+            //HomeDisplayData aDisplayData = DataAccess.HomeScreen();
+            //HomeDisplayDataList = aDisplayData.GameCount();
+            //refreshDS();
         }
 
         private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

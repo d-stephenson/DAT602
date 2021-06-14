@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class GameCount
+    public class GameCount
     {
         public int GameID;
         public int PlayerCount;

@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class HomeDisplayData
+    public class HomeDisplayData
     {
         public string message;
         public bool haveData;

@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectWork
 {
-    class GemSelection
+    public class GemSelection
     {
         public int ItemID;
         public string GemType;
