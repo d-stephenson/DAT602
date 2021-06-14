@@ -1348,7 +1348,7 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE AddPlayer(
 		IN pAccountAdmin bit	
     )
 SQL SECURITY DEFINER
-
+-- Already verified as admin so check no longer required
 BEGIN
 --     DECLARE checkAdmin bit DEFAULT NULL;
 	DECLARE newSalt varchar(36);
