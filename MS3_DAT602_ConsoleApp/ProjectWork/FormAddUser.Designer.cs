@@ -29,29 +29,28 @@ namespace ProjectWork
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Email = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Confirm = new System.Windows.Forms.Button();
+            this.Password = new System.Windows.Forms.TextBox();
+            this.Username = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Home = new System.Windows.Forms.Button();
+            this.Logout = new System.Windows.Forms.Button();
+            this.AdminScreen = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBox81 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.Admin = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox3
+            // Email
             // 
-            this.textBox3.Location = new System.Drawing.Point(332, 113);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(175, 20);
-            this.textBox3.TabIndex = 24;
+            this.Email.Location = new System.Drawing.Point(332, 113);
+            this.Email.Name = "Email";
+            this.Email.Size = new System.Drawing.Size(175, 20);
+            this.Email.TabIndex = 24;
+            this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             // 
             // label5
             // 
@@ -63,28 +62,31 @@ namespace ProjectWork
             this.label5.TabIndex = 23;
             this.label5.Text = "Email";
             // 
-            // button1
+            // Confirm
             // 
-            this.button1.Location = new System.Drawing.Point(432, 209);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "Confirm";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Confirm.Location = new System.Drawing.Point(432, 209);
+            this.Confirm.Name = "Confirm";
+            this.Confirm.Size = new System.Drawing.Size(75, 23);
+            this.Confirm.TabIndex = 22;
+            this.Confirm.Text = "Confirm";
+            this.Confirm.UseVisualStyleBackColor = true;
+            this.Confirm.Click += new System.EventHandler(this.Confirm_Click);
             // 
-            // textBox2
+            // Password
             // 
-            this.textBox2.Location = new System.Drawing.Point(332, 163);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(175, 20);
-            this.textBox2.TabIndex = 21;
+            this.Password.Location = new System.Drawing.Point(332, 163);
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(175, 20);
+            this.Password.TabIndex = 21;
+            this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             // 
-            // textBox1
+            // Username
             // 
-            this.textBox1.Location = new System.Drawing.Point(332, 138);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(175, 20);
-            this.textBox1.TabIndex = 20;
+            this.Username.Location = new System.Drawing.Point(332, 138);
+            this.Username.Name = "Username";
+            this.Username.Size = new System.Drawing.Size(175, 20);
+            this.Username.TabIndex = 20;
+            this.Username.TextChanged += new System.EventHandler(this.Username_TextChanged);
             // 
             // label4
             // 
@@ -106,32 +108,35 @@ namespace ProjectWork
             this.label3.TabIndex = 18;
             this.label3.Text = "Username";
             // 
-            // button5
+            // Home
             // 
-            this.button5.Location = new System.Drawing.Point(28, 29);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 30;
-            this.button5.Text = "Home";
-            this.button5.UseVisualStyleBackColor = true;
+            this.Home.Location = new System.Drawing.Point(28, 29);
+            this.Home.Name = "Home";
+            this.Home.Size = new System.Drawing.Size(75, 23);
+            this.Home.TabIndex = 30;
+            this.Home.Text = "Home";
+            this.Home.UseVisualStyleBackColor = true;
+            this.Home.Click += new System.EventHandler(this.Home_Click);
             // 
-            // button4
+            // Logout
             // 
-            this.button4.Location = new System.Drawing.Point(28, 87);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 29;
-            this.button4.Text = "Logout";
-            this.button4.UseVisualStyleBackColor = true;
+            this.Logout.Location = new System.Drawing.Point(28, 87);
+            this.Logout.Name = "Logout";
+            this.Logout.Size = new System.Drawing.Size(75, 23);
+            this.Logout.TabIndex = 29;
+            this.Logout.Text = "Logout";
+            this.Logout.UseVisualStyleBackColor = true;
+            this.Logout.Click += new System.EventHandler(this.Logout_Click);
             // 
-            // button3
+            // AdminScreen
             // 
-            this.button3.Location = new System.Drawing.Point(28, 58);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 28;
-            this.button3.Text = "Admin";
-            this.button3.UseVisualStyleBackColor = true;
+            this.AdminScreen.Location = new System.Drawing.Point(28, 58);
+            this.AdminScreen.Name = "AdminScreen";
+            this.AdminScreen.Size = new System.Drawing.Size(75, 23);
+            this.AdminScreen.TabIndex = 28;
+            this.AdminScreen.Text = "Admin";
+            this.AdminScreen.UseVisualStyleBackColor = true;
+            this.AdminScreen.Click += new System.EventHandler(this.AdminScreen_Click);
             // 
             // label2
             // 
@@ -145,65 +150,45 @@ namespace ProjectWork
             this.label2.Text = "Add User";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // checkBox81
+            // Admin
             // 
-            this.checkBox81.AutoSize = true;
-            this.checkBox81.Location = new System.Drawing.Point(332, 217);
-            this.checkBox81.Name = "checkBox81";
-            this.checkBox81.Size = new System.Drawing.Size(15, 14);
-            this.checkBox81.TabIndex = 120;
-            this.checkBox81.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(332, 192);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 119;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.Admin.AutoSize = true;
+            this.Admin.Location = new System.Drawing.Point(332, 199);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(15, 14);
+            this.Admin.TabIndex = 120;
+            this.Admin.UseVisualStyleBackColor = true;
+            this.Admin.CheckedChanged += new System.EventHandler(this.Admin_CheckedChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(270, 211);
+            this.label6.Location = new System.Drawing.Point(270, 193);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 21);
             this.label6.TabIndex = 122;
             this.label6.Text = "Admin";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(267, 186);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 21);
-            this.label7.TabIndex = 121;
-            this.label7.Text = "Locked";
-            // 
-            // Form6
+            // FormAddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.checkBox81);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.Admin);
+            this.Controls.Add(this.Home);
+            this.Controls.Add(this.Logout);
+            this.Controls.Add(this.AdminScreen);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.Email);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Confirm);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.Username);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Name = "Form6";
+            this.Name = "FormAddUser";
             this.Text = "Add User";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -212,20 +197,18 @@ namespace ProjectWork
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button Confirm;
+        private System.Windows.Forms.TextBox Password;
+        private System.Windows.Forms.TextBox Username;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Home;
+        private System.Windows.Forms.Button Logout;
+        private System.Windows.Forms.Button AdminScreen;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox checkBox81;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox Admin;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
     }
 }

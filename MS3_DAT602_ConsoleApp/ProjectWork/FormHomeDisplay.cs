@@ -93,20 +93,20 @@ namespace ProjectWork
 
         private void Admin_Click(object sender, EventArgs e)
         {
-            DataAccess aDataAccess = new DataAccess();
-            aDataAccess.AdminScreen(DataAccess.validatedUsername);
-            // if loginStatus == "Success" then go to FormHomeDisplay
-            if (DataAccess.loginStatus == "Logged In")
-            {
+            //DataAccess aDataAccess = new DataAccess();
+            //aDataAccess.AdminScreen(DataAccess.validatedUsername);
+            
+            //if (DataAccess.loginStatus == "Logged In")
+            //{
                 FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
                 aAdminDisplay.Show();
                 this.Close();
-            }
-            // else if loginStats == "Failed" then display fail message
-            else if (DataAccess.loginStatus == "Failed")
-            {
-                MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
-            }
+            //}
+            
+            //else if (DataAccess.loginStatus == "Failed")
+            //{
+            //    MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
+            //}
 
         }
 

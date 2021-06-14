@@ -29,48 +29,42 @@ namespace ProjectWork
         /// </summary>
         private void InitializeComponent()
         {
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Home = new System.Windows.Forms.Button();
+            this.Logout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.AddPlayer = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.KillGame = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.UpdatePlayer = new System.Windows.Forms.Button();
+            this.RemovePlayer = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
-            // button5
+            // Home
             // 
-            this.button5.Location = new System.Drawing.Point(25, 23);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 25;
-            this.button5.Text = "Home";
-            this.button5.UseVisualStyleBackColor = true;
+            this.Home.Location = new System.Drawing.Point(25, 23);
+            this.Home.Name = "Home";
+            this.Home.Size = new System.Drawing.Size(75, 23);
+            this.Home.TabIndex = 25;
+            this.Home.Text = "Home";
+            this.Home.UseVisualStyleBackColor = true;
+            this.Home.Click += new System.EventHandler(this.Home_Click);
             // 
-            // button4
+            // Logout
             // 
-            this.button4.Location = new System.Drawing.Point(25, 81);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 24;
-            this.button4.Text = "Logout";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(25, 52);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 23;
-            this.button3.Text = "Admin";
-            this.button3.UseVisualStyleBackColor = true;
+            this.Logout.Location = new System.Drawing.Point(25, 52);
+            this.Logout.Name = "Logout";
+            this.Logout.Size = new System.Drawing.Size(75, 23);
+            this.Logout.TabIndex = 24;
+            this.Logout.Text = "Logout";
+            this.Logout.UseVisualStyleBackColor = true;
+            this.Logout.Click += new System.EventHandler(this.Logout_Click);
             // 
             // label1
             // 
@@ -83,20 +77,21 @@ namespace ProjectWork
             this.label1.TabIndex = 22;
             this.label1.Text = "Admin";
             // 
-            // button2
+            // AddPlayer
             // 
-            this.button2.Location = new System.Drawing.Point(444, 333);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(91, 23);
-            this.button2.TabIndex = 33;
-            this.button2.Text = "Add Player";
-            this.button2.UseVisualStyleBackColor = true;
+            this.AddPlayer.Location = new System.Drawing.Point(483, 333);
+            this.AddPlayer.Name = "AddPlayer";
+            this.AddPlayer.Size = new System.Drawing.Size(91, 23);
+            this.AddPlayer.TabIndex = 33;
+            this.AddPlayer.Text = "Add Player";
+            this.AddPlayer.UseVisualStyleBackColor = true;
+            this.AddPlayer.Click += new System.EventHandler(this.AddPlayer_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(421, 95);
+            this.label4.Location = new System.Drawing.Point(451, 95);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(138, 20);
             this.label4.TabIndex = 32;
@@ -106,42 +101,27 @@ namespace ProjectWork
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(423, 115);
+            this.label5.Location = new System.Drawing.Point(456, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(129, 15);
             this.label5.TabIndex = 31;
             this.label5.Text = "Username (High Score)";
             // 
-            // listBox2
+            // KillGame
             // 
-            this.listBox2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 20;
-            this.listBox2.Items.AddRange(new object[] {
-            "Bob (312)",
-            "Jane (57)",
-            "Patrick (19)",
-            "Julie (203)"});
-            this.listBox2.Location = new System.Drawing.Point(426, 139);
-            this.listBox2.Margin = new System.Windows.Forms.Padding(9);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(128, 184);
-            this.listBox2.TabIndex = 30;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(267, 333);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 23);
-            this.button1.TabIndex = 29;
-            this.button1.Text = "Kill Game";
-            this.button1.UseVisualStyleBackColor = true;
+            this.KillGame.Location = new System.Drawing.Point(217, 333);
+            this.KillGame.Name = "KillGame";
+            this.KillGame.Size = new System.Drawing.Size(91, 23);
+            this.KillGame.TabIndex = 29;
+            this.KillGame.Text = "Kill Game";
+            this.KillGame.UseVisualStyleBackColor = true;
+            this.KillGame.Click += new System.EventHandler(this.KillGame_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(260, 95);
+            this.label3.Location = new System.Drawing.Point(213, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 20);
             this.label3.TabIndex = 28;
@@ -151,66 +131,72 @@ namespace ProjectWork
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(247, 115);
+            this.label2.Location = new System.Drawing.Point(196, 115);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 15);
             this.label2.TabIndex = 27;
             this.label2.Text = "Game ID (Player Count)";
             // 
-            // listBox1
+            // UpdatePlayer
             // 
-            this.listBox1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Items.AddRange(new object[] {
-            "10001 (3)",
-            "10002 (7)",
-            "10003 (5)"});
-            this.listBox1.Location = new System.Drawing.Point(250, 139);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(9);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(128, 184);
-            this.listBox1.TabIndex = 26;
+            this.UpdatePlayer.Location = new System.Drawing.Point(483, 362);
+            this.UpdatePlayer.Name = "UpdatePlayer";
+            this.UpdatePlayer.Size = new System.Drawing.Size(91, 23);
+            this.UpdatePlayer.TabIndex = 34;
+            this.UpdatePlayer.Text = "Update Player";
+            this.UpdatePlayer.UseVisualStyleBackColor = true;
+            this.UpdatePlayer.Click += new System.EventHandler(this.UpdatePlayer_Click);
             // 
-            // button6
+            // RemovePlayer
             // 
-            this.button6.Location = new System.Drawing.Point(444, 362);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(91, 23);
-            this.button6.TabIndex = 34;
-            this.button6.Text = "Update Player";
-            this.button6.UseVisualStyleBackColor = true;
+            this.RemovePlayer.Location = new System.Drawing.Point(483, 391);
+            this.RemovePlayer.Name = "RemovePlayer";
+            this.RemovePlayer.Size = new System.Drawing.Size(91, 23);
+            this.RemovePlayer.TabIndex = 35;
+            this.RemovePlayer.Text = "Remove Player";
+            this.RemovePlayer.UseVisualStyleBackColor = true;
+            this.RemovePlayer.Click += new System.EventHandler(this.RemovePlayer_Click);
             // 
-            // button7
+            // dataGridView1
             // 
-            this.button7.Location = new System.Drawing.Point(444, 391);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(91, 23);
-            this.button7.TabIndex = 35;
-            this.button7.Text = "Remove Player";
-            this.button7.UseVisualStyleBackColor = true;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(144, 144);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(234, 183);
+            this.dataGridView1.TabIndex = 36;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // Form5
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(405, 144);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(234, 183);
+            this.dataGridView2.TabIndex = 37;
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
+            // 
+            // FormAdminDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.RemovePlayer);
+            this.Controls.Add(this.UpdatePlayer);
+            this.Controls.Add(this.AddPlayer);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.KillGame);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.Home);
+            this.Controls.Add(this.Logout);
             this.Controls.Add(this.label1);
-            this.Name = "Form5";
+            this.Name = "FormAdminDisplay";
             this.Text = "Admin";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,19 +204,18 @@ namespace ProjectWork
 
         #endregion
 
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Home;
+        private System.Windows.Forms.Button Logout;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button AddPlayer;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button KillGame;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button UpdatePlayer;
+        private System.Windows.Forms.Button RemovePlayer;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }

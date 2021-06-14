@@ -34,6 +34,7 @@ namespace ProjectWork
         public static string validatedUsername = "";
         public static string loginStatus = "";
         public static string registrationStatus = "";
+        public static string addStatus = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -50,7 +51,6 @@ namespace ProjectWork
             paramInput.Add(paramPassword);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "NewUserRegistration(@Email,@Username,@Password)", paramInput.ToArray());
-
             //return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
 
             if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Your account is created, let the games begin!!!"))
@@ -308,44 +308,31 @@ namespace ProjectWork
         }
 
         // Enter Admin Screen Procedure 
-        public HomeDisplayData AdminScreen(string pUsername)
+        public HomeDisplayData AdminScreen(string pUsername/*DataAccess.validatedUsername*/)
         {
-            HomeDisplayData theAdminDisplayData = new HomeDisplayData();
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            paramUsername.Value = pUsername;
-            paramInput.Add(paramUsername);
-
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)", paramInput.ToArray());
-
-            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            theAdminDisplayData.message = aMessage;
-            Console.WriteLine(aMessage);
-            if (aMessage == "You are logged into the admin console")
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)");
+            HomeDisplayData theHomeDisplayData = new HomeDisplayData()
             {
-                theAdminDisplayData.GameCount = (from aResult in aDataSet.Tables[1].AsEnumerable()
-                                                 select
-                                                     new GameCount
-                                                     {
-                                                         GameID = Convert.ToInt32(aResult.ItemArray[0].ToString()),
-                                                         PlayerCount = Convert.ToInt32(aResult.ItemArray[1].ToString())
-                                                     }).ToList();
+                GameCount = new List<GameCount>(),
+                PlayerHighScore = new List<PlayerHighScore>()
+            };
 
-                theAdminDisplayData.PlayerHighScore = (from aResult in aDataSet.Tables[2].AsEnumerable()
-                                                       select
-                                                           new PlayerHighScore
-                                                           {
-                                                               Player = aResult.Field<string>("Player"),
-                                                               HighScore = Convert.ToInt32(aResult.ItemArray[1].ToString())
-                                                           }).ToList();
-                theAdminDisplayData.haveData = true;
+            theHomeDisplayData.haveData = true;
 
-                return theAdminDisplayData;
-            }
-            else
+            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
             {
-                return null;
+                theHomeDisplayData.GameCount.Add(new GameCount()
+                {
+                    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[0]),
+                    PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
+                });
+                theHomeDisplayData.PlayerHighScore.Add(new PlayerHighScore()
+                {
+                    Player = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
+                    HighScore = Convert.ToInt32(aDataSet.Tables[1].Rows[i].ItemArray[1])
+                });
             }
+            return theHomeDisplayData;
         }
 
         // Admin Kill Game Procedure
@@ -365,28 +352,34 @@ namespace ProjectWork
         }
 
         // Admin Add Player Procedure
-        public string AddPlayer(string pAdminUsername, string pEmail, string pUsername, string pPassword, string pAccountAdmin)
+        public string AddPlayer(string pEmail, string pUsername, string pPassword, string pAccountAdmin)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
             var paramAccountAdmin = new MySqlParameter("@AccountAdmin", MySqlDbType.Bit);
-            paramAdminUsername.Value = pAdminUsername;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
             paramAccountAdmin.Value = pAccountAdmin;
-            paramInput.Add(paramAdminUsername);
             paramInput.Add(paramEmail);
             paramInput.Add(paramUsername);
             paramInput.Add(paramPassword);
             paramInput.Add(paramAccountAdmin);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AddPlayer(@AdminUsername,@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AddPlayer(@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+
+            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Youve added a new player, yippee!!!"))
+            {
+                DataAccess.addStatus = "New Account";
+            }
+            else
+            {
+                DataAccess.addStatus = "Failed";
+            }
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
         }
 
         // Admin Update Player Procedure

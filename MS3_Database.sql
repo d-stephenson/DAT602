@@ -1341,7 +1341,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS AddPlayer;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE AddPlayer(
-		IN pAdminUsername varchar(10),
+-- 		IN pAdminUsername varchar(10),
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB,
@@ -1350,26 +1350,26 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE AddPlayer(
 SQL SECURITY DEFINER
 
 BEGIN
-    DECLARE checkAdmin bit DEFAULT NULL;
+--     DECLARE checkAdmin bit DEFAULT NULL;
 	DECLARE newSalt varchar(36);
   
-	SELECT AccountAdmin
-	FROM tblPlayer
-	WHERE
-		Username = pAdminUsername 
-	INTO checkAdmin;
+-- 	SELECT AccountAdmin
+-- 	FROM tblPlayer
+-- 	WHERE
+-- 		Username = pAdminUsername 
+-- 	INTO checkAdmin;
     
 	SELECT UUID() INTO newSalt;
     
 	START TRANSACTION;
-		IF checkAdmin IS TRUE THEN
+-- 		IF checkAdmin IS TRUE THEN
 			INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
-			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
+			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
 			
 			SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
-		ELSE
-			SELECT 'Youve done somethig wrong, cant add this player!!!' AS MESSAGE;
-		END IF;
+-- 		ELSE
+-- 			SELECT 'Youve done something wrong, cant add this player!!!' AS MESSAGE;
+-- 		END IF;
 	COMMIT;
 END //
 DELIMITER ;     

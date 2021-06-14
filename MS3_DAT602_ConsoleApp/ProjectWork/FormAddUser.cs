@@ -21,5 +21,65 @@ namespace ProjectWork
         {
 
         }
+
+        private void Email_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Username_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Password_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Admin_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Confirm_Click(object sender, EventArgs e)
+        {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.AddPlayer(Email.Text, Username.Text, Password.Text, Admin.checkbox);
+            // if loginStatus == "Success" then go to FormHomeDisplay
+            if (DataAccess.addStatus == "New Account")
+            {
+                FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+                aAdminDisplay.Show();
+                this.Hide();
+            }
+            // else if loginStats == "Failed" then display fail message
+            else if (DataAccess.addStatus == "Failed")
+            {
+                MessageBox.Show("Youve done something wrong, cant add this player!!!");
+            }
+        }
+
+        private void Home_Click(object sender, EventArgs e)
+        {
+            FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
+            aHomeDisplay.refreshDS();
+            aHomeDisplay.Show();
+            this.Hide();
+        }
+
+        private void AdminScreen_Click(object sender, EventArgs e)
+        {
+            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+            aAdminDisplay.Show();
+            this.Hide();
+        }
+
+        private void Logout_Click(object sender, EventArgs e)
+        {
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Hide();
+        }
     }
 }
