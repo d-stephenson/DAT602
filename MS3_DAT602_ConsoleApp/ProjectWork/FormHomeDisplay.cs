@@ -91,12 +91,12 @@ namespace ProjectWork
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Admin_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void JoinGame_Click(object sender, EventArgs e)
         {
 
         }
@@ -106,17 +106,12 @@ namespace ProjectWork
       
         }
 
-        private void button3_MouseClick(object sender, MouseEventArgs e)
+        private void NewGame_Click(object sender, EventArgs e)
         {
 
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
         {
 
         }

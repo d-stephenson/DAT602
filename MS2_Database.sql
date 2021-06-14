@@ -800,7 +800,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS NewGame;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE NewGame(
-        IN pUsername varchar(10)
+        IN pUsername varchar(10) 
     )
 SQL SECURITY DEFINER
 

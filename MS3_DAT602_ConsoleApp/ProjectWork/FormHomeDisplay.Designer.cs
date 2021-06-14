@@ -32,11 +32,11 @@ namespace ProjectWork
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.JoinGame = new System.Windows.Forms.Button();
+            this.NewGame = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Admin = new System.Windows.Forms.Button();
             this.Logout = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -78,25 +78,25 @@ namespace ProjectWork
             this.label3.Text = "Open Games";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // button1
+            // JoinGame
             // 
-            this.button1.Location = new System.Drawing.Point(216, 345);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Join Game";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.JoinGame.Location = new System.Drawing.Point(216, 345);
+            this.JoinGame.Name = "JoinGame";
+            this.JoinGame.Size = new System.Drawing.Size(91, 23);
+            this.JoinGame.TabIndex = 14;
+            this.JoinGame.Text = "Join Game";
+            this.JoinGame.UseVisualStyleBackColor = true;
+            this.JoinGame.Click += new System.EventHandler(this.JoinGame_Click);
             // 
-            // button2
+            // NewGame
             // 
-            this.button2.Location = new System.Drawing.Point(498, 343);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(91, 23);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "New Game";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.NewGame.Location = new System.Drawing.Point(498, 343);
+            this.NewGame.Name = "NewGame";
+            this.NewGame.Size = new System.Drawing.Size(91, 23);
+            this.NewGame.TabIndex = 18;
+            this.NewGame.Text = "New Game";
+            this.NewGame.UseVisualStyleBackColor = true;
+            this.NewGame.Click += new System.EventHandler(this.NewGame_Click);
             // 
             // label4
             // 
@@ -120,16 +120,16 @@ namespace ProjectWork
             this.label5.Text = "Username (High Score)";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
-            // button3
+            // Admin
             // 
-            this.button3.Location = new System.Drawing.Point(28, 55);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Admin";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button3_MouseClick);
+            this.Admin.Location = new System.Drawing.Point(28, 55);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(75, 23);
+            this.Admin.TabIndex = 19;
+            this.Admin.Text = "Admin";
+            this.Admin.UseVisualStyleBackColor = true;
+            this.Admin.Click += new System.EventHandler(this.Admin_Click);
+            this.Admin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Admin_Click);
             // 
             // Logout
             // 
@@ -167,11 +167,11 @@ namespace ProjectWork
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Logout);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.Admin);
+            this.Controls.Add(this.NewGame);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.JoinGame);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -190,11 +190,11 @@ namespace ProjectWork
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button JoinGame;
+        private System.Windows.Forms.Button NewGame;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Admin;
         private System.Windows.Forms.Button Logout;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
