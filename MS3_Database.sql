@@ -49,7 +49,7 @@ BEGIN
 
 		ALTER TABLE tblPlayer AUTO_INCREMENT=000001;
 		ALTER TABLE tblPlayer ADD COLUMN Salt varchar(36); 
-		ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
+-- 		ALTER TABLE tblPlayer ENCRYPTION='Y'; -- Encrypt Player table
 
 	CREATE TABLE tblCharacter (
 		CharacterName varchar(10) NOT NULL,
@@ -1350,30 +1350,36 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE AddPlayer(
 SQL SECURITY DEFINER
 -- Already verified as admin so check no longer required
 BEGIN
+	DECLARE EXIT HANDLER FOR 1062
+		BEGIN
+			SELECT 'Either the email or username entered already exists' AS MESSAGE;
+		END;
 --     DECLARE checkAdmin bit DEFAULT NULL;
-	DECLARE newSalt varchar(36);
-  
--- 	SELECT AccountAdmin
--- 	FROM tblPlayer
--- 	WHERE
--- 		Username = pAdminUsername 
--- 	INTO checkAdmin;
-    
-	SELECT UUID() INTO newSalt;
-    
-	START TRANSACTION;
--- 		IF checkAdmin IS TRUE THEN
-			INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
-			VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt);
-			
-			SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
--- 		ELSE
--- 			SELECT 'Youve done something wrong, cant add this player!!!' AS MESSAGE;
--- 		END IF;
-	COMMIT;
+	BEGIN
+		DECLARE newSalt varchar(36);
+	  
+	-- 	SELECT AccountAdmin
+	-- 	FROM tblPlayer
+	-- 	WHERE
+	-- 		Username = pAdminUsername 
+	-- 	INTO checkAdmin;
+		
+		SELECT UUID() INTO newSalt;
+		
+		START TRANSACTION;
+	-- 		IF checkAdmin IS TRUE THEN
+				INSERT INTO tblPlayer(Email, Username, `Password`, Salt, AccountAdmin) 
+				VALUES (pEmail, pUsername, AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'), newSalt, pAccountAdmin);
+				
+				SELECT 'Youve added a new player, yippee!!!' AS MESSAGE; 
+	-- 		ELSE
+	-- 			SELECT 'Youve done something wrong, cant add this player!!!' AS MESSAGE;
+	-- 		END IF;
+		COMMIT;
+	END;
 END //
-DELIMITER ;     
-
+DELIMITER ;    
+	CALL AddPlayer('NewUser_1@gmail.com', 'NewUser_8', 'P@ssword1', 1);
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Update Player Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1740,7 +1746,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL AddPlayer('NewUser_2', 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+	CALL AddPlayer('NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
 
 	-- Confirm player has been added and has admin privileges
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; 

@@ -352,7 +352,7 @@ namespace ProjectWork
         }
 
         // Admin Add Player Procedure
-        public string AddPlayer(string pEmail, string pUsername, string pPassword, string pAccountAdmin)
+        public string AddPlayer(string pEmail, string pUsername, string pPassword, Boolean pAccountAdmin)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);

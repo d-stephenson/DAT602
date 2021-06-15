@@ -45,18 +45,17 @@ namespace ProjectWork
         private void Confirm_Click(object sender, EventArgs e)
         {
             DataAccess aDataAccess = new DataAccess();
-            aDataAccess.AddPlayer(Email.Text, Username.Text, Password.Text, Admin.Checkbox.Checked);
-            // if loginStatus == "Success" then go to FormHomeDisplay
+            aDataAccess.AddPlayer(Email.Text, Username.Text, Password.Text, Admin.Checked);
+            
             if (DataAccess.addStatus == "New Account")
             {
                 FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
                 aAdminDisplay.Show();
                 this.Hide();
             }
-            // else if loginStats == "Failed" then display fail message
             else if (DataAccess.addStatus == "Failed")
             {
-                MessageBox.Show("Youve done something wrong, cant add this player!!!");
+                MessageBox.Show("Youve done something wrong, can't add this player!!!");
             }
         }
 
