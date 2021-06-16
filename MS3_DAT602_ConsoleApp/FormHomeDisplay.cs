@@ -99,6 +99,7 @@ namespace ProjectWork
             //if (DataAccess.loginStatus == "Logged In")
             //{
                 FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+                aAdminDisplay.refreshDS();
                 aAdminDisplay.Show();
                 this.Close();
             //}
@@ -136,9 +137,15 @@ namespace ProjectWork
 
         private void Logout_Click(object sender, EventArgs e)
         {
-            FormLogin aLoginDisplay = new FormLogin();
-            aLoginDisplay.Show();
-            this.Close();
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.PlayerLogout(DataAccess.validatedUsername);
+            // if loginStatus == "Success" then go to FormHomeDisplay
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
+            {
+                FormLogin aLoginDisplay = new FormLogin();
+                aLoginDisplay.Show();
+                this.Close();
+            }
         }
     }
 }
