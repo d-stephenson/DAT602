@@ -88,7 +88,7 @@ namespace ProjectWork
             this.UsernameText.Name = "UsernameText";
             this.UsernameText.Size = new System.Drawing.Size(175, 20);
             this.UsernameText.TabIndex = 4;
-            this.UsernameText.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.UsernameText.TextChanged += new System.EventHandler(this.UsernameText_TextChanged);
             // 
             // PasswordText
             // 

@@ -41,7 +41,7 @@ namespace ProjectWork
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void UsernameText_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -50,7 +50,7 @@ namespace ProjectWork
         {
             FormRegister aRegisterDisplay = new FormRegister();
             aRegisterDisplay.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void PasswordText_TextChanged(object sender, EventArgs e)

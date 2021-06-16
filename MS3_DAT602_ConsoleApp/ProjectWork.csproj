@@ -126,17 +126,23 @@
     <Compile Include="FormHomeDisplay.Designer.cs">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRemovePlayerDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRemovePlayerDisplay.Designer.cs">
+      <DependentUpon>FormRemovePlayerDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormLogin.designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMessageDisplay.cs">
+    <Compile Include="FormKillDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMessageDisplay.Designer.cs">
-      <DependentUpon>FormMessageDisplay.cs</DependentUpon>
+    <Compile Include="FormKillDisplay.Designer.cs">
+      <DependentUpon>FormKillDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="FormRegister.cs">
       <SubType>Form</SubType>
@@ -176,11 +182,14 @@
     <EmbeddedResource Include="FormHomeDisplay.resx">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormRemovePlayerDisplay.resx">
+      <DependentUpon>FormRemovePlayerDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMessageDisplay.resx">
-      <DependentUpon>FormMessageDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="FormKillDisplay.resx">
+      <DependentUpon>FormKillDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRegister.resx">
       <DependentUpon>FormRegister.cs</DependentUpon>

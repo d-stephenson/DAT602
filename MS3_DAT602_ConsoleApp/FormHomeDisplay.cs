@@ -112,7 +112,9 @@ namespace ProjectWork
 
         private void JoinGame_Click(object sender, EventArgs e)
         {
-
+            FormGame aJoinGame = new FormGame();
+            aJoinGame.Show();
+            this.Close();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

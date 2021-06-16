@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace ProjectWork
 {
-    public partial class FormMessageDisplay : Form
+    public partial class FormRemovePlayerDisplay : Form
     {
-        public FormMessageDisplay()
+        public FormRemovePlayerDisplay()
         {
             InitializeComponent();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

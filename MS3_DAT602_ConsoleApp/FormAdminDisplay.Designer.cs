@@ -40,10 +40,10 @@ namespace ProjectWork
             this.label2 = new System.Windows.Forms.Label();
             this.UpdatePlayer = new System.Windows.Forms.Button();
             this.RemovePlayer = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.dataGridViewa1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewa2 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewa1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewa2)).BeginInit();
             this.SuspendLayout();
             // 
             // Home
@@ -159,29 +159,29 @@ namespace ProjectWork
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(144, 144);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(234, 183);
-            this.dataGridView1.TabIndex = 36;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridViewa1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewa1.Location = new System.Drawing.Point(144, 144);
+            this.dataGridViewa1.Name = "dataGridViewa1";
+            this.dataGridViewa1.Size = new System.Drawing.Size(234, 183);
+            this.dataGridViewa1.TabIndex = 36;
+            this.dataGridViewa1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewa1_CellContentClick);
             // 
             // dataGridView2
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(405, 144);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(234, 183);
-            this.dataGridView2.TabIndex = 37;
-            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
+            this.dataGridViewa2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewa2.Location = new System.Drawing.Point(405, 144);
+            this.dataGridViewa2.Name = "dataGridViewa2";
+            this.dataGridViewa2.Size = new System.Drawing.Size(234, 183);
+            this.dataGridViewa2.TabIndex = 37;
+            this.dataGridViewa2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewa2_CellContentClick);
             // 
             // FormAdminDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridViewa2);
+            this.Controls.Add(this.dataGridViewa1);
             this.Controls.Add(this.RemovePlayer);
             this.Controls.Add(this.UpdatePlayer);
             this.Controls.Add(this.AddPlayer);
@@ -195,8 +195,8 @@ namespace ProjectWork
             this.Controls.Add(this.label1);
             this.Name = "FormAdminDisplay";
             this.Text = "Admin";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewa1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewa2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,7 +215,7 @@ namespace ProjectWork
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button UpdatePlayer;
         private System.Windows.Forms.Button RemovePlayer;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridViewa1;
+        private System.Windows.Forms.DataGridView dataGridViewa2;
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace ProjectWork
 {
-    partial class FormMessageDisplay
+    partial class FormKillDisplay
     {
         /// <summary>
         /// Required designer variable.
@@ -63,8 +63,9 @@ namespace ProjectWork
             this.label2.Size = new System.Drawing.Size(387, 41);
             this.label2.TabIndex = 137;
             this.label2.Text = "Blow up the mine!";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // Form9
+            // FormKillDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,7 +73,7 @@ namespace ProjectWork
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Name = "Form9";
+            this.Name = "FormKillDisplay";
             this.Text = "PopUp";
             this.ResumeLayout(false);
             this.PerformLayout();
