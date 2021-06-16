@@ -125,9 +125,15 @@ namespace ProjectWork
 
         private void NewGame_Click(object sender, EventArgs e)
         {
-            FormGame aGameDisplay = new FormGame();
-            aGameDisplay.Show();
-            this.Close();
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.NewGame(DataAccess.validatedUsername);
+            
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
+            {
+                FormGame aGameDisplay = new FormGame();
+                aGameDisplay.Show();
+                this.Close();
+            }
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -139,7 +145,7 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.PlayerLogout(DataAccess.validatedUsername);
-            // if loginStatus == "Success" then go to FormHomeDisplay
+            
             if (DataAccess.validatedUsername == DataAccess.validatedUsername)
             {
                 FormLogin aLoginDisplay = new FormLogin();
