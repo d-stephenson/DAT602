@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{6EC35ED7-C302-4053-8805-C24A2B2D1712}|Default">
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ProjectWork" expanded="True">
+            <Node name="ProjectWork" expanded="True">
+              <Node name="Form1.cs" expanded="True">
+                <Node name="Form1.resx" selected="True" />
+              </Node>
+              <Node name="Form2.cs" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.ProjectWork PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
