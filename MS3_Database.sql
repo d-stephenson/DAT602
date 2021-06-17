@@ -1429,11 +1429,12 @@ BEGIN
 		SELECT UUID() INTO newSalt;
 		
 		START TRANSACTION;
-	-- 		IF EXISTS (SELECT PlayerID 
-	-- 				   FROM tblPlayer 
-	-- 				   WHERE 
-	-- 						PlayerID = pPlayerID) 
-	-- 						AND checkAdmin IS TRUE THEN
+		IF EXISTS (SELECT PlayerID 
+			FROM tblPlayer 
+			WHERE 
+				Username = pUsername) 
+	-- 						AND checkAdmin IS TRUE 
+						THEN
 				UPDATE tblPlayer
 				SET Email = pEmail, 
 					Username = pUsername, 
@@ -1453,14 +1454,14 @@ BEGIN
 	-- 							PlayerID = pPlayerID) 
 	-- 							AND checkAdmin IS FALSE THEN
 	-- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-	-- 		ELSE 
-	-- 			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
-	-- 		END IF;
+			ELSE 
+				SELECT 'Input error 3' AS MESSAGE; 
+			END IF;
 		COMMIT;
     END;
 END //
 DELIMITER ;     
-
+	CALL UpdatePlayer('NewUser_8@gmail.com', 'Ne3e3', 'P@ssword1', 1, 0, 0, 6, 90); 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Delete Player Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

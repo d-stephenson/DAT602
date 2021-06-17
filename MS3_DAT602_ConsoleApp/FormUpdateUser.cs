@@ -91,14 +91,14 @@ namespace ProjectWork
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.UpdatePlayer(Email.Text, Username.Text, Password.Text, Admin.Checked, Locked.Checked, Admin.Checked, FailedLogins.Text, Highscore.Text);
             
-            if (DataAccess.registrationStatus == "Updated Account")
+            if (DataAccess.upStatus == "Updated Account")
             {
                 FormUpdateSuccessDisplay aUpdateSuccessDisplay = new FormUpdateSuccessDisplay();
                 aUpdateSuccessDisplay.Show();
-                this.Hide();
+                this.Close();
             }
             
-            else if (DataAccess.registrationStatus == "Failed")
+            else if (DataAccess.upStatus == "Failed")
             {
                 FormUpdateFailDisplay aUpdateFailDisplay = new FormUpdateFailDisplay();
                 aUpdateFailDisplay.Show();
