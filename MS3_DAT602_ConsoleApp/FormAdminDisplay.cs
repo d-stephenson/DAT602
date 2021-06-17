@@ -53,14 +53,23 @@ namespace ProjectWork
 
         private void Home_Click(object sender, EventArgs e)
         {
-
+            FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
+            aHomeDisplay.refreshDS();
+            aHomeDisplay.Show();
+            this.Hide();
         }
 
         private void Logout_Click(object sender, EventArgs e)
         {
-            FormLogin aLoginDisplay = new FormLogin();
-            aLoginDisplay.Show();
-            this.Close();
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.PlayerLogout(DataAccess.validatedUsername);
+
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
+            {
+                FormLogin aLoginDisplay = new FormLogin();
+                aLoginDisplay.Show();
+                this.Close();
+            }
         }
 
         private void AddPlayer_Click(object sender, EventArgs e)

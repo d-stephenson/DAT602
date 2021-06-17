@@ -26,5 +26,34 @@ namespace ProjectWork
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.PlayerLogout(DataAccess.validatedUsername);
+
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
+            {
+                FormLogin aLoginDisplay = new FormLogin();
+                aLoginDisplay.Show();
+                this.Close();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+            aAdminDisplay.refreshDS();
+            aAdminDisplay.Show();
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
+            aHomeDisplay.refreshDS();
+            aHomeDisplay.Show();
+            this.Hide();
+        }
     }
 }

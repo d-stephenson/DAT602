@@ -70,15 +70,22 @@ namespace ProjectWork
         private void AdminScreen_Click(object sender, EventArgs e)
         {
             FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+            aAdminDisplay.refreshDS();
             aAdminDisplay.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void Logout_Click(object sender, EventArgs e)
         {
-            FormLogin aLoginDisplay = new FormLogin();
-            aLoginDisplay.Show();
-            this.Hide();
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.PlayerLogout(DataAccess.validatedUsername);
+
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
+            {
+                FormLogin aLoginDisplay = new FormLogin();
+                aLoginDisplay.Show();
+                this.Close();
+            }
         }
     }
 }
