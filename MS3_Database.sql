@@ -1395,7 +1395,6 @@ DROP PROCEDURE IF EXISTS UpdatePlayer;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdatePlayer(
 -- 		IN pAdminUsername varchar(10),
-		IN pPlayerID int,
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
 		IN pPassword BLOB,
@@ -1436,7 +1435,7 @@ BEGIN
 				FailedLogins = pFailedLogins, 
 				HighScore = pHighScore
 			WHERE 
-				PlayerID = pPlayerID;
+				Username = pUsername;
 			SELECT 'Yay! Youve updated the player' AS MESSAGE; 
 -- 		ELSEIF EXISTS (SELECT PlayerID 
 -- 					   FROM tblPlayer 
@@ -1773,7 +1772,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL UpdatePlayer(16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 0, 3, 56); -- Admin NewUser_2 updates player NewUser_8
+	CALL UpdatePlayer('NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 0, 6, 90); -- Admin NewUser_2 updates player NewUser_8
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
