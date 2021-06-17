@@ -31,28 +31,32 @@ namespace ProjectWork
         {
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.checkBox81 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.Admin = new System.Windows.Forms.CheckBox();
+            this.Locked = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.Highscore = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Email = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Password = new System.Windows.Forms.TextBox();
+            this.Username = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.Active = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.FailedLogins = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(270, 233);
+            this.label6.Location = new System.Drawing.Point(270, 187);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 21);
             this.label6.TabIndex = 139;
@@ -68,25 +72,25 @@ namespace ProjectWork
             this.label7.TabIndex = 138;
             this.label7.Text = "Locked";
             // 
-            // checkBox81
+            // Admin
             // 
-            this.checkBox81.AutoSize = true;
-            this.checkBox81.Location = new System.Drawing.Point(332, 239);
-            this.checkBox81.Name = "checkBox81";
-            this.checkBox81.Size = new System.Drawing.Size(15, 14);
-            this.checkBox81.TabIndex = 137;
-            this.checkBox81.UseVisualStyleBackColor = true;
+            this.Admin.AutoSize = true;
+            this.Admin.Location = new System.Drawing.Point(332, 194);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(15, 14);
+            this.Admin.TabIndex = 137;
+            this.Admin.UseVisualStyleBackColor = true;
+            this.Admin.CheckedChanged += new System.EventHandler(this.Admin_CheckedChanged);
             // 
-            // checkBox1
+            // Locked
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(332, 214);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 136;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.Locked.AutoSize = true;
+            this.Locked.Location = new System.Drawing.Point(332, 214);
+            this.Locked.Name = "Locked";
+            this.Locked.Size = new System.Drawing.Size(15, 14);
+            this.Locked.TabIndex = 136;
+            this.Locked.UseVisualStyleBackColor = true;
+            this.Locked.CheckedChanged += new System.EventHandler(this.Locked_CheckedChanged);
             // 
             // button5
             // 
@@ -129,32 +133,31 @@ namespace ProjectWork
             this.label2.TabIndex = 132;
             this.label2.Text = "Update User";
             // 
-            // textBox4
+            // Highscore
             // 
-            this.textBox4.Location = new System.Drawing.Point(332, 183);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(175, 20);
-            this.textBox4.TabIndex = 131;
-            this.textBox4.Text = "158";
+            this.Highscore.Location = new System.Drawing.Point(332, 289);
+            this.Highscore.Name = "Highscore";
+            this.Highscore.Size = new System.Drawing.Size(108, 20);
+            this.Highscore.TabIndex = 131;
+            this.Highscore.TextChanged += new System.EventHandler(this.Highscore_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(250, 182);
+            this.label1.Location = new System.Drawing.Point(245, 288);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 21);
             this.label1.TabIndex = 130;
             this.label1.Text = "Highscore";
             // 
-            // textBox3
+            // Email
             // 
-            this.textBox3.Location = new System.Drawing.Point(332, 107);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(175, 20);
-            this.textBox3.TabIndex = 129;
-            this.textBox3.Text = "bob@live.com";
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            this.Email.Location = new System.Drawing.Point(332, 107);
+            this.Email.Name = "Email";
+            this.Email.Size = new System.Drawing.Size(175, 20);
+            this.Email.TabIndex = 129;
+            this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             // 
             // label5
             // 
@@ -168,28 +171,29 @@ namespace ProjectWork
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(432, 231);
+            this.button1.Location = new System.Drawing.Point(432, 315);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 127;
             this.button1.Text = "Confirm";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox2
+            // Password
             // 
-            this.textBox2.Location = new System.Drawing.Point(332, 157);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(175, 20);
-            this.textBox2.TabIndex = 126;
-            this.textBox2.Text = "Passw0rd1";
+            this.Password.Location = new System.Drawing.Point(332, 157);
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(175, 20);
+            this.Password.TabIndex = 126;
+            this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             // 
-            // textBox1
+            // Username
             // 
-            this.textBox1.Location = new System.Drawing.Point(332, 132);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(175, 20);
-            this.textBox1.TabIndex = 125;
-            this.textBox1.Text = "bobbob";
+            this.Username.Location = new System.Drawing.Point(332, 132);
+            this.Username.Name = "Username";
+            this.Username.Size = new System.Drawing.Size(175, 20);
+            this.Username.TabIndex = 125;
+            this.Username.TextChanged += new System.EventHandler(this.Username_TextChanged);
             // 
             // label4
             // 
@@ -211,26 +215,68 @@ namespace ProjectWork
             this.label3.TabIndex = 123;
             this.label3.Text = "Username";
             // 
+            // Active
+            // 
+            this.Active.AutoSize = true;
+            this.Active.Location = new System.Drawing.Point(332, 234);
+            this.Active.Name = "Active";
+            this.Active.Size = new System.Drawing.Size(15, 14);
+            this.Active.TabIndex = 140;
+            this.Active.UseVisualStyleBackColor = true;
+            this.Active.CheckedChanged += new System.EventHandler(this.Active_CheckedChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(274, 229);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(52, 21);
+            this.label8.TabIndex = 141;
+            this.label8.Text = "Active";
+            // 
+            // FailedLogins
+            // 
+            this.FailedLogins.Location = new System.Drawing.Point(332, 263);
+            this.FailedLogins.Name = "FailedLogins";
+            this.FailedLogins.Size = new System.Drawing.Size(108, 20);
+            this.FailedLogins.TabIndex = 142;
+            this.FailedLogins.TextChanged += new System.EventHandler(this.FailedLogins_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(230, 263);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 21);
+            this.label9.TabIndex = 143;
+            this.label9.Text = "Failed Logins";
+            // 
             // FormUpdateUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.FailedLogins);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.Active);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.checkBox81);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.Admin);
+            this.Controls.Add(this.Locked);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.Highscore);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.Email);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.Username);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Name = "FormUpdateUser";
@@ -244,20 +290,24 @@ namespace ProjectWork
 
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox checkBox81;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox Admin;
+        private System.Windows.Forms.CheckBox Locked;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox Highscore;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Password;
+        private System.Windows.Forms.TextBox Username;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox Active;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox FailedLogins;
+        private System.Windows.Forms.Label label9;
     }
 }

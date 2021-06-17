@@ -35,6 +35,7 @@ namespace ProjectWork
         public static string loginStatus = "";
         public static string registrationStatus = "";
         public static string addStatus = "";
+        public static string upStatus = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -367,7 +368,6 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AddPlayer(@Email,@Username,@Password,@AccountAdmin)", paramInput.ToArray());
 
-
             if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Youve added a new player, yippee!!!"))
             {
                 DataAccess.addStatus = "New Account";
@@ -380,10 +380,9 @@ namespace ProjectWork
         }
 
         // Admin Update Player Procedure
-        public string UpdatePlayer(string pPlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
+        public string UpdatePlayer(string pEmail, string pUsername, string pPassword, Boolean pAccountAdmin, Boolean pAccountLocked, Boolean pActiveStatus, string pFailedLogins, string pHighScore)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramPassword = new MySqlParameter("@Password", MySqlDbType.Blob);
@@ -392,7 +391,6 @@ namespace ProjectWork
             var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.Bit);
             var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.Byte);
             var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.Int16);
-            paramPlayerID.Value = pPlayerID;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
             paramPassword.Value = pPassword;
@@ -401,7 +399,6 @@ namespace ProjectWork
             paramActiveStatus.Value = pActiveStatus;
             paramFailedLogins.Value = pFailedLogins;
             paramHighScore.Value = pHighScore;
-            paramInput.Add(paramPlayerID);
             paramInput.Add(paramEmail);
             paramInput.Add(paramUsername);
             paramInput.Add(paramPassword);
@@ -411,8 +408,16 @@ namespace ProjectWork
             paramInput.Add(paramFailedLogins);
             paramInput.Add(paramHighScore);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "UpdatePlayer(@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "UpdatePlayer(@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
+            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Yay! Youve updated the player"))
+            {
+                DataAccess.upStatus = "Updated Account";
+            }
+            else
+            {
+                DataAccess.upStatus = "Failed";
+            }
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 

@@ -1384,7 +1384,7 @@ BEGIN
 	END;
 END //
 DELIMITER ;    
-	CALL AddPlayer('NewUser_1@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Update Player Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1407,46 +1407,57 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdatePlayer(
 SQL SECURITY DEFINER
 
 BEGIN
+	DECLARE EXIT HANDLER FOR 1062
+		BEGIN
+			SELECT 'Input error 1' AS MESSAGE;
+		END;
+        
+	DECLARE EXIT HANDLER FOR 1064
+		BEGIN
+			SELECT 'Input error 2' AS MESSAGE;
+		END;
     -- DECLARE checkAdmin bit DEFAULT NULL;
-	DECLARE newSalt varchar(36);
-  
-	-- 	SELECT AccountAdmin
-	-- 	FROM tblPlayer
-	-- 	WHERE
-	-- 		Username = pAdminUsername 
-	-- 	INTO checkAdmin;
-    
-	SELECT UUID() INTO newSalt;
-	
-    START TRANSACTION;
--- 		IF EXISTS (SELECT PlayerID 
--- 				   FROM tblPlayer 
--- 				   WHERE 
--- 						PlayerID = pPlayerID) 
--- 						AND checkAdmin IS TRUE THEN
-			UPDATE tblPlayer
-			SET Email = pEmail, 
-				Username = pUsername, 
-				`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'),  
-				Salt = newSalt,
-				AccountAdmin = pAccountAdmin, 
-				AccountLocked = pAccountLocked, 
-				ActiveStatus = pActiveStatus, 
-				FailedLogins = pFailedLogins, 
-				HighScore = pHighScore
-			WHERE 
-				Username = pUsername;
-			SELECT 'Yay! Youve updated the player' AS MESSAGE; 
--- 		ELSEIF EXISTS (SELECT PlayerID 
--- 					   FROM tblPlayer 
--- 					   WHERE 
--- 							PlayerID = pPlayerID) 
--- 							AND checkAdmin IS FALSE THEN
--- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
--- 		ELSE 
--- 			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
--- 		END IF;
-	COMMIT;
+    BEGIN
+		DECLARE newSalt varchar(36);
+	  
+		-- 	SELECT AccountAdmin
+		-- 	FROM tblPlayer
+		-- 	WHERE
+		-- 		Username = pAdminUsername 
+		-- 	INTO checkAdmin;
+		
+		SELECT UUID() INTO newSalt;
+		
+		START TRANSACTION;
+	-- 		IF EXISTS (SELECT PlayerID 
+	-- 				   FROM tblPlayer 
+	-- 				   WHERE 
+	-- 						PlayerID = pPlayerID) 
+	-- 						AND checkAdmin IS TRUE THEN
+				UPDATE tblPlayer
+				SET Email = pEmail, 
+					Username = pUsername, 
+					`Password` = AES_ENCRYPT(CONCAT(newSalt, pPassword), 'Game_Key_To_Encrypt'),  
+					Salt = newSalt,
+					AccountAdmin = pAccountAdmin, 
+					AccountLocked = pAccountLocked, 
+					ActiveStatus = pActiveStatus, 
+					FailedLogins = pFailedLogins, 
+					HighScore = pHighScore
+				WHERE 
+					Username = pUsername;
+				SELECT 'Yay! Youve updated the player' AS MESSAGE; 
+	-- 		ELSEIF EXISTS (SELECT PlayerID 
+	-- 					   FROM tblPlayer 
+	-- 					   WHERE 
+	-- 							PlayerID = pPlayerID) 
+	-- 							AND checkAdmin IS FALSE THEN
+	-- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+	-- 		ELSE 
+	-- 			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
+	-- 		END IF;
+		COMMIT;
+    END;
 END //
 DELIMITER ;     
 

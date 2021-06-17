@@ -46,9 +46,64 @@ namespace ProjectWork
             }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void Email_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Username_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Password_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Admin_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Locked_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Active_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FailedLogins_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Highscore_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.UpdatePlayer(Email.Text, Username.Text, Password.Text, Admin.Checked, Locked.Checked, Admin.Checked, FailedLogins.Text, Highscore.Text);
+            
+            if (DataAccess.registrationStatus == "Updated Account")
+            {
+                FormUpdateSuccessDisplay aUpdateSuccessDisplay = new FormUpdateSuccessDisplay();
+                aUpdateSuccessDisplay.Show();
+                this.Hide();
+            }
+            
+            else if (DataAccess.registrationStatus == "Failed")
+            {
+                FormUpdateFailDisplay aUpdateFailDisplay = new FormUpdateFailDisplay();
+                aUpdateFailDisplay.Show();
+                this.Hide();
+            }
         }
     }
 }
