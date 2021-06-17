@@ -673,7 +673,7 @@ BEGIN
     END;
 END //
 DELIMITER ;
-call NewUserRegistration('sdsd', 'sdsad', 'asdad')
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Login Check Credentials Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1302,22 +1302,21 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS KillGame;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE KillGame(
-		IN pGameID int,
-		IN pUsername varchar(10)	
+		IN pGameID int
     )
 SQL SECURITY DEFINER
 
 BEGIN
-    DECLARE checkAdmin bit DEFAULT NULL;
-  
-	SELECT AccountAdmin
-	FROM tblPlayer
-	WHERE
-		Username = pUsername 
-	INTO checkAdmin;
+--     DECLARE checkAdmin bit DEFAULT NULL;
+--   
+-- 	SELECT AccountAdmin
+-- 	FROM tblPlayer
+-- 	WHERE
+-- 		Username = pUsername 
+-- 	INTO checkAdmin;
     
 	START TRANSACTION;
-		IF checkAdmin IS True THEN
+-- 		IF checkAdmin IS True THEN
 			DELETE FROM tblItemGame
 			WHERE GameID = pGameID;
 			
@@ -1328,9 +1327,9 @@ BEGIN
 			WHERE GameID = pGameID;
 
 			SELECT 'This game has been killed by Admin' AS MESSAGE; 
-		ELSE
-			SELECT 'No game with that ID' AS MESSAGE; 
-		END IF;
+-- 		ELSE
+-- 			SELECT 'No game with that ID' AS MESSAGE; 
+-- 		END IF;
 	COMMIT;
 END //
 DELIMITER ;   
@@ -1395,7 +1394,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS UpdatePlayer;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdatePlayer(
-		IN pAdminUsername varchar(10),
+-- 		IN pAdminUsername varchar(10),
 		IN pPlayerID int,
 		IN pEmail varchar(50), 
 		IN pUsername varchar(10),
@@ -1409,23 +1408,23 @@ CREATE DEFINER = 'root'@'localhost' PROCEDURE UpdatePlayer(
 SQL SECURITY DEFINER
 
 BEGIN
-    DECLARE checkAdmin bit DEFAULT NULL;
+    -- DECLARE checkAdmin bit DEFAULT NULL;
 	DECLARE newSalt varchar(36);
   
-	SELECT AccountAdmin
-	FROM tblPlayer
-	WHERE
-		Username = pAdminUsername 
-	INTO checkAdmin;
+	-- 	SELECT AccountAdmin
+	-- 	FROM tblPlayer
+	-- 	WHERE
+	-- 		Username = pAdminUsername 
+	-- 	INTO checkAdmin;
     
 	SELECT UUID() INTO newSalt;
 	
     START TRANSACTION;
-		IF EXISTS (SELECT PlayerID 
-				   FROM tblPlayer 
-				   WHERE 
-						PlayerID = pPlayerID) 
-						AND checkAdmin IS TRUE THEN
+-- 		IF EXISTS (SELECT PlayerID 
+-- 				   FROM tblPlayer 
+-- 				   WHERE 
+-- 						PlayerID = pPlayerID) 
+-- 						AND checkAdmin IS TRUE THEN
 			UPDATE tblPlayer
 			SET Email = pEmail, 
 				Username = pUsername, 
@@ -1439,15 +1438,15 @@ BEGIN
 			WHERE 
 				PlayerID = pPlayerID;
 			SELECT 'Yay! Youve updated the player' AS MESSAGE; 
-		ELSEIF EXISTS (SELECT PlayerID 
-					   FROM tblPlayer 
-					   WHERE 
-							PlayerID = pPlayerID) 
-							AND checkAdmin IS FALSE THEN
-			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-		ELSE 
-			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
-		END IF;
+-- 		ELSEIF EXISTS (SELECT PlayerID 
+-- 					   FROM tblPlayer 
+-- 					   WHERE 
+-- 							PlayerID = pPlayerID) 
+-- 							AND checkAdmin IS FALSE THEN
+-- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+-- 		ELSE 
+-- 			SELECT 'There is no account with this PlayerID' AS MESSAGE; 
+-- 		END IF;
 	COMMIT;
 END //
 DELIMITER ;     
@@ -1463,36 +1462,36 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS DeletePlayer;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE DeletePlayer(
-		IN pAdminUsername varchar(10),
+-- 		IN pAdminUsername varchar(10),
 		IN pUsername varchar(10)	
     )
 SQL SECURITY DEFINER
 
 BEGIN
-    DECLARE checkAdmin bit DEFAULT NULL;
-  
-	SELECT AccountAdmin
-	FROM tblPlayer
-	WHERE
-		Username = pAdminUsername 
-	INTO checkAdmin;
+--     DECLARE checkAdmin bit DEFAULT NULL;
+--   
+-- 	SELECT AccountAdmin
+-- 	FROM tblPlayer
+-- 	WHERE
+-- 		Username = pAdminUsername 
+-- 	INTO checkAdmin;
 	
     START TRANSACTION;
-		IF EXISTS (SELECT Username 
-				   FROM tblPlayer 
-				   WHERE Username = pUsername) 
-				   AND checkAdmin IS TRUE THEN 
+-- 		IF EXISTS (SELECT Username 
+-- 				   FROM tblPlayer 
+-- 				   WHERE Username = pUsername) 
+-- 				   AND checkAdmin IS TRUE THEN 
 			DELETE FROM tblPlayer 
 			WHERE Username = pUsername;
 			SELECT 'Oh dear, I hope you were meant to delete that player - no going back now!!!' AS MESSAGE; 
-		ELSEIF EXISTS (SELECT Username 
-					   FROM tblPlayer 
-					   WHERE Username = pUsername) 
-					   AND checkAdmin IS FALSE THEN
-			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
-		ELSE 
-			SELECT 'There is no account with this username' AS MESSAGE; 
-		END IF;
+		-- ELSEIF EXISTS (SELECT Username 
+-- 					   FROM tblPlayer 
+-- 					   WHERE Username = pUsername) 
+-- 					   AND checkAdmin IS FALSE THEN
+-- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
+-- 		ELSE 
+-- 			SELECT 'There is no account with this username' AS MESSAGE; 
+-- 		END IF;
 	COMMIT;
 END //
 DELIMITER ;  
@@ -1748,7 +1747,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL KillGame(100001, 'NewUser_2'); -- Warning message will display saying game has been killed
+	CALL KillGame(100001); -- Warning message will display saying game has been killed
 
 	-- Confirm game has been deleted
 	SELECT * FROM tblGame WHERE GameID = 100001;
@@ -1762,7 +1761,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL AddPlayer('NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1);
+	CALL AddPlayer('NewUser_8', 'P@ssword1', 1);
 
 	-- Confirm player has been added and has admin privileges
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; 
@@ -1774,7 +1773,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL UpdatePlayer('NewUser_2', 16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 0, 3, 56); -- Admin NewUser_2 updates player NewUser_8
+	CALL UpdatePlayer(16, 'NewUser_8@gmail.com', 'NewUser_8', 'P@ssword1', 1, 0, 0, 3, 56); -- Admin NewUser_2 updates player NewUser_8
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_8'; -- Check procedure 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1784,7 +1783,7 @@ DELIMITER ;
 -- TEST PROCEDURE DATA 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	CALL DeletePlayer('NewUser_2', 'NewUser_1'); -- Delete NewUser_1 
+	CALL DeletePlayer('NewUser_1'); -- Delete NewUser_1 
 
 	-- Test records removed from relevant tables
 	SELECT * FROM tblPlayer WHERE Username = 'NewUser_1'; 

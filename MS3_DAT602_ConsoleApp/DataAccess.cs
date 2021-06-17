@@ -336,17 +336,14 @@ namespace ProjectWork
         }
 
         // Admin Kill Game Procedure
-        public string KillGame(string pGameID, string pUsername)
+        public string KillGame(string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
-            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramGameID.Value = pGameID;
-            paramUsername.Value = pUsername;
             paramInput.Add(paramGameID);
-            paramInput.Add(paramUsername);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "KillGame(@GameID,@Username)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "KillGame(@GameID)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
@@ -383,10 +380,9 @@ namespace ProjectWork
         }
 
         // Admin Update Player Procedure
-        public string UpdatePlayer(string pAdminUsername, string pPlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
+        public string UpdatePlayer(string pPlayerID, string pEmail, string pUsername, string pPassword, string pAccountAdmin, string pAccountLocked, string pActiveStatus, string pFailedLogins, string pHighScore)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
             var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
             var paramEmail = new MySqlParameter("@Email", MySqlDbType.VarChar, 50);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
@@ -396,7 +392,6 @@ namespace ProjectWork
             var paramActiveStatus = new MySqlParameter("@ActiveStatus", MySqlDbType.Bit);
             var paramFailedLogins = new MySqlParameter("@FailedLogins", MySqlDbType.Byte);
             var paramHighScore = new MySqlParameter("@HighScore", MySqlDbType.Int16);
-            paramAdminUsername.Value = pAdminUsername;
             paramPlayerID.Value = pPlayerID;
             paramEmail.Value = pEmail;
             paramUsername.Value = pUsername;
@@ -406,7 +401,6 @@ namespace ProjectWork
             paramActiveStatus.Value = pActiveStatus;
             paramFailedLogins.Value = pFailedLogins;
             paramHighScore.Value = pHighScore;
-            paramInput.Add(paramAdminUsername);
             paramInput.Add(paramPlayerID);
             paramInput.Add(paramEmail);
             paramInput.Add(paramUsername);
@@ -417,24 +411,21 @@ namespace ProjectWork
             paramInput.Add(paramFailedLogins);
             paramInput.Add(paramHighScore);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "UpdatePlayer(@AdminUsername,@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "UpdatePlayer(@PlayerID,@Email,@Username,@Password,@AccountAdmin,@AccountLocked,@ActiveStatus,@FailedLogins,@HighScore)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
 
         // Admin Delete Player Procedure
-        public string DeletePlayer(string pAdminUsername, string pUsername)
+        public string DeletePlayer(string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramAdminUsername = new MySqlParameter("@AdminUsername", MySqlDbType.VarChar, 10);
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
-            paramAdminUsername.Value = pAdminUsername;
             paramUsername.Value = pUsername;
-            paramInput.Add(paramAdminUsername);
             paramInput.Add(paramUsername);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "DeletePlayer(@AdminUsername,@Username)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "DeletePlayer(@Username)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
