@@ -1416,6 +1416,11 @@ BEGIN
 		BEGIN
 			SELECT 'Input error 2' AS MESSAGE;
 		END;
+        
+	DECLARE EXIT HANDLER FOR 3819
+		BEGIN
+			SELECT 'Input error 3' AS MESSAGE;
+		END;
     -- DECLARE checkAdmin bit DEFAULT NULL;
     BEGIN
 		DECLARE newSalt varchar(36);
@@ -1455,13 +1460,13 @@ BEGIN
 	-- 							AND checkAdmin IS FALSE THEN
 	-- 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 			ELSE 
-				SELECT 'Input error 3' AS MESSAGE; 
+				SELECT 'Input error 4' AS MESSAGE; 
 			END IF;
 		COMMIT;
     END;
 END //
 DELIMITER ;     
-	CALL UpdatePlayer('NewUser_8@gmail.com', 'Ne3e3', 'P@ssword1', 1, 0, 0, 6, 90); 
+	CALL UpdatePlayer('NewUser_8gmail.com', 'Bob', 'P@ssword1', 1, 0, 0, 6, 90); 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Admin Delete Player Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
