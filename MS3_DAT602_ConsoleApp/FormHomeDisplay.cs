@@ -113,9 +113,15 @@ namespace ProjectWork
 
         private void JoinGame_Click(object sender, EventArgs e)
         {
-            FormGame aJoinGame = new FormGame();
-            aJoinGame.Show();
-            this.Close();
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.JoinGame(dataGridView1.Columns[0].Name, DataAccess.validatedUsername);
+
+            if (DataAccess.validatedUsername == DataAccess.validatedUsername) {
+                FormGame aJoinGame = new FormGame();
+                aJoinGame.Show();
+                this.Close();
+            }
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
