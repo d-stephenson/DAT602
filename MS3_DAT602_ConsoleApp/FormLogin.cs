@@ -32,7 +32,7 @@ namespace ProjectWork
                 FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
                 aHomeDisplay.refreshDS();
                 aHomeDisplay.Show();
-                this.Close();
+                this.Hide();
             }
             // else if loginStats == "Failed" then display fail message
             else if(DataAccess.loginStatus == "Failed")

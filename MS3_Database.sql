@@ -1,5 +1,5 @@
--- Seven Dwarfs Gem Hunt Project Physical Design Milestone One [refer to Logical Diagram v2.2]
--- UPDATES RELATED TO WORK COMPLETED FOR MILESTONE 2
+-- Seven Dwarfs Gem Hunt Project Physical Design Milestone Three [refer to Logical Diagram v2.2]
+-- UPDATES RELATED TO WORK COMPLETED FOR MILESTONE 3
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Database Setup
@@ -1560,7 +1560,17 @@ DELIMITER ;
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	CALL NewGame('NewUser_1'); -- Run test with new player starting a game
-
+	CALL NewGame('NewUser_2');
+	CALL NewGame('NewUser_3');
+	CALL NewGame('NewUser_4');
+	CALL NewGame('NewUser_5');
+	CALL NewGame('NewUser_6');
+	CALL NewGame('NewUser_7');
+	CALL NewGame('John');
+	CALL NewGame('Troy');
+	CALL NewGame('Chris');
+	CALL NewGame('Sunny');
+    
 	-- Test new game has been created in the following tables and a play instance for the player
 	SELECT * from tblGame ORDER BY GameID DESC; 
 	SELECT * FROM tblItemGame ORDER BY GameID DESC; 

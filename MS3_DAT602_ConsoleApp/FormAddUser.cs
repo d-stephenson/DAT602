@@ -50,8 +50,9 @@ namespace ProjectWork
             if (DataAccess.addStatus == "New Account")
             {
                 FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+                aAdminDisplay.refreshDS();
                 aAdminDisplay.Show();
-                this.Hide();
+                this.Close();
             }
             else if (DataAccess.addStatus == "Failed")
             {
