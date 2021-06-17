@@ -47,12 +47,14 @@ namespace ProjectWork
                 FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
                 aHomeDisplay.refreshDS();
                 aHomeDisplay.Show();
-                this.Hide();
+                this.Close();
             }
             // else if loginStats == "Failed" then display fail message
             else if (DataAccess.registrationStatus == "Failed")
             {
-                MessageBox.Show("Either the email or username entered already exists");
+                FormRegFailDisplay aRegFailDisplay = new FormRegFailDisplay();
+                aRegFailDisplay.Show();
+                this.Hide();
             }
         }
     }

@@ -82,3 +82,4 @@ D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.pdb
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormRemovePlayerDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormKillDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormLoginFailDisplay.resources
+D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormRegFailDisplay.resources

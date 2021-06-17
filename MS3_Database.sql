@@ -651,7 +651,12 @@ SQL SECURITY DEFINER
 BEGIN        
 	DECLARE EXIT HANDLER FOR 1062
 		BEGIN
-			SELECT 'Either the email or username entered already exists' AS MESSAGE;
+			SELECT 'Input error' AS MESSAGE;
+		END;
+        
+	DECLARE EXIT HANDLER FOR 3819
+		BEGIN
+			SELECT 'Input error' AS MESSAGE;
 		END;
         
     BEGIN    
@@ -668,7 +673,7 @@ BEGIN
     END;
 END //
 DELIMITER ;
-
+call NewUserRegistration('sdsd', 'sdsad', 'asdad')
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Login Check Credentials Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -735,9 +740,10 @@ BEGIN
 -- 			SELECT Username AS 'Player', HighScore AS 'HighScore' 
 -- 			FROM tblPlayer; 
 -- 			-- If credentials are correct user is logged into account by setting active status to true
-		ELSE 
+		ELSEIF proposedUID IS NOT NULL AND currentAS = 1 THEN 
 			SELECT 'You are logged in' AS MESSAGE;
-		
+		ELSE
+			SELECT 'You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked' AS MESSAGE;
 -- 			SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
 -- 			FROM tblPlayer py 
 -- 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID

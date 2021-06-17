@@ -52,7 +52,7 @@ namespace ProjectWork
         {
             FormRegister aRegisterDisplay = new FormRegister();
             aRegisterDisplay.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void PasswordText_TextChanged(object sender, EventArgs e)
