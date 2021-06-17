@@ -154,6 +154,7 @@ namespace ProjectWork
             this.textBox3.Size = new System.Drawing.Size(175, 20);
             this.textBox3.TabIndex = 129;
             this.textBox3.Text = "bob@live.com";
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label5
             // 

@@ -126,6 +126,12 @@
     <Compile Include="FormHomeDisplay.Designer.cs">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLoginFailDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoginFailDisplay.Designer.cs">
+      <DependentUpon>FormLoginFailDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRemovePlayerDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormHomeDisplay.resx">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLoginFailDisplay.resx">
+      <DependentUpon>FormLoginFailDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRemovePlayerDisplay.resx">
       <DependentUpon>FormRemovePlayerDisplay.cs</DependentUpon>

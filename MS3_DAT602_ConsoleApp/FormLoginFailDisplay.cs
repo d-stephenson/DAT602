@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ProjectWork
 {
-    public partial class FormKillDisplay : Form
+    public partial class FormLoginFailDisplay : Form
     {
-        public FormKillDisplay()
+        public FormLoginFailDisplay()
         {
             InitializeComponent();
         }
@@ -24,10 +24,19 @@ namespace ProjectWork
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
-            aAdminDisplay.refreshDS();
-            aAdminDisplay.Show();
-            this.Hide();
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Close();
+        }
+
+        private void FormLoginFailDisplay_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

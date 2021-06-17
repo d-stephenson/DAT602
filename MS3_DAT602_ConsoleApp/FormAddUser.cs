@@ -64,7 +64,7 @@ namespace ProjectWork
             FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
             aHomeDisplay.refreshDS();
             aHomeDisplay.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void AdminScreen_Click(object sender, EventArgs e)

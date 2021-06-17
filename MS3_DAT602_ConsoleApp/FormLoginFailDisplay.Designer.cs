@@ -1,7 +1,7 @@
 ﻿
 namespace ProjectWork
 {
-    partial class FormKillDisplay
+    partial class FormLoginFailDisplay
     {
         /// <summary>
         /// Required designer variable.
@@ -48,25 +48,26 @@ namespace ProjectWork
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(114, 115);
+            this.label3.Location = new System.Drawing.Point(172, 118);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(255, 20);
+            this.label3.Size = new System.Drawing.Size(125, 20);
             this.label3.TabIndex = 139;
-            this.label3.Text = "Confirm you want to kill this game.";
+            this.label3.Text = "This login failed!";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Copperplate Gothic Bold", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DarkGoldenrod;
-            this.label2.Location = new System.Drawing.Point(49, 46);
+            this.label2.Location = new System.Drawing.Point(18, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(387, 41);
+            this.label2.Size = new System.Drawing.Size(450, 41);
             this.label2.TabIndex = 137;
-            this.label2.Text = "Blow up the mine!";
+            this.label2.Text = "Whoa there Buddy!!!";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // FormKillDisplay
+            // FormLoginFailDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -74,8 +75,9 @@ namespace ProjectWork
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Name = "FormKillDisplay";
+            this.Name = "FormLoginFailDisplay";
             this.Text = "PopUp";
+            this.Load += new System.EventHandler(this.FormLoginFailDisplay_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

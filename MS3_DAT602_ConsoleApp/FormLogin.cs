@@ -32,12 +32,14 @@ namespace ProjectWork
                 FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
                 aHomeDisplay.refreshDS();
                 aHomeDisplay.Show();
-                this.Hide();
+                this.Close();
             }
             // else if loginStats == "Failed" then display fail message
             else if(DataAccess.loginStatus == "Failed")
             {
-                MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
+                FormLoginFailDisplay aLoginFailDisplay = new FormLoginFailDisplay();
+                aLoginFailDisplay.Show();
+                this.Hide();
             }
         }
 
