@@ -95,15 +95,15 @@ namespace ProjectWork
         {
             //DataAccess aDataAccess = new DataAccess();
             //aDataAccess.AdminScreen(DataAccess.validatedUsername);
-            
+
             //if (DataAccess.loginStatus == "Logged In")
             //{
-                FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
-                aAdminDisplay.refreshDS();
-                aAdminDisplay.Show();
-                this.Close();
+            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+            aAdminDisplay.refreshDS();
+            aAdminDisplay.Show();
+            this.Close();
             //}
-            
+
             //else if (DataAccess.loginStatus == "Failed")
             //{
             //    MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
@@ -114,14 +114,11 @@ namespace ProjectWork
         private void JoinGame_Click(object sender, EventArgs e)
         {
             DataAccess aDataAccess = new DataAccess();
-            aDataAccess.JoinGame(dataGridView1.Columns[0].Name, DataAccess.validatedUsername);
+            aDataAccess.JoinGame(dataGridView1.SelectedRows[0].Cells[0].Value.ToString(), DataAccess.validatedUsername);
 
-            if (DataAccess.validatedUsername == DataAccess.validatedUsername) {
-                FormGame aJoinGame = new FormGame();
-                aJoinGame.Show();
-                this.Close();
-            }
-            
+            FormGame aJoinGame = new FormGame();
+            aJoinGame.Show();
+            this.Close();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -133,7 +130,7 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.NewGame(DataAccess.validatedUsername);
-            
+
             if (DataAccess.validatedUsername == DataAccess.validatedUsername)
             {
                 FormGame aGameDisplay = new FormGame();
@@ -151,7 +148,7 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.PlayerLogout(DataAccess.validatedUsername);
-            
+
             if (DataAccess.validatedUsername == DataAccess.validatedUsername)
             {
                 FormLogin aLoginDisplay = new FormLogin();

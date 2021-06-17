@@ -134,17 +134,17 @@ namespace ProjectWork
         }
 
         // Join Game Procedure
-        public string JoinGame(string pGameID, string pPlayerID)
+        public string JoinGame(string pGameID, string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             paramGameID.Value = pGameID;
-            paramPlayerID.Value = pPlayerID;
+            paramUsername.Value = pUsername;
             paramInput.Add(paramGameID);
-            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramUsername);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "JoinGame(@GameID,@PlayerID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "JoinGame(@GameID,@Username)", paramInput.ToArray());
 
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
