@@ -95,7 +95,7 @@ namespace ProjectWork
             {
                 FormUpdateSuccessDisplay aUpdateSuccessDisplay = new FormUpdateSuccessDisplay();
                 aUpdateSuccessDisplay.Show();
-                this.Close();
+                this.Hide();
             }
             
             else if (DataAccess.upStatus == "Failed")
