@@ -886,7 +886,7 @@ DROP PROCEDURE IF EXISTS JoinGame;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE JoinGame(
         IN pGameID int,
-        IN pPlayerID int
+        IN pUsername varchar(10)
     )
 SQL SECURITY DEFINER
 
@@ -910,7 +910,7 @@ BEGIN
 						 FROM tblPlay 
                          WHERE 
 							GameID =  pGameID) 
-                            AND PlayerID = pPlayerID
+                            AND Username = pUsername
 	INTO selectedUser;
     
     START TRANSACTION;                    
