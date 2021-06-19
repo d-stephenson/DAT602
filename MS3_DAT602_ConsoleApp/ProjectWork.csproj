@@ -126,6 +126,12 @@
     <Compile Include="FormHomeDisplay.Designer.cs">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAdminFailDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdminFailDisplay.Designer.cs">
+      <DependentUpon>FormAdminFailDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUpdateSuccessDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormHomeDisplay.resx">
       <DependentUpon>FormHomeDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdminFailDisplay.resx">
+      <DependentUpon>FormAdminFailDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUpdateSuccessDisplay.resx">
       <DependentUpon>FormUpdateSuccessDisplay.cs</DependentUpon>

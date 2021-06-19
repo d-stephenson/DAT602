@@ -1264,7 +1264,7 @@ DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE AdminScreen(
 		IN pUsername varchar(10)
     )
-SQL SECURITY INVOKER
+SQL SECURITY DEFINER
 BEGIN
     DECLARE accessAdmin bit DEFAULT NULL;
   
@@ -1278,13 +1278,13 @@ BEGIN
 		IF accessAdmin IS TRUE THEN
 			SELECT 'You are logged into the admin console' AS MESSAGE; 
             
-            SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
-			FROM tblPlayer py 
-				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
-			GROUP BY pl.GameID;  
-            
-            SELECT Username AS 'Player', HighScore AS 'HighScore' 
-			FROM tblPlayer;  
+--             SELECT GameID AS 'GameID', COUNT(pl.GameID) AS 'PlayerCount'
+-- 			FROM tblPlayer py 
+-- 				JOIN tblPlay pl ON py.PlayerID = pl.PlayerID
+-- 			GROUP BY pl.GameID;  
+--             
+--             SELECT Username AS 'Player', HighScore AS 'HighScore' 
+-- 			FROM tblPlayer;  
 		ELSE
 			SELECT 'Slow down buddy, you are not an admin user' AS MESSAGE; 
 		END IF;

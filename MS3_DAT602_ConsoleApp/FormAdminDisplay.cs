@@ -46,7 +46,7 @@ namespace ProjectWork
             }
         }
 
-            public FormAdminDisplay()
+        public FormAdminDisplay()
         {
             InitializeComponent();
         }
@@ -64,12 +64,9 @@ namespace ProjectWork
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.PlayerLogout(DataAccess.validatedUsername);
 
-            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
-            {
-                FormLogin aLoginDisplay = new FormLogin();
-                aLoginDisplay.Show();
-                this.Close();
-            }
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Close();
         }
 
         private void AddPlayer_Click(object sender, EventArgs e)

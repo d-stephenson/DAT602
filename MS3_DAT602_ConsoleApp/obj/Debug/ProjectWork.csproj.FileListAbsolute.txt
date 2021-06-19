@@ -85,3 +85,4 @@ D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormLoginFailDispla
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormRegFailDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormUpdateSuccessDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormUpdateFailDisplay.resources
+D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormAdminFailDisplay.resources

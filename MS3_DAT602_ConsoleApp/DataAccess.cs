@@ -36,6 +36,7 @@ namespace ProjectWork
         public static string registrationStatus = "";
         public static string addStatus = "";
         public static string upStatus = "";
+        public static string adminStatus = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -58,7 +59,7 @@ namespace ProjectWork
             {
                 DataAccess.registrationStatus = "New Account";
             }
-            else             
+            else
             {
                 DataAccess.registrationStatus = "Failed";
             }
@@ -107,7 +108,7 @@ namespace ProjectWork
             for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
             {
                 theHomeDisplayData.GameCount.Add(new GameCount()
-                { 
+                {
                     GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[0]),
                     PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
                 });
@@ -309,31 +310,27 @@ namespace ProjectWork
         }
 
         // Enter Admin Screen Procedure 
-        public HomeDisplayData AdminScreen(string pUsername/*DataAccess.validatedUsername*/)
+        public void AdminScreen(string pUsername)
         {
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)");
-            HomeDisplayData theHomeDisplayData = new HomeDisplayData()
-            {
-                GameCount = new List<GameCount>(),
-                PlayerHighScore = new List<PlayerHighScore>()
-            };
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
+            paramUsername.Value = pUsername;
+            paramInput.Add(paramUsername);
 
-            theHomeDisplayData.haveData = true;
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "AdminScreen(@Username)", paramInput.ToArray());
 
-            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
+            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "You are logged into the admin console"))
             {
-                theHomeDisplayData.GameCount.Add(new GameCount()
-                {
-                    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[0]),
-                    PlayerCount = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
-                });
-                theHomeDisplayData.PlayerHighScore.Add(new PlayerHighScore()
-                {
-                    Player = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
-                    HighScore = Convert.ToInt32(aDataSet.Tables[1].Rows[i].ItemArray[1])
-                });
+                DataAccess.adminStatus = "Success";
             }
-            return theHomeDisplayData;
+            else if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Slow down buddy, you are not an admin user"))
+            {
+                DataAccess.adminStatus = "Failed";
+            }
+            else
+            {
+                DataAccess.adminStatus = "Failed";
+            }
         }
 
         // Admin Kill Game Procedure
@@ -376,7 +373,7 @@ namespace ProjectWork
             {
                 DataAccess.addStatus = "Failed";
             }
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString(); 
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
         // Admin Update Player Procedure

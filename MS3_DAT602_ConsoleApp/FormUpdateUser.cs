@@ -38,12 +38,9 @@ namespace ProjectWork
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.PlayerLogout(DataAccess.validatedUsername);
 
-            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
-            {
-                FormLogin aLoginDisplay = new FormLogin();
-                aLoginDisplay.Show();
-                this.Close();
-            }
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Close();
         }
 
         private void Email_TextChanged(object sender, EventArgs e)
@@ -90,14 +87,14 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.UpdatePlayer(Email.Text, Username.Text, Password.Text, Admin.Checked, Locked.Checked, Admin.Checked, FailedLogins.Text, Highscore.Text);
-            
+
             if (DataAccess.upStatus == "Updated Account")
             {
                 FormUpdateSuccessDisplay aUpdateSuccessDisplay = new FormUpdateSuccessDisplay();
                 aUpdateSuccessDisplay.Show();
                 this.Hide();
             }
-            
+
             else if (DataAccess.upStatus == "Failed")
             {
                 FormUpdateFailDisplay aUpdateFailDisplay = new FormUpdateFailDisplay();

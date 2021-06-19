@@ -95,12 +95,20 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.AdminScreen(DataAccess.validatedUsername);
-         
-            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
-            aAdminDisplay.refreshDS();
-            aAdminDisplay.Show();
 
-
+            if(DataAccess.adminStatus == "Success")
+            {
+                FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+                aAdminDisplay.refreshDS();
+                aAdminDisplay.Show();
+                this.Hide();
+            }
+            else if(DataAccess.adminStatus == "Failed")
+            {
+                FormAdminFailDisplay aAdminFailDisplay = new FormAdminFailDisplay();
+                aAdminFailDisplay.Show();
+                this.Hide();
+            }
         }
 
         private void JoinGame_Click(object sender, EventArgs e)
