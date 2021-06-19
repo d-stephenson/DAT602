@@ -93,21 +93,13 @@ namespace ProjectWork
 
         private void Admin_Click(object sender, EventArgs e)
         {
-            //DataAccess aDataAccess = new DataAccess();
-            //aDataAccess.AdminScreen(DataAccess.validatedUsername);
-
-            //if (DataAccess.loginStatus == "Logged In")
-            //{
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.AdminScreen(DataAccess.validatedUsername);
+         
             FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
             aAdminDisplay.refreshDS();
             aAdminDisplay.Show();
-            this.Close();
-            //}
 
-            //else if (DataAccess.loginStatus == "Failed")
-            //{
-            //    MessageBox.Show("You have entered an incorrect Username or Password, after 5 failed attempts your account will be locked");
-            //}
 
         }
 
@@ -131,12 +123,9 @@ namespace ProjectWork
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.NewGame(DataAccess.validatedUsername);
 
-            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
-            {
-                FormGame aGameDisplay = new FormGame();
-                aGameDisplay.Show();
-                this.Close();
-            }
+            FormGame aGameDisplay = new FormGame();
+            aGameDisplay.Show();
+            this.Close();
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -149,12 +138,9 @@ namespace ProjectWork
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.PlayerLogout(DataAccess.validatedUsername);
 
-            if (DataAccess.validatedUsername == DataAccess.validatedUsername)
-            {
-                FormLogin aLoginDisplay = new FormLogin();
-                aLoginDisplay.Show();
-                this.Close();
-            }
+            FormLogin aLoginDisplay = new FormLogin();
+            aLoginDisplay.Show();
+            this.Close();
         }
     }
 }
