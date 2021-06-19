@@ -114,10 +114,17 @@ namespace ProjectWork
         {
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.JoinGame(dataGridView1.SelectedRows[0].Cells[0].Value.ToString(), DataAccess.validatedUsername);
-
-            FormGame aJoinGame = new FormGame();
-            aJoinGame.Show();
-            this.Close();
+            if (DataAccess.joinStatus == "Joined")
+            {
+                FormGame aJoinGame = new FormGame();
+                aJoinGame.Show();
+                this.Close();
+            }
+            else if (DataAccess.joinStatus == "Failed")
+            {
+                FormNoJoinDisplay aNoJoinDisplay = new FormNoJoinDisplay();
+                aNoJoinDisplay.Show();
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -1608,11 +1608,7 @@ DELIMITER ;
 	CALL JoinGame(100003, 10); -- Test join game procedure
 
 	-- Add remaining players 
-	CALL JoinGame(100003, 11);
-	CALL JoinGame(100003, 12);
-	CALL JoinGame(100003, 13);
-	CALL JoinGame(100003, 14);
-	CALL JoinGame(100003, 15);
+	CALL JoinGame(100003, 'NewUser_3');
 
 	-- Test player has been added to game and has the next character
 	SELECT * FROM tblPlay WHERE GameID = 100003; 

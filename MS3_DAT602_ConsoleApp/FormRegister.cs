@@ -45,7 +45,7 @@ namespace ProjectWork
             if (DataAccess.registrationStatus == "New Account")
             {
                 FormLogin aLoginDisplay = new FormLogin();
-                aLogin.Show();
+                aLoginDisplay.Show();
                 this.Close();
             }
             // else if loginStats == "Failed" then display fail message

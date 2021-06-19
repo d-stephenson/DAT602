@@ -37,6 +37,7 @@ namespace ProjectWork
         public static string addStatus = "";
         public static string upStatus = "";
         public static string adminStatus = "";
+        public static string joinStatus = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -135,7 +136,7 @@ namespace ProjectWork
         }
 
         // Join Game Procedure
-        public string JoinGame(string pGameID, string pUsername)
+        public void JoinGame(string pGameID, string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
@@ -147,7 +148,14 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "JoinGame(@GameID,@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Youve joined the game!!!") || ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "You are back in the game!!!"))
+            {
+                DataAccess.joinStatus = "Joined";
+            }
+            else
+            {
+                DataAccess.joinStatus = "Failed";
+            }
         }
 
         // Player Moves Procedure
