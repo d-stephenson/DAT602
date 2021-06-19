@@ -1463,7 +1463,7 @@ BEGIN
 				SELECT 'Input error 4' AS MESSAGE; 
 			END IF;
 		COMMIT;
-    END;
+    END; 
 END //
 DELIMITER ;     
 	CALL UpdatePlayer('NewUser=@gmail.com', 'Bob', 'P@ssword1', 1, 0, 0, 0, 99); 
