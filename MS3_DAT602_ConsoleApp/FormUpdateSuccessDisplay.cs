@@ -24,8 +24,9 @@ namespace ProjectWork
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormUpdateUser aUpdateDisplay = new FormUpdateUser();
-            aUpdateDisplay.Show();
+            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
+            aAdminDisplay.refreshDS();
+            aAdminDisplay.Show();
             this.Close();
         }
 

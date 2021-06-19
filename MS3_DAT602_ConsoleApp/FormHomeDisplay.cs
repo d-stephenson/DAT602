@@ -101,13 +101,12 @@ namespace ProjectWork
                 FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
                 aAdminDisplay.refreshDS();
                 aAdminDisplay.Show();
-                this.Hide();
+                this.Close();
             }
             else if(DataAccess.adminStatus == "Failed")
             {
                 FormAdminFailDisplay aAdminFailDisplay = new FormAdminFailDisplay();
                 aAdminFailDisplay.Show();
-                this.Hide();
             }
         }
 

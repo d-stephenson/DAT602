@@ -24,10 +24,7 @@ namespace ProjectWork
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
-            aAdminDisplay.refreshDS();
-            aAdminDisplay.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

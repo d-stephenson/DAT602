@@ -90,6 +90,7 @@ namespace ProjectWork
 
             FormRemovePlayerDisplay aRemovePlayer = new FormRemovePlayerDisplay();
             aRemovePlayer.Show();
+            this.Hide();
         }
 
         private void KillGame_Click(object sender, EventArgs e)
@@ -99,7 +100,6 @@ namespace ProjectWork
 
             FormKillDisplay aGameKill = new FormKillDisplay();
             aGameKill.Show();
-            this.Hide();
         }
 
         private void dataGridViewa1_CellContentClick(object sender, DataGridViewCellEventArgs e)

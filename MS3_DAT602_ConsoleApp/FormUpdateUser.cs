@@ -17,32 +17,6 @@ namespace ProjectWork
             InitializeComponent();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
-            aHomeDisplay.refreshDS();
-            aHomeDisplay.Show();
-            this.Hide();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            FormAdminDisplay aAdminDisplay = new FormAdminDisplay();
-            aAdminDisplay.refreshDS();
-            aAdminDisplay.Show();
-            this.Close();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            DataAccess aDataAccess = new DataAccess();
-            aDataAccess.PlayerLogout(DataAccess.validatedUsername);
-
-            FormLogin aLoginDisplay = new FormLogin();
-            aLoginDisplay.Show();
-            this.Close();
-        }
-
         private void Email_TextChanged(object sender, EventArgs e)
         {
 
@@ -92,7 +66,7 @@ namespace ProjectWork
             {
                 FormUpdateSuccessDisplay aUpdateSuccessDisplay = new FormUpdateSuccessDisplay();
                 aUpdateSuccessDisplay.Show();
-                this.Hide();
+                this.Close();
             }
 
             else if (DataAccess.upStatus == "Failed")

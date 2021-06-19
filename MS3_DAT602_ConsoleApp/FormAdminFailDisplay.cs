@@ -24,9 +24,6 @@ namespace ProjectWork
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
-            aHomeDisplay.refreshDS();
-            aHomeDisplay.Show();
             this.Close();
         }
 

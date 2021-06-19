@@ -323,11 +323,7 @@ namespace ProjectWork
             {
                 DataAccess.adminStatus = "Success";
             }
-            else if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Slow down buddy, you are not an admin user"))
-            {
-                DataAccess.adminStatus = "Failed";
-            }
-            else
+            else //if (((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Slow down buddy, you are not an admin user"))
             {
                 DataAccess.adminStatus = "Failed";
             }
