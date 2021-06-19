@@ -44,9 +44,8 @@ namespace ProjectWork
             // if loginStatus == "Success" then go to FormHomeDisplay
             if (DataAccess.registrationStatus == "New Account")
             {
-                FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
-                aHomeDisplay.refreshDS();
-                aHomeDisplay.Show();
+                FormLogin aLoginDisplay = new FormLogin();
+                aLogin.Show();
                 this.Close();
             }
             // else if loginStats == "Failed" then display fail message

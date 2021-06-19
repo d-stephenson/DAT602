@@ -90,7 +90,7 @@ namespace ProjectWork
             // 
             // NewGame
             // 
-            this.NewGame.Location = new System.Drawing.Point(498, 343);
+            this.NewGame.Location = new System.Drawing.Point(365, 84);
             this.NewGame.Name = "NewGame";
             this.NewGame.Size = new System.Drawing.Size(91, 23);
             this.NewGame.TabIndex = 18;
