@@ -157,20 +157,22 @@ namespace ProjectWork
             this.RemovePlayer.UseVisualStyleBackColor = true;
             this.RemovePlayer.Click += new System.EventHandler(this.RemovePlayer_Click);
             // 
-            // dataGridView1
+            // dataGridViewa1
             // 
             this.dataGridViewa1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewa1.Location = new System.Drawing.Point(144, 144);
             this.dataGridViewa1.Name = "dataGridViewa1";
+            this.dataGridViewa1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewa1.Size = new System.Drawing.Size(234, 183);
             this.dataGridViewa1.TabIndex = 36;
             this.dataGridViewa1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewa1_CellContentClick);
             // 
-            // dataGridView2
+            // dataGridViewa2
             // 
             this.dataGridViewa2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewa2.Location = new System.Drawing.Point(405, 144);
             this.dataGridViewa2.Name = "dataGridViewa2";
+            this.dataGridViewa2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewa2.Size = new System.Drawing.Size(234, 183);
             this.dataGridViewa2.TabIndex = 37;
             this.dataGridViewa2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewa2_CellContentClick);

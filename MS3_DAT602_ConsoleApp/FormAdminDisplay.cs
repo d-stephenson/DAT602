@@ -85,13 +85,18 @@ namespace ProjectWork
 
         private void RemovePlayer_Click(object sender, EventArgs e)
         {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.DeletePlayer(dataGridViewa2.SelectedRows[0].Cells[0].Value.ToString());
+
             FormRemovePlayerDisplay aRemovePlayer = new FormRemovePlayerDisplay();
             aRemovePlayer.Show();
-            this.Hide();
         }
 
         private void KillGame_Click(object sender, EventArgs e)
         {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.KillGame(dataGridViewa1.SelectedRows[0].Cells[0].Value.ToString());
+
             FormKillDisplay aGameKill = new FormKillDisplay();
             aGameKill.Show();
             this.Hide();

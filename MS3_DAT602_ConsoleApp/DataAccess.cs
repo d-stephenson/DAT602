@@ -334,7 +334,7 @@ namespace ProjectWork
         }
 
         // Admin Kill Game Procedure
-        public string KillGame(string pGameID)
+        public void KillGame(string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
@@ -342,8 +342,6 @@ namespace ProjectWork
             paramInput.Add(paramGameID);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "KillGame(@GameID)", paramInput.ToArray());
-
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
         // Admin Add Player Procedure
@@ -420,7 +418,7 @@ namespace ProjectWork
 
 
         // Admin Delete Player Procedure
-        public string DeletePlayer(string pUsername)
+        public void DeletePlayer(string pUsername)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
@@ -429,7 +427,7 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "DeletePlayer(@Username)", paramInput.ToArray());
 
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+            //return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
     }
 }

@@ -1326,7 +1326,7 @@ BEGIN
 			DELETE FROM tblGame
 			WHERE GameID = pGameID;
 
-			SELECT 'This game has been killed by Admin' AS MESSAGE; 
+-- 			SELECT 'This game has been killed by Admin' AS MESSAGE; 
 -- 		ELSE
 -- 			SELECT 'No game with that ID' AS MESSAGE; 
 -- 		END IF;
@@ -1499,7 +1499,7 @@ BEGIN
 -- 				   AND checkAdmin IS TRUE THEN 
 			DELETE FROM tblPlayer 
 			WHERE Username = pUsername;
-			SELECT 'Oh dear, I hope you were meant to delete that player - no going back now!!!' AS MESSAGE; 
+			-- SELECT 'Oh dear, I hope you were meant to delete that player - no going back now!!!' AS MESSAGE; 
 		-- ELSEIF EXISTS (SELECT Username 
 -- 					   FROM tblPlayer 
 -- 					   WHERE Username = pUsername) 
