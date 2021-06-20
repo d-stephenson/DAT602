@@ -133,8 +133,10 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "NewGame(@Username)", paramInput.ToArray());
 
+            DataAccess.currentGame = "MESSAGE";
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
+
 
         // Join Game Procedure
         public void JoinGame(string pGameID, string pUsername)

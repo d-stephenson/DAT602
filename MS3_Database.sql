@@ -870,7 +870,7 @@ BEGIN
 		END WHILE;
 	COMMIT;
         
-		SELECT 'Your new game is created, find those gems!!!' AS MESSAGE;
+		SELECT newGameID AS MESSAGE;
 END //
 DELIMITER ;
 
