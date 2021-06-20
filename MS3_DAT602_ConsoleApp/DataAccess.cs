@@ -38,6 +38,7 @@ namespace ProjectWork
         public static string upStatus = "";
         public static string adminStatus = "";
         public static string joinStatus = "";
+        public static string currentGame = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)

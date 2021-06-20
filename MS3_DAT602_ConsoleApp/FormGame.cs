@@ -52,5 +52,36 @@ namespace ProjectWork
             aHomeDisplay.Show();
             this.Hide();
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox82_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox clickedCheckbox = (sender as CheckBox);
+            // DataAccess.MovePlayer(clickedCheckbox.Tag, DataAccess.validatedUsername, DataAccess.currentGame)
+            string message = "Your character has moved!!!";
+
+            if(message == "Your character has moved!!!")
+            {
+                clickedCheckbox.Checked = true;
+            }
+            else
+            {
+                clickedCheckbox.Checked = false;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

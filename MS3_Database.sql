@@ -942,7 +942,7 @@ DROP PROCEDURE IF EXISTS MovePlayer;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE MovePlayer(
         IN pTileID int,
-        IN pPlayerID int,
+        IN pUsername varchar(10),
         IN pGameID int
     )
 SQL SECURITY DEFINER
@@ -984,16 +984,18 @@ BEGIN
     SELECT TileRow -- The current player tile row
     FROM tblTile ti 
         JOIN tblPlay pl ON ti.TileID = pl.TileID
+        JOIN tblPlayer py ON pl.PlayerID = py.PlayerID
 	WHERE 
-		PlayerID = pPlayerID 
+		py.Username = pUsername
         AND GameID = pGameID
 	INTO currentTileRow;
     
 	SELECT TileColumn -- The current player tile column
     FROM tblTile ti 
         JOIN tblPlay pl ON ti.TileID = pl.TileID
+		JOIN tblPlayer py ON pl.PlayerID = py.PlayerID
 	WHERE 
-		PlayerID = pPlayerID 
+		py.Username = pUsername
         AND GameID = pGameID
 	INTO currentTileColumn;
         
@@ -1014,31 +1016,33 @@ BEGIN
 			AND (newTileColumn = currentTileColumn OR newTileColumn = currentTileColumn + 1 OR newTileColumn = currentTileColumn - 1)) 
 			AND (availableTile IS NOT NULL OR ifPlayerOnTileAreTheyActive = 0 OR pTileID = 001) 
 			AND (currentTurn = (SELECT CharacterName 
-								FROM tblPlay 
+								FROM tblPlay pl
+									JOIN tblPlayer py ON pl.PlayerID = py.PlayerID
 								WHERE 
-									PlayerID = pPlayerID 
+									py.Username = pUsername
 									AND GameID = pGameID)) THEN  
-			UPDATE tblPlay
+			UPDATE tblPlay pl
+				JOIN tblPlayer py ON pl.PlayerID = py.PlayerID
 			SET TileID = pTileID
 			WHERE 
-				PlayerID = pPlayerID 
+				Username = pUsername
 				AND GameID = pGameID;
 						
 			SELECT 'Your character has moved!!!' AS MESSAGE;	
 			
-            SELECT TileColour, TileRow, TileColumn 
-			FROM tblCharacter ch 
-				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
-				JOIN tblTile ti ON pl.TileID = ti.TileID
-			WHERE 
-				PlayerID = pPlayerID;
+--             SELECT TileColour, TileRow, TileColumn 
+-- 			FROM tblCharacter ch 
+-- 				JOIN tblPlay pl ON ch.CharacterName = pl.CharacterName
+-- 				JOIN tblTile ti ON pl.TileID = ti.TileID
+-- 			WHERE 
+-- 				PlayerID = pPlayerID;
 		ELSE
 			SELECT 'Your character cant move to this tile!!!' AS MESSAGE;
 		END IF;
 	COMMIT;
 END //
 DELIMITER ;
-
+	
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Find Gem Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1629,7 +1633,7 @@ DELIMITER ;
 	SELECT * FROM tblPlay WHERE GameID = 100003; -- Confirm playerID and tileID location for Doc, should be playerID 9 and tileID 1
 
 	CALL MovePlayer(2, 9, 100003); -- Test procedure player cannot move to this tile
-	CALL MovePlayer(32, 9, 100003); -- Displays tile colour and new tile row and column
+	CALL MovePlayer(32, 'NewUser_2', 100029); -- Displays tile colour and new tile row and column
 
 	-- Re-run tblPlay select query to confirm player is on a new tile location
 	SELECT * FROM tblPlay WHERE GameID = 100003; 

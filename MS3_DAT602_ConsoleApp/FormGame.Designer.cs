@@ -315,7 +315,8 @@ namespace ProjectWork
             this.groupBox1.Size = new System.Drawing.Size(240, 238);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Game ID 10002";
+            this.groupBox1.Text = "Game Play";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // label19
             // 
@@ -1004,20 +1005,26 @@ namespace ProjectWork
             // checkBox23
             // 
             this.checkBox23.AutoSize = true;
+            this.checkBox23.BackColor = System.Drawing.SystemColors.Highlight;
+            this.checkBox23.Checked = true;
+            this.checkBox23.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox23.Location = new System.Drawing.Point(120, 124);
             this.checkBox23.Name = "checkBox23";
             this.checkBox23.Size = new System.Drawing.Size(15, 14);
             this.checkBox23.TabIndex = 49;
-            this.checkBox23.UseVisualStyleBackColor = true;
+            this.checkBox23.Tag = "001";
+            this.checkBox23.UseVisualStyleBackColor = false;
+            this.checkBox23.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox24
             // 
             this.checkBox24.AutoSize = true;
+            this.checkBox24.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.checkBox24.Location = new System.Drawing.Point(99, 124);
             this.checkBox24.Name = "checkBox24";
             this.checkBox24.Size = new System.Drawing.Size(15, 14);
             this.checkBox24.TabIndex = 48;
-            this.checkBox24.UseVisualStyleBackColor = true;
+            this.checkBox24.UseVisualStyleBackColor = false;
             // 
             // checkBox25
             // 
@@ -1238,6 +1245,7 @@ namespace ProjectWork
             this.checkBox82.TabIndex = 4;
             this.checkBox82.Text = "Board Colour";
             this.checkBox82.UseVisualStyleBackColor = false;
+            this.checkBox82.CheckedChanged += new System.EventHandler(this.checkBox82_CheckedChanged);
             // 
             // textBox2
             // 
@@ -1263,6 +1271,7 @@ namespace ProjectWork
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Bob";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label20
             // 
