@@ -919,7 +919,9 @@ namespace ProjectWork
             this.checkBox31.Name = "checkBox31";
             this.checkBox31.Size = new System.Drawing.Size(15, 14);
             this.checkBox31.TabIndex = 59;
+            this.checkBox31.Tag = "051";
             this.checkBox31.UseVisualStyleBackColor = true;
+            this.checkBox31.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox32
             // 
@@ -928,7 +930,9 @@ namespace ProjectWork
             this.checkBox32.Name = "checkBox32";
             this.checkBox32.Size = new System.Drawing.Size(15, 14);
             this.checkBox32.TabIndex = 58;
+            this.checkBox32.Tag = "042";
             this.checkBox32.UseVisualStyleBackColor = true;
+            this.checkBox32.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox33
             // 
@@ -937,7 +941,9 @@ namespace ProjectWork
             this.checkBox33.Name = "checkBox33";
             this.checkBox33.Size = new System.Drawing.Size(15, 14);
             this.checkBox33.TabIndex = 57;
+            this.checkBox33.Tag = "034";
             this.checkBox33.UseVisualStyleBackColor = true;
+            this.checkBox33.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox34
             // 
@@ -1000,7 +1006,9 @@ namespace ProjectWork
             this.checkBox22.Name = "checkBox22";
             this.checkBox22.Size = new System.Drawing.Size(15, 14);
             this.checkBox22.TabIndex = 50;
+            this.checkBox22.Tag = "050";
             this.checkBox22.UseVisualStyleBackColor = true;
+            this.checkBox22.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox23
             // 
@@ -1024,7 +1032,9 @@ namespace ProjectWork
             this.checkBox24.Name = "checkBox24";
             this.checkBox24.Size = new System.Drawing.Size(15, 14);
             this.checkBox24.TabIndex = 48;
+            this.checkBox24.Tag = "033";
             this.checkBox24.UseVisualStyleBackColor = false;
+            this.checkBox24.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox25
             // 
@@ -1087,7 +1097,9 @@ namespace ProjectWork
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(15, 14);
             this.checkBox13.TabIndex = 41;
+            this.checkBox13.Tag = "049";
             this.checkBox13.UseVisualStyleBackColor = true;
+            this.checkBox13.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox14
             // 
@@ -1096,7 +1108,9 @@ namespace ProjectWork
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(15, 14);
             this.checkBox14.TabIndex = 40;
+            this.checkBox14.Tag = "041";
             this.checkBox14.UseVisualStyleBackColor = true;
+            this.checkBox14.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox15
             // 
@@ -1105,7 +1119,9 @@ namespace ProjectWork
             this.checkBox15.Name = "checkBox15";
             this.checkBox15.Size = new System.Drawing.Size(15, 14);
             this.checkBox15.TabIndex = 39;
+            this.checkBox15.Tag = "032";
             this.checkBox15.UseVisualStyleBackColor = true;
+            this.checkBox15.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBox16
             // 
@@ -1253,7 +1269,6 @@ namespace ProjectWork
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 3;
-            this.textBox2.Text = "98";
             // 
             // label21
             // 
@@ -1270,7 +1285,6 @@ namespace ProjectWork
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Bob";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label20
@@ -1319,7 +1333,6 @@ namespace ProjectWork
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 3;
-            this.textBox3.Text = "152";
             // 
             // label22
             // 
@@ -1336,7 +1349,6 @@ namespace ProjectWork
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 20);
             this.textBox4.TabIndex = 1;
-            this.textBox4.Text = "Jane";
             // 
             // label23
             // 
@@ -1384,7 +1396,6 @@ namespace ProjectWork
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 3;
-            this.textBox5.Text = "65";
             // 
             // label24
             // 
@@ -1401,7 +1412,6 @@ namespace ProjectWork
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 1;
-            this.textBox6.Text = "John";
             // 
             // label25
             // 
@@ -1449,7 +1459,6 @@ namespace ProjectWork
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 20);
             this.textBox7.TabIndex = 3;
-            this.textBox7.Text = "45";
             // 
             // label26
             // 
@@ -1466,7 +1475,6 @@ namespace ProjectWork
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(100, 20);
             this.textBox8.TabIndex = 1;
-            this.textBox8.Text = "Chris";
             // 
             // label27
             // 
@@ -1514,7 +1522,6 @@ namespace ProjectWork
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 3;
-            this.textBox9.Text = "41";
             // 
             // label28
             // 
@@ -1531,7 +1538,6 @@ namespace ProjectWork
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 20);
             this.textBox10.TabIndex = 1;
-            this.textBox10.Text = "Barbara";
             // 
             // label29
             // 
@@ -1579,7 +1585,6 @@ namespace ProjectWork
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 20);
             this.textBox11.TabIndex = 3;
-            this.textBox11.Text = "15";
             // 
             // label30
             // 
@@ -1596,7 +1601,6 @@ namespace ProjectWork
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(100, 20);
             this.textBox12.TabIndex = 1;
-            this.textBox12.Text = "Barry";
             // 
             // label31
             // 
@@ -1644,7 +1648,6 @@ namespace ProjectWork
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(100, 20);
             this.textBox13.TabIndex = 3;
-            this.textBox13.Text = "63";
             // 
             // label32
             // 
@@ -1661,7 +1664,6 @@ namespace ProjectWork
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(100, 20);
             this.textBox14.TabIndex = 1;
-            this.textBox14.Text = "Chrissy";
             // 
             // label33
             // 
@@ -1689,7 +1691,6 @@ namespace ProjectWork
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(100, 20);
             this.textBox16.TabIndex = 1;
-            this.textBox16.Text = "John";
             // 
             // label35
             // 
