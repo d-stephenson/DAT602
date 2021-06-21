@@ -191,7 +191,7 @@ namespace ProjectWork
         }
 
         // Find Gem Procedure    
-        public GemDisplayData FindGem(string pTileID, string pGameID)
+        public void FindGem(string pTileID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
@@ -225,7 +225,7 @@ namespace ProjectWork
             paramInput.Add(paramTileID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "FindGem(@TileID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "GemDisplay(@TileID,@GameID)", paramInput.ToArray());
 
             GemDisplayData theGemDisplayData = new GemDisplayData()
             {

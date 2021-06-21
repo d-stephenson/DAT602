@@ -16,7 +16,7 @@ namespace ProjectWork
         public void refreshDS()
         {
             //CheckBox clickedCheckbox = true;
-            GemDisplayData = new DataAccess().FindGem(DataAccess.positionNow, DataAccess.currentGame);
+            GemDisplayData = new DataAccess().GemDisplay(DataAccess.positionNow, DataAccess.currentGame);
 
             dataGridViewg1.ColumnCount = 2;
 

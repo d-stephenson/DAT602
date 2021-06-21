@@ -74,6 +74,7 @@ namespace ProjectWork
 
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
+            aDataAccess.FindGem(clickedCheckbox.Tag.ToString(), DataAccess.currentGame);
             if ((DataAccess.playerMove == "Yes") && (DataAccess.getGemDisplay == "Yes"))
             {
                 clickedCheckbox.Checked = true;
@@ -81,6 +82,12 @@ namespace ProjectWork
                 FormGemSelector aGemSelectorDisplay = new FormGemSelector();
                 aGemSelectorDisplay.refreshDS();
                 aGemSelectorDisplay.Show();
+            }
+            else if ((DataAccess.playerMove == "Yes") && (DataAccess.getGemDisplay == "No"))
+            {
+                clickedCheckbox.Checked = false;
+                FormNoGemsDisplay aNoGemsDisplay = new FormNoGemsDisplay();
+                aNoGemsDisplay.Show();
             }
             else
             {
