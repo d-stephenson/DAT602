@@ -190,34 +190,44 @@ namespace ProjectWork
         }
 
         // Find Gem Procedure
-        public GemDisplayData FindGem(string pTileID, string pGameID)
-        {
-            List<MySqlParameter> paramInput = new List<MySqlParameter>();
-            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
-            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
-            paramTileID.Value = pTileID;
-            paramGameID.Value = pGameID;
-            paramInput.Add(paramTileID);
-            paramInput.Add(paramGameID);
+        //public GemDisplayData FindGem(string pTileID, string pGameID)
+        //{
+        //    List<MySqlParameter> paramInput = new List<MySqlParameter>();
+        //    var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
+        //    var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
+        //    paramTileID.Value = pTileID;
+        //    paramGameID.Value = pGameID;
+        //    paramInput.Add(paramTileID);
+        //    paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@GameID)", paramInput.ToArray());
-            GemDisplayData theGemDisplayData = new GemDisplayData()
-            {
-                GemSelection = new List<GemSelection>(),
-            };
+        //    var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@GameID)", paramInput.ToArray());
 
-            theGemDisplayData.haveGem = true;
+        //    if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Bummer, this tile has no gems!!!")
+        //    {
+        //        FormNoGemsDisplay aNoGemsDisplay = new FormNoGemsDisplay();
+        //        aNoGemsDisplay.Show();
+        //    }
+        //    else
+        //    {
+        //        GemDisplayData theGemDisplayData = new GemDisplayData()
+        //        {
+        //            GemSelection = new List<GemSelection>(),
+        //        };
 
-            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
-            {
-                theGemDisplayData.GemSelection.Add(new GemSelection()
-                {
-                    GemType = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
-                    Points = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
-                });
-            }
-            return theGemDisplayData;
-        }
+        //        theGemDisplayData.haveGem = true;
+
+        //        for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
+        //        {
+        //            theGemDisplayData.GemSelection.Add(new GemSelection()
+        //            {
+        //                GemType = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
+        //                Points = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
+        //            });
+        //        }
+        //        return theGemDisplayData;
+        //    }
+
+        //}
 
         // Select Gem & Update Turn Procedure
         public string SelectGem(string pItemID, string pPlayID, string pPlayerID, string pGameID)

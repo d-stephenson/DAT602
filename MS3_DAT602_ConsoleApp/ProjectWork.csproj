@@ -138,6 +138,12 @@
     <Compile Include="FormInvalidMoveDisplay.Designer.cs">
       <DependentUpon>FormInvalidMoveDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormNoGemsDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNoGemsDisplay.Designer.cs">
+      <DependentUpon>FormNoGemsDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormNoJoinDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormInvalidMoveDisplay.resx">
       <DependentUpon>FormInvalidMoveDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNoGemsDisplay.resx">
+      <DependentUpon>FormNoGemsDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNoJoinDisplay.resx">
       <DependentUpon>FormNoJoinDisplay.cs</DependentUpon>

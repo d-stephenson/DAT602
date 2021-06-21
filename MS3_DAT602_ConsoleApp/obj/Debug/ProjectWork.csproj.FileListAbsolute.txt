@@ -88,3 +88,4 @@ D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormUpdateFailDispl
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormAdminFailDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormNoJoinDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormInvalidMoveDisplay.resources
+D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormNoGemsDisplay.resources
