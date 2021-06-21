@@ -1042,7 +1042,7 @@ BEGIN
 	COMMIT;
 END //
 DELIMITER ;
-	select * from tblPlay 
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- Find Gem Procedure
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1054,7 +1054,6 @@ DROP PROCEDURE IF EXISTS FindGem;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE FindGem(
         IN pTileID int,
-        IN pPlayerID int,
         IN pGameID int
     )
 SQL SECURITY DEFINER
@@ -1065,18 +1064,15 @@ BEGIN
 			FROM tblItemGame 
 			WHERE TileID = pTileID 
 				AND GameID = pGameID) > 0 THEN
-				SELECT 'Youve found gems!!!' AS MESSAGE;
-			   
-			SELECT ig.ItemID AS 'ItemID', ge.GemType AS 'GemType', Points AS 'Points', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
-			FROM tblPlay pl
-				JOIN tblItemGame ig ON pl.TileID = ig.TileID 
-					AND pl.GameID = ig.GameID
-						JOIN tblItem it ON ig.ItemID = it.ItemID
-						JOIN tblGem ge ON it.GemType = ge.GemType  
-			WHERE   
-				pl.TileID = pTileID
-					AND pl.PlayerID = pPlayerID
-					AND pl.GameID = pGameID; 
+					SELECT ge.GemType AS 'GemType', Points AS 'Points' -- , ig.ItemID AS 'ItemID', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+					FROM tblPlay pl
+						JOIN tblItemGame ig ON pl.TileID = ig.TileID 
+							AND pl.GameID = ig.GameID
+								JOIN tblItem it ON ig.ItemID = it.ItemID
+								JOIN tblGem ge ON it.GemType = ge.GemType  
+					WHERE   
+						pl.TileID = pTileID
+							AND pl.GameID = pGameID; 
 		ELSE 
 			SELECT 'Bummer, this tile has no gems!!!' AS MESSAGE;
 		END IF;

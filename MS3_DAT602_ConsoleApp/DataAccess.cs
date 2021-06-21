@@ -40,6 +40,7 @@ namespace ProjectWork
         public static string joinStatus = "";
         public static string currentGame = "";
         public static string playerMove = "";
+        public static string positionNow = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -189,47 +190,33 @@ namespace ProjectWork
         }
 
         // Find Gem Procedure
-        public GemDisplayData FindGem(string pTileID, string pPlayerID, string pGameID)
+        public GemDisplayData FindGem(string pTileID, string pGameID)
         {
-            GemDisplayData theGemDisplayData = new GemDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramTileID.Value = pTileID;
-            paramPlayerID.Value = pPlayerID;
             paramGameID.Value = pGameID;
             paramInput.Add(paramTileID);
-            paramInput.Add(paramPlayerID);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "FindGem(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
-
-            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            theGemDisplayData.message = aMessage;
-            Console.WriteLine(aMessage);
-            if (aMessage == "Youve found gems!!!")
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@GameID)", paramInput.ToArray());
+            GemDisplayData theGemDisplayData = new GemDisplayData()
             {
-                theGemDisplayData.GemSelection = (from aResult in aDataSet.Tables[1].AsEnumerable()
-                                                  select
-                                                      new GemSelection
-                                                      {
-                                                          ItemID = Convert.ToInt32(aResult.ItemArray[0].ToString()),
-                                                          GemType = aResult.Field<string>("GemType"),
-                                                          Points = Convert.ToInt32(aResult.ItemArray[2].ToString()),
-                                                          GameID = Convert.ToInt32(aResult.ItemArray[3].ToString()),
-                                                          PlayerID = Convert.ToInt32(aResult.ItemArray[4].ToString()),
-                                                          PlayID = Convert.ToInt32(aResult.ItemArray[5].ToString()),
-                                                          TileID = Convert.ToInt32(aResult.ItemArray[6].ToString())
-                                                      }).ToList();
-                theGemDisplayData.haveGem = true;
+                GemSelection = new List<GemSelection>(),
+            };
 
-                return theGemDisplayData;
-            }
-            else
+            theGemDisplayData.haveGem = true;
+
+            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
             {
-                return null;
+                theGemDisplayData.GemSelection.Add(new GemSelection()
+                {
+                    GemType = aDataSet.Tables[1].Rows[i].ItemArray[0].ToString(),
+                    Points = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
+                });
             }
+            return theGemDisplayData;
         }
 
         // Select Gem & Update Turn Procedure

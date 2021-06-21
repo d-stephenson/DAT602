@@ -73,7 +73,7 @@ namespace ProjectWork
             CheckBox clickedCheckbox = (sender as CheckBox);
             //DataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
             ////string message = "Your character has moved!!!";
-
+            DataAccess.playerMove = "Yes";
             //if (message == "Your character has moved!!!")
 
             DataAccess aDataAccess = new DataAccess();
@@ -81,6 +81,7 @@ namespace ProjectWork
             if (DataAccess.playerMove == "Yes")
             {
                 clickedCheckbox.Checked = true;
+                DataAccess.positionNow = clickedCheckbox.Tag.ToString();
             }
             else
             {
