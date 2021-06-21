@@ -41,6 +41,7 @@ namespace ProjectWork
         public static string currentGame = "";
         public static string playerMove = "";
         public static string positionNow = "";
+        public static string getGemDisplay = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -189,7 +190,7 @@ namespace ProjectWork
             }
         }
 
-        // Find Gem Procedure
+        // Find Gem Procedure    
         public GemDisplayData FindGem(string pTileID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
@@ -202,30 +203,51 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "FindGem(@TileID,@GameID)", paramInput.ToArray());
 
-            //if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Bummer, this tile has no gems!!!")
-            //{
-            //    FormNoGemsDisplay aNoGemsDisplay = new FormNoGemsDisplay();
-            //    aNoGemsDisplay.Show();
-            //}
-            //else
-            //{
-                GemDisplayData theGemDisplayData = new GemDisplayData()
-                {
-                    GemSelection = new List<GemSelection>(),
-                };
+            if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Yeah, you found gems!!!")
+            {
+                DataAccess.getGemDisplay = "Yes";
+            }
+            else
+            {
+                DataAccess.getGemDisplay = "No";
+            }
+        }
 
-                theGemDisplayData.haveGem = true;
 
-                for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
+        // Gem Display Procedure    
+        public GemDisplayData GemDisplay(string pTileID, string pGameID)
+        {
+            List<MySqlParameter> paramInput = new List<MySqlParameter>();
+            var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
+            var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
+            paramTileID.Value = pTileID;
+            paramGameID.Value = pGameID;
+            paramInput.Add(paramTileID);
+            paramInput.Add(paramGameID);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "FindGem(@TileID,@GameID)", paramInput.ToArray());
+
+            GemDisplayData theGemDisplayData = new GemDisplayData()
+            {
+                GemSelection = new List<GemSelection>(),
+            };
+
+            theGemDisplayData.haveGem = true;
+
+            for (int i = 0; i < aDataSet.Tables[0].Rows.Count; i++)
+            {
+                theGemDisplayData.GemSelection.Add(new GemSelection()
                 {
-                    theGemDisplayData.GemSelection.Add(new GemSelection()
-                    {
-                        GemType = aDataSet.Tables[0].Rows[i].ItemArray[0].ToString(),
-                        Points = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1])
-                    });
-                }
-                return theGemDisplayData;
-            //}
+                    GemType = aDataSet.Tables[0].Rows[i].ItemArray[0].ToString(),
+                    Points = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[1]),
+                    ItemID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[2]),
+                    GameID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[3]),
+                    PlayerID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[4]),
+                    PlayID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[5]),
+                    TileID = Convert.ToInt32(aDataSet.Tables[0].Rows[i].ItemArray[6])
+                });
+            }
+            return theGemDisplayData;
 
         }
 

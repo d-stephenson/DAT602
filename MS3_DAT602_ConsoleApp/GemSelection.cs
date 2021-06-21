@@ -12,8 +12,13 @@ namespace ProjectWork
     {
         public string GemType;
         public int Points;
+        public int ItemID;
+        public int GameID;
+        public int PlayerID;
+        public int PlayID;
+        public int TileID;
 
 
-        // 		ItemID, ge.GemType, Points, pl.GameID, pl.PlayerID, pl.PlayID, pl.TileID
+        // 		ge.GemType, Points, 'ItemID', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
     }
 }

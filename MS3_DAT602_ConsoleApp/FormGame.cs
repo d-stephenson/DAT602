@@ -74,7 +74,7 @@ namespace ProjectWork
 
             DataAccess aDataAccess = new DataAccess();
             aDataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
-            if (DataAccess.playerMove == "Yes")
+            if ((DataAccess.playerMove == "Yes") && (DataAccess.getGemDisplay == "Yes"))
             {
                 clickedCheckbox.Checked = true;
                 DataAccess.positionNow = clickedCheckbox.Tag.ToString();

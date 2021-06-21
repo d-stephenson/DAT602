@@ -1050,6 +1050,27 @@ DELIMITER ;
 -- When a player lands on a tile this procedure will run, it displays all the items on that tile so that one can be 
 -- selected by the player.
 
+DROP PROCEDURE IF EXISTS GemDisplay;
+DELIMITER //
+CREATE DEFINER = 'root'@'localhost' PROCEDURE GemDisplay(
+        IN pTileID int,
+        IN pGameID int
+    )
+SQL SECURITY DEFINER
+
+BEGIN
+		SELECT ge.GemType AS 'GemType', Points AS 'Points', ig.ItemID AS 'ItemID', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+		FROM tblPlay pl
+			JOIN tblItemGame ig ON pl.TileID = ig.TileID 
+				AND pl.GameID = ig.GameID
+					JOIN tblItem it ON ig.ItemID = it.ItemID
+					JOIN tblGem ge ON it.GemType = ge.GemType  
+		WHERE   
+			pl.TileID = pTileID
+				AND pl.GameID = pGameID; 
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS FindGem;
 DELIMITER //
 CREATE DEFINER = 'root'@'localhost' PROCEDURE FindGem(
@@ -1064,7 +1085,7 @@ BEGIN
 			FROM tblItemGame 
 			WHERE TileID = pTileID 
 				AND GameID = pGameID) > 0 THEN
-					SELECT ge.GemType AS 'GemType', Points AS 'Points' -- , ig.ItemID AS 'ItemID', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
+					SELECT ge.GemType AS 'GemType', Points AS 'Points', ig.ItemID AS 'ItemID', pl.GameID AS 'GameID', pl.PlayerID AS 'PlayerID', pl.PlayID AS 'PlayID', pl.TileID AS 'TileID'
 					FROM tblPlay pl
 						JOIN tblItemGame ig ON pl.TileID = ig.TileID 
 							AND pl.GameID = ig.GameID
