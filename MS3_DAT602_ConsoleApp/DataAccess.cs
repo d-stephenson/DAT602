@@ -162,9 +162,8 @@ namespace ProjectWork
         }
 
         // Player Moves Procedure
-        public TileDisplayData MovePlayer(string pTileID, string pPlayerID, string pGameID)
+        public void MovePlayer(string pTileID, string pPlayerID, string pGameID)
         {
-            TileDisplayData theTileDisplayData = new TileDisplayData();
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
             var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
@@ -177,29 +176,6 @@ namespace ProjectWork
             paramInput.Add(paramGameID);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
-
-            var aMessage = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
-            theTileDisplayData.message = aMessage;
-            Console.WriteLine(aMessage);
-            if (aMessage == "Your character has moved!!!")
-            {
-                theTileDisplayData.TileInfo = (from aResult in aDataSet.Tables[1].AsEnumerable()
-                                               select
-                                                   new TileInfo
-                                                   {
-                                                       TileColour = aResult.Field<string>("TileColour"),
-                                                       TileRow = Convert.ToInt32(aResult.ItemArray[1].ToString()),
-                                                       TileColumn = Convert.ToInt32(aResult.ItemArray[2].ToString())
-                                                   }).ToList();
-
-                theTileDisplayData.haveTile = true;
-
-                return theTileDisplayData;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         // Find Gem Procedure
