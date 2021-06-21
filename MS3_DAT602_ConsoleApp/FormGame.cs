@@ -63,13 +63,22 @@ namespace ProjectWork
 
         }
 
+
+
+
+
+
         private void checkBox_CheckedChanged(object sender, EventArgs e) //(dataGridViewa2.SelectedRows[0].Cells[0].Value.ToString());
         {
             CheckBox clickedCheckbox = (sender as CheckBox);
-            DataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
-            string message = "Your character has moved!!!";
+            //DataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
+            ////string message = "Your character has moved!!!";
 
-            if(message == "Your character has moved!!!")
+            //if (message == "Your character has moved!!!")
+
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);
+            if (DataAccess.playerMove == "Yes")
             {
                 clickedCheckbox.Checked = true;
             }
@@ -81,7 +90,7 @@ namespace ProjectWork
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-      
+
         }
     }
 }

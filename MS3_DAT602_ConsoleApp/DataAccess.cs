@@ -39,6 +39,7 @@ namespace ProjectWork
         public static string adminStatus = "";
         public static string joinStatus = "";
         public static string currentGame = "";
+        public static string playerMove = "";
 
         // New User Registration Procedure
         public void NewUserRegistration(string pEmail, string pUsername, string pPassword)
@@ -176,6 +177,15 @@ namespace ProjectWork
             paramInput.Add(paramGameID);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
+
+            if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Your character has moved!!!")
+            {
+                DataAccess.playerMove = "Yes";
+            }
+            else
+            {
+                DataAccess.playerMove = "No";
+            }
         }
 
         // Find Gem Procedure
