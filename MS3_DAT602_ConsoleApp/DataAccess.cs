@@ -163,20 +163,20 @@ namespace ProjectWork
         }
 
         // Player Moves Procedure
-        public void MovePlayer(string pTileID, string pPlayerID, string pGameID)
+        public void MovePlayer(string pTileID, string pUsername, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramTileID = new MySqlParameter("@TileID", MySqlDbType.Int16);
-            var paramPlayerID = new MySqlParameter("@PlayerID", MySqlDbType.Int16);
+            var paramUsername = new MySqlParameter("@Username", MySqlDbType.VarChar, 10);
             var paramGameID = new MySqlParameter("@GameID", MySqlDbType.Int16);
             paramTileID.Value = pTileID;
-            paramPlayerID.Value = pPlayerID;
+            paramUsername.Value = pUsername;
             paramGameID.Value = pGameID;
             paramInput.Add(paramTileID);
-            paramInput.Add(paramPlayerID);
+            paramInput.Add(paramUsername);
             paramInput.Add(paramGameID);
 
-            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@PlayerID,@GameID)", paramInput.ToArray());
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "MovePlayer(@TileID,@Username,@GameID)", paramInput.ToArray());
 
             if ((aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString() == "Your character has moved!!!")
             {

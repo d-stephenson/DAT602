@@ -85,6 +85,8 @@ namespace ProjectWork
             else
             {
                 clickedCheckbox.Checked = false;
+                FormInvalidMoveDisplay aInvalidMoveDisplay = new FormInvalidMoveDisplay();
+                aInvalidMoveDisplay.Show();
             }
         }
 
