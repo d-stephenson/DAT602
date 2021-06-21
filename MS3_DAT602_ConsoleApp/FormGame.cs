@@ -68,7 +68,7 @@ namespace ProjectWork
 
 
 
-        private void checkBox_CheckedChanged(object sender, EventArgs e) //(dataGridViewa2.SelectedRows[0].Cells[0].Value.ToString());
+        private void checkBox_CheckedChanged(object sender, EventArgs e) 
         {
             CheckBox clickedCheckbox = (sender as CheckBox);
             //DataAccess.MovePlayer(clickedCheckbox.Tag.ToString(), DataAccess.validatedUsername, DataAccess.currentGame);

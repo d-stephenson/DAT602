@@ -87,3 +87,4 @@ D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormUpdateSuccessDi
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormUpdateFailDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormAdminFailDisplay.resources
 D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormNoJoinDisplay.resources
+D:\GitHub\DAT602\MS3_DAT602_ConsoleApp\obj\Debug\ProjectWork.FormInvalidMoveDisplay.resources

@@ -134,7 +134,7 @@ namespace ProjectWork
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "NewGame(@Username)", paramInput.ToArray());
 
-            DataAccess.currentGame = "MESSAGE";
+            DataAccess.currentGame = (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
             return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
