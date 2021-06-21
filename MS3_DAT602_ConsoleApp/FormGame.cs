@@ -85,7 +85,7 @@ namespace ProjectWork
             }
             else if ((DataAccess.playerMove == "Yes") && (DataAccess.getGemDisplay == "No"))
             {
-                clickedCheckbox.Checked = false;
+                clickedCheckbox.Checked = true;
                 FormNoGemsDisplay aNoGemsDisplay = new FormNoGemsDisplay();
                 aNoGemsDisplay.Show();
             }
