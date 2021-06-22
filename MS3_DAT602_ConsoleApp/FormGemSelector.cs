@@ -18,7 +18,7 @@ namespace ProjectWork
             //CheckBox clickedCheckbox = true;
             GemDisplayData = new DataAccess().GemDisplay(DataAccess.positionNow, DataAccess.currentGame);
 
-            dataGridViewg1.ColumnCount = 2;
+            dataGridViewg1.ColumnCount = 7;
 
             dataGridViewg1.Columns[0].Name = "Gem";
             dataGridViewg1.Columns[1].Name = "Points";
