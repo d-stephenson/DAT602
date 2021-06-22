@@ -50,7 +50,7 @@ namespace ProjectWork
             FormHomeDisplay aHomeDisplay = new FormHomeDisplay();
             aHomeDisplay.refreshDS();
             aHomeDisplay.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
