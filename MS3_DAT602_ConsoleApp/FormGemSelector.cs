@@ -61,6 +61,11 @@ namespace ProjectWork
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DataAccess aDataAccess = new DataAccess();
+            aDataAccess.SelectGem(dataGridViewg1.SelectedRows[0].Cells[2].Value.ToString(), dataGridViewg1.SelectedRows[0].Cells[5].Value.ToString(), dataGridViewg1.SelectedRows[0].Cells[4].Value.ToString(), dataGridViewg1.SelectedRows[0].Cells[3].Value.ToString());
+
+            FormGemSelectedDisplay aGemSelectedDisplay = new FormGemSelectedDisplay();
+            aGemSelectedDisplay.Show();
             this.Close();
         }
 

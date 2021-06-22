@@ -138,6 +138,12 @@
     <Compile Include="FormInvalidMoveDisplay.Designer.cs">
       <DependentUpon>FormInvalidMoveDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormGemSelectedDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGemSelectedDisplay.Designer.cs">
+      <DependentUpon>FormGemSelectedDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormNoGemsDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormInvalidMoveDisplay.resx">
       <DependentUpon>FormInvalidMoveDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGemSelectedDisplay.resx">
+      <DependentUpon>FormGemSelectedDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNoGemsDisplay.resx">
       <DependentUpon>FormNoGemsDisplay.cs</DependentUpon>

@@ -252,7 +252,7 @@ namespace ProjectWork
         }
 
         // Select Gem & Update Turn Procedure
-        public string SelectGem(string pItemID, string pPlayID, string pPlayerID, string pGameID)
+        public void SelectGem(string pItemID, string pPlayID, string pPlayerID, string pGameID)
         {
             List<MySqlParameter> paramInput = new List<MySqlParameter>();
             var paramItemID = new MySqlParameter("@ItemID", MySqlDbType.Int16);
@@ -269,8 +269,6 @@ namespace ProjectWork
             paramInput.Add(paramGameID);
 
             var aDataSet = MySqlHelper.ExecuteDataset(DataAccess.mySqlConnection, "SelectGem(@ItemID,@PlayID,@PlayerID,@GameID)", paramInput.ToArray());
-
-            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
         }
 
         // Update High Score & End Game Procedure

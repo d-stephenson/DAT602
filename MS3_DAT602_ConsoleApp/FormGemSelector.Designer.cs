@@ -73,6 +73,7 @@ namespace ProjectWork
             this.dataGridViewg1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewg1.Location = new System.Drawing.Point(101, 185);
             this.dataGridViewg1.Name = "dataGridViewg1";
+            this.dataGridViewg1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewg1.Size = new System.Drawing.Size(577, 123);
             this.dataGridViewg1.TabIndex = 137;
             this.dataGridViewg1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewg1_CellContentClick);
