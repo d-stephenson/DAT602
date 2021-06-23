@@ -79,7 +79,7 @@ namespace ProjectWork
             // 
             // AddPlayer
             // 
-            this.AddPlayer.Location = new System.Drawing.Point(483, 333);
+            this.AddPlayer.Location = new System.Drawing.Point(331, 77);
             this.AddPlayer.Name = "AddPlayer";
             this.AddPlayer.Size = new System.Drawing.Size(91, 23);
             this.AddPlayer.TabIndex = 33;
@@ -91,7 +91,7 @@ namespace ProjectWork
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(451, 95);
+            this.label4.Location = new System.Drawing.Point(437, 143);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(138, 20);
             this.label4.TabIndex = 32;
@@ -101,7 +101,7 @@ namespace ProjectWork
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(456, 115);
+            this.label5.Location = new System.Drawing.Point(442, 163);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(129, 15);
             this.label5.TabIndex = 31;
@@ -109,7 +109,7 @@ namespace ProjectWork
             // 
             // KillGame
             // 
-            this.KillGame.Location = new System.Drawing.Point(217, 333);
+            this.KillGame.Location = new System.Drawing.Point(203, 381);
             this.KillGame.Name = "KillGame";
             this.KillGame.Size = new System.Drawing.Size(91, 23);
             this.KillGame.TabIndex = 29;
@@ -121,7 +121,7 @@ namespace ProjectWork
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(213, 95);
+            this.label3.Location = new System.Drawing.Point(199, 143);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 20);
             this.label3.TabIndex = 28;
@@ -131,7 +131,7 @@ namespace ProjectWork
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(196, 115);
+            this.label2.Location = new System.Drawing.Point(182, 163);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 15);
             this.label2.TabIndex = 27;
@@ -139,7 +139,7 @@ namespace ProjectWork
             // 
             // UpdatePlayer
             // 
-            this.UpdatePlayer.Location = new System.Drawing.Point(483, 362);
+            this.UpdatePlayer.Location = new System.Drawing.Point(331, 106);
             this.UpdatePlayer.Name = "UpdatePlayer";
             this.UpdatePlayer.Size = new System.Drawing.Size(91, 23);
             this.UpdatePlayer.TabIndex = 34;
@@ -149,7 +149,7 @@ namespace ProjectWork
             // 
             // RemovePlayer
             // 
-            this.RemovePlayer.Location = new System.Drawing.Point(483, 391);
+            this.RemovePlayer.Location = new System.Drawing.Point(465, 381);
             this.RemovePlayer.Name = "RemovePlayer";
             this.RemovePlayer.Size = new System.Drawing.Size(91, 23);
             this.RemovePlayer.TabIndex = 35;
@@ -160,7 +160,7 @@ namespace ProjectWork
             // dataGridViewa1
             // 
             this.dataGridViewa1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewa1.Location = new System.Drawing.Point(144, 144);
+            this.dataGridViewa1.Location = new System.Drawing.Point(130, 192);
             this.dataGridViewa1.Name = "dataGridViewa1";
             this.dataGridViewa1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewa1.Size = new System.Drawing.Size(234, 183);
@@ -170,7 +170,7 @@ namespace ProjectWork
             // dataGridViewa2
             // 
             this.dataGridViewa2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewa2.Location = new System.Drawing.Point(405, 144);
+            this.dataGridViewa2.Location = new System.Drawing.Point(391, 192);
             this.dataGridViewa2.Name = "dataGridViewa2";
             this.dataGridViewa2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewa2.Size = new System.Drawing.Size(234, 183);
